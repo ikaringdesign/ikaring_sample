@@ -222,8 +222,8 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 }
 .inq-radio-btn-wrap .inq-radio-btn{width:100%;}
 .inq-radio-ex-img{
-  width:100%;height:52px;
-  object-fit:cover;object-position:top;
+  width:100%;aspect-ratio:3/1;
+  object-fit:cover;object-position:center;
   border-radius:4px;
   border:1px solid #eee;
   display:block;
@@ -404,7 +404,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .pf-card{cursor:pointer;border-radius:6px;overflow:hidden;background:#f9f9f9;border:1px solid #efefef;transition:box-shadow .2s,transform .18s;}
 .pf-card:hover{box-shadow:0 4px 20px rgba(255,107,26,.15);transform:translateY(-2px);}
-.pf-card-img{aspect-ratio:4/5;overflow:hidden;background:#efefef;position:relative;}
+.pf-card-img{aspect-ratio:4/3;overflow:hidden;background:#efefef;position:relative;}
 .pf-card-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .3s;}
 .pf-card:hover .pf-card-img img{transform:scale(1.05);}
 .pf-cat-badge{position:absolute;top:7px;right:7px;background:rgba(0,0,0,.6);color:#fff;font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:3px;letter-spacing:.05em;}
@@ -501,14 +501,17 @@ const PKG_ITEMS = [
   {
     letter:'A', name:'채팅화면 + 게임화면',
     benefit:'CSS 무료 적용',
-    original:'320,000', final:'200,000',
-    event:true,
+    original:'360,000', final:'330,000',
   },
   {
     letter:'B', name:'채팅화면 + 게임화면 + 스케줄표',
     benefit:'CSS & 스케줄 편집 사이트 무료',
-    original:'540,000', final:'300,000',
-    event:true,
+    original:'600,000', final:'540,000',
+  },
+  {
+    letter:'C', name:'RT포스터 + 메인포스터 + 가로 썸네일',
+    benefit:'세트 구매 혜택',
+    original:'600,000', final:'500,000',
   },
 ];
 
@@ -710,19 +713,23 @@ function makeSub(name,price,span,note){
 })();
 (function(){
   const g=document.getElementById('opt-group-3');
-  g.appendChild(makeCard('CSS','CSS디자인+적용\n심플 디자인','65,000','채팅/게임 화면 구매하지 않은 경우\n이 상품으로 구매 부탁드립니다.'));
-  g.appendChild(makeCard('CSS','CSS디자인+적용\n닉네임 포함 디자인','80,000','채팅/게임 화면 구매하지 않은 경우\n이 상품으로 구매 부탁드립니다.'));
-  const sub=document.createElement('div'); sub.className='opt-sub-multi';
-  [{key:'sub_심플추가',name:'닉네임 포함 디자인 구매 시 심플 디자인 추가',price:'10,000'},
-   {key:'sub_애니',   name:'애니메이션 추가',price:'20,000'},
-   {key:'sub_매니저', name:'매니저(관리자) 디자인 추가',price:'10,000'},
-   {key:'sub_후원',   name:'후원 도네 추가',price:'10,000'}].forEach(r=>{
-    const row=document.createElement('div'); row.className='opt-sub-row'; row.dataset.selKey=r.key;
-    row.innerHTML=`<div class="opt-sub-row-name">${r.name}</div><div class="opt-sub-row-price">+ ${r.price}</div>`;
-    row.onclick=()=>toggleSelect(row,r.key,`${r.name} (+${r.price})`);
-    sub.appendChild(row);
+  g.appendChild(makeCard('CSS','CSS디자인+적용\n심플 디자인','65,000','채팅/게임 화면 구매하지 않은 경우\n이 상품으로 구매 부탁드립니다.','','image/opt_css_simple.png'));
+  g.appendChild(makeCard('CSS','CSS디자인+적용\n닉네임 포함 디자인','80,000','채팅/게임 화면 구매하지 않은 경우\n이 상품으로 구매 부탁드립니다.','','image/opt_css_name.png'));
+
+  // CSS 서브 선택지 — 개별 분리
+  const cssSubWrap = document.createElement('div');
+  cssSubWrap.style.cssText = 'grid-column:span 2; display:flex; flex-direction:column; gap:6px; margin-top:2px;';
+  [{key:'sub_심플추가',  name:'닉네임 포함 디자인 구매 시 심플 디자인 추가', price:'10,000'},
+   {key:'sub_애니',     name:'애니메이션 추가',                           price:'20,000'},
+   {key:'sub_매니저',   name:'매니저(관리자) 디자인 추가',                  price:'10,000'},
+   {key:'sub_후원',     name:'후원 도네 추가',                            price:'10,000'}].forEach(r=>{
+    const row = document.createElement('div');
+    row.className='opt-sub'; row.dataset.selKey=r.key;
+    row.innerHTML=`<div><div class="opt-sub-name">${r.name}</div></div><div class="opt-sub-price">+ ${r.price}</div>`;
+    row.onclick=()=>toggleSelect(row, r.key, `${r.name} (+${r.price})`);
+    cssSubWrap.appendChild(row);
   });
-  g.appendChild(sub);
+  g.appendChild(cssSubWrap);
 })();
 
 /* ── PACKAGE ── */
@@ -1157,56 +1164,21 @@ function renderGrid(){
   body.innerHTML='';body.appendChild(wrap);
 }
 
-/* ── 라이트박스 ── */
+/* ── 라이트박스: localStorage → lb.html로 전달 ── */
 function openLB(i, data){
   lbData = data; lbIdx = i;
-  const lb = document.getElementById('lb');
-  // 부모 스크롤 위치 읽기 (같은 origin이면 작동, 아니면 0)
-  let scrollTop = 0;
-  try { scrollTop = window.parent.scrollY || window.parent.pageYOffset || 0; } catch(e){}
-  lb.style.position = 'absolute';
-  lb.style.top      = scrollTop + 'px';
-  lb.style.height   = (window.innerHeight || window.parent && window.parent.innerHeight || 700) + 'px';
-  lb.style.display  = 'flex';
-  updLB();
+  sendLBMsg();
 }
-function closeLB(){
-  document.getElementById('lb').style.display = 'none';
-}
-function updLB(){
+function sendLBMsg(){
   const item = lbData[lbIdx];
   const imgs = getSubImages(item);
-  let subIdx = 0;
-  document.getElementById('lb-ttl').textContent = item['설명'] || '';
-  document.getElementById('lb-cnt').textContent = (lbIdx+1) + ' / ' + lbData.length;
-  function showSub(n){
-    subIdx = ((n % imgs.length) + imgs.length) % imgs.length;
-    document.getElementById('lb-img').src = imgs[subIdx];
-    document.querySelectorAll('.lb-thumb').forEach((t,i)=>t.classList.toggle('on', i===subIdx));
-  }
-  const thumbs = document.getElementById('lb-thumbs');
-  if(imgs.length > 1){
-    thumbs.innerHTML = imgs.map((url,i)=>
-      `<div class="lb-thumb${i===0?' on':''}" data-si="${i}"><img src="${url}" alt="" loading="lazy"></div>`
-    ).join('');
-    thumbs.querySelectorAll('.lb-thumb').forEach(t=>{ t.onclick=()=>showSub(parseInt(t.dataset.si)); });
-    document.getElementById('lb-ftr').style.display = 'block';
-  } else {
-    thumbs.innerHTML = '';
-    document.getElementById('lb-ftr').style.display = 'none';
-  }
-  document.getElementById('lb-prev').onclick = ()=>showSub(subIdx-1);
-  document.getElementById('lb-next').onclick = ()=>showSub(subIdx+1);
-  showSub(0);
+  localStorage.setItem('aw-lb', JSON.stringify({
+    type:'aw-lb-open', imgs, cap:item['설명']||'',
+    idx:lbIdx, total:lbData.length, t:Date.now(),
+  }));
 }
-document.getElementById('lb-x').onclick = closeLB;
-document.getElementById('lb').onclick = function(e){ if(e.target===this) closeLB(); };
-document.addEventListener('keydown', function(e){
-  if(document.getElementById('lb').style.display==='none') return;
-  if(e.key==='Escape')     closeLB();
-  if(e.key==='ArrowLeft')  document.getElementById('lb-prev').click();
-  if(e.key==='ArrowRight') document.getElementById('lb-next').click();
-});
+function closeLB(){ localStorage.setItem('aw-lb', JSON.stringify({type:'aw-lb-close',t:Date.now()})); }
+function updLB(){ sendLBMsg(); }
 
 /* ── 토스트 ── */
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2800);}
