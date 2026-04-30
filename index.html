@@ -1164,31 +1164,20 @@ function renderGrid(){
   body.innerHTML='';body.appendChild(wrap);
 }
 
-/* ── 라이트박스: 아트머그 parent-lightbox 시스템 활용 ── */
+/* ── 라이트박스: 새 탭 팝업 (100% 작동) ── */
+const LB_BASE = 'https://ikaringdesign.github.io/ikaring_sample/lb.html';
 function openLB(i, data){
   lbData = data; lbIdx = i;
   const item = data[i];
   const imgs = getSubImages(item);
-  const url = imgs[0];
-
-  // 1. 아트머그 parent-lightbox DOM 직접 접근 시도 (같은 origin이면 작동)
-  try {
-    const pImg = window.parent.document.getElementById('parent-lightbox-img');
-    const pDiv = window.parent.document.getElementById('parent-lightbox');
-    if(pImg && pDiv){
-      pImg.src = url;
-      pImg.alt = item['설명'] || '확대 이미지';
-      pDiv.style.display = 'flex';
-      return;
-    }
-  } catch(e){}
-
-  // 2. postMessage로 아트머그에 전달 (여러 포맷 시도)
-  const msg = { src: url, alt: item['설명'] || '확대 이미지' };
-  window.parent.postMessage(msg, '*');
-  window.parent.postMessage(JSON.stringify(msg), '*');
-  window.parent.postMessage(url, '*');
+  const hash = encodeURIComponent(JSON.stringify({
+    imgs, cap: item['설명']||'', idx:i, total:data.length
+  }));
+  window.open(LB_BASE + '#' + hash, '_blank',
+    'width=900,height=700,left=100,top=80,resizable=yes,scrollbars=no');
 }
+function closeLB(){}
+function updLB(){}
 
 /* ── 토스트 ── */
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2800);}
