@@ -427,7 +427,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 /* ════════════════════════════════════
    라이트박스
 ════════════════════════════════════ */
-.lb-ov{position:absolute;left:0;right:0;z-index:999999;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:16px;}
+.lb-ov{position:fixed;top:0;left:0;right:0;bottom:0;z-index:999999;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:16px;}
 .lb-modal{background:#fff;border-radius:8px;overflow:hidden;width:100%;max-width:780px;max-height:94vh;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.5);}
 .lb-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid #f0f0f0;flex-shrink:0;}
 .lb-ttl{font-size:12.5px;font-weight:600;color:#222;}
@@ -1164,21 +1164,50 @@ function renderGrid(){
   body.innerHTML='';body.appendChild(wrap);
 }
 
-/* ── 라이트박스: localStorage → lb.html로 전달 ── */
+/* ── 라이트박스 ── */
 function openLB(i, data){
   lbData = data; lbIdx = i;
-  sendLBMsg();
+  const lb = document.getElementById('lb');
+  lb.style.display = 'flex';
+  updLB();
 }
-function sendLBMsg(){
+function closeLB(){
+  document.getElementById('lb').style.display = 'none';
+}
+function updLB(){
   const item = lbData[lbIdx];
   const imgs = getSubImages(item);
-  localStorage.setItem('aw-lb', JSON.stringify({
-    type:'aw-lb-open', imgs, cap:item['설명']||'',
-    idx:lbIdx, total:lbData.length, t:Date.now(),
-  }));
+  let subIdx = 0;
+  document.getElementById('lb-ttl').textContent = item['설명'] || '';
+  document.getElementById('lb-cnt').textContent = (lbIdx+1) + ' / ' + lbData.length;
+  function showSub(n){
+    subIdx = ((n % imgs.length) + imgs.length) % imgs.length;
+    document.getElementById('lb-img').src = imgs[subIdx];
+    document.querySelectorAll('.lb-thumb').forEach((t,i)=>t.classList.toggle('on', i===subIdx));
+  }
+  const thumbs = document.getElementById('lb-thumbs');
+  if(imgs.length > 1){
+    thumbs.innerHTML = imgs.map((url,i)=>
+      `<div class="lb-thumb${i===0?' on':''}" data-si="${i}"><img src="${url}" alt="" loading="lazy"></div>`
+    ).join('');
+    thumbs.querySelectorAll('.lb-thumb').forEach(t=>{ t.onclick=()=>showSub(parseInt(t.dataset.si)); });
+    document.getElementById('lb-ftr').style.display = 'block';
+  } else {
+    thumbs.innerHTML = '';
+    document.getElementById('lb-ftr').style.display = 'none';
+  }
+  document.getElementById('lb-prev').onclick = ()=>showSub(subIdx-1);
+  document.getElementById('lb-next').onclick = ()=>showSub(subIdx+1);
+  showSub(0);
 }
-function closeLB(){ localStorage.setItem('aw-lb', JSON.stringify({type:'aw-lb-close',t:Date.now()})); }
-function updLB(){ sendLBMsg(); }
+document.getElementById('lb-x').onclick = closeLB;
+document.getElementById('lb').onclick = function(e){ if(e.target===this) closeLB(); };
+document.addEventListener('keydown', function(e){
+  if(document.getElementById('lb').style.display==='none') return;
+  if(e.key==='Escape')     closeLB();
+  if(e.key==='ArrowLeft')  document.getElementById('lb-prev').click();
+  if(e.key==='ArrowRight') document.getElementById('lb-next').click();
+});
 
 /* ── 토스트 ── */
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2800);}
