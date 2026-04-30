@@ -1164,50 +1164,31 @@ function renderGrid(){
   body.innerHTML='';body.appendChild(wrap);
 }
 
-/* ── 라이트박스 ── */
+/* ── 라이트박스: 아트머그 parent-lightbox 시스템 활용 ── */
 function openLB(i, data){
   lbData = data; lbIdx = i;
-  const lb = document.getElementById('lb');
-  lb.style.display = 'flex';
-  updLB();
-}
-function closeLB(){
-  document.getElementById('lb').style.display = 'none';
-}
-function updLB(){
-  const item = lbData[lbIdx];
+  const item = data[i];
   const imgs = getSubImages(item);
-  let subIdx = 0;
-  document.getElementById('lb-ttl').textContent = item['설명'] || '';
-  document.getElementById('lb-cnt').textContent = (lbIdx+1) + ' / ' + lbData.length;
-  function showSub(n){
-    subIdx = ((n % imgs.length) + imgs.length) % imgs.length;
-    document.getElementById('lb-img').src = imgs[subIdx];
-    document.querySelectorAll('.lb-thumb').forEach((t,i)=>t.classList.toggle('on', i===subIdx));
-  }
-  const thumbs = document.getElementById('lb-thumbs');
-  if(imgs.length > 1){
-    thumbs.innerHTML = imgs.map((url,i)=>
-      `<div class="lb-thumb${i===0?' on':''}" data-si="${i}"><img src="${url}" alt="" loading="lazy"></div>`
-    ).join('');
-    thumbs.querySelectorAll('.lb-thumb').forEach(t=>{ t.onclick=()=>showSub(parseInt(t.dataset.si)); });
-    document.getElementById('lb-ftr').style.display = 'block';
-  } else {
-    thumbs.innerHTML = '';
-    document.getElementById('lb-ftr').style.display = 'none';
-  }
-  document.getElementById('lb-prev').onclick = ()=>showSub(subIdx-1);
-  document.getElementById('lb-next').onclick = ()=>showSub(subIdx+1);
-  showSub(0);
+  const url = imgs[0];
+
+  // 1. 아트머그 parent-lightbox DOM 직접 접근 시도 (같은 origin이면 작동)
+  try {
+    const pImg = window.parent.document.getElementById('parent-lightbox-img');
+    const pDiv = window.parent.document.getElementById('parent-lightbox');
+    if(pImg && pDiv){
+      pImg.src = url;
+      pImg.alt = item['설명'] || '확대 이미지';
+      pDiv.style.display = 'flex';
+      return;
+    }
+  } catch(e){}
+
+  // 2. postMessage로 아트머그에 전달 (여러 포맷 시도)
+  const msg = { src: url, alt: item['설명'] || '확대 이미지' };
+  window.parent.postMessage(msg, '*');
+  window.parent.postMessage(JSON.stringify(msg), '*');
+  window.parent.postMessage(url, '*');
 }
-document.getElementById('lb-x').onclick = closeLB;
-document.getElementById('lb').onclick = function(e){ if(e.target===this) closeLB(); };
-document.addEventListener('keydown', function(e){
-  if(document.getElementById('lb').style.display==='none') return;
-  if(e.key==='Escape')     closeLB();
-  if(e.key==='ArrowLeft')  document.getElementById('lb-prev').click();
-  if(e.key==='ArrowRight') document.getElementById('lb-next').click();
-});
 
 /* ── 토스트 ── */
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2800);}
