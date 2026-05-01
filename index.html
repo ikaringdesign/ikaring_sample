@@ -1233,7 +1233,15 @@ function injectLB(){
       '</div>';
     pd.body.appendChild(ov);
     pd.getElementById('aw-lb-x').onclick = function(e){ e.stopPropagation(); closeLB(); };
-    ov.addEventListener('click', function(e){ if(e.target===ov) closeLB(); });
+    ov.addEventListener('click', function(e){
+      const img = pd.getElementById('aw-lb-img');
+      const x = pd.getElementById('aw-lb-x');
+      const prev = pd.getElementById('aw-lb-prev');
+      const next = pd.getElementById('aw-lb-next');
+      const thumbs = pd.getElementById('aw-lb-thumbs');
+      const isBtn = (x&&x.contains(e.target)) || (prev&&prev.contains(e.target)) || (next&&next.contains(e.target)) || (thumbs&&thumbs.contains(e.target));
+      if(!isBtn) closeLB();
+    });
     pd.addEventListener('keydown', function(e){
       const o = pd.getElementById('aw-lb-ov');
       if(!o || o.style.display==='none') return;

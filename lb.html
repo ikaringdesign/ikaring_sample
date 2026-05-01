@@ -93,7 +93,14 @@ document.addEventListener('keydown',function(e){
   if(e.key==='ArrowRight'&&imgs.length>1) show(si+1);
   if(e.key==='Escape') window.close();
 });
-document.body.addEventListener('click',function(e){ if(e.target===document.body||e.target===document.documentElement) window.close(); });
+document.body.addEventListener('click',function(e){
+  var xbtn=document.getElementById('xbtn');
+  var prev=document.getElementById('prev');
+  var nxt=document.getElementById('nxt');
+  var thumbs=document.getElementById('thumbs');
+  var isBtn=(xbtn&&xbtn.contains(e.target))||(prev&&prev.contains(e.target))||(nxt&&nxt.contains(e.target))||(thumbs&&thumbs.contains(e.target));
+  if(!isBtn) window.close();
+});
 </script>
 </body>
 </html>
