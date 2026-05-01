@@ -101,6 +101,9 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .opt-card::before,.opt-card::after{content:'';position:absolute;width:10px;height:10px;border-color:#ccc;border-style:solid;}
 .opt-card::before{top:5px;left:5px;border-width:1.5px 0 0 1.5px;}
 .opt-card::after{bottom:5px;right:5px;border-width:0 1.5px 1.5px 0;}
+.opt-card.css-card::before,.opt-card.css-card::after{border-color:#26bdb8;opacity:.5;}
+.opt-card.css-card:hover::before,.opt-card.css-card:hover::after{opacity:1;}
+.opt-card.css-card.selected::before,.opt-card.css-card.selected::after{border-color:#26bdb8;opacity:1;}
 .opt-card-type{font-size:10px;font-weight:700;letter-spacing:.1em;color:#aaa;margin-bottom:3px;transition:color .2s;}
 .opt-card-name{font-size:14px;font-weight:900;color:#222;margin-bottom:5px;}
 .opt-card-price{font-size:20px;font-weight:900;color:#FF6B1A;margin-bottom:8px;letter-spacing:-.5px;}
@@ -146,6 +149,15 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .opt-card.selected .opt-card-name{color:#FF6B1A;}
 .opt-card-check{position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;border:1.5px solid #ddd;background:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .2s;}
 .opt-card.selected .opt-card-check{background:#FF6B1A;border-color:#FF6B1A;color:#fff;}
+
+/* CSS 타입 카드 전용 색상 */
+.opt-card.css-card .opt-card-price{color:#26bdb8;}
+.opt-card.css-card:hover{border-color:#26bdb8;box-shadow:0 6px 20px rgba(38,189,184,.14);}
+.opt-card.css-card:hover .opt-card-type{color:#26bdb8;}
+.opt-card.css-card.selected{border-color:#26bdb8;background:#f0fafa;box-shadow:0 4px 16px rgba(38,189,184,.18);}
+.opt-card.css-card.selected::before,.opt-card.css-card.selected::after{border-color:#26bdb8;}
+.opt-card.css-card.selected .opt-card-type,.opt-card.css-card.selected .opt-card-name{color:#26bdb8;}
+.opt-card.css-card.selected .opt-card-check{background:#26bdb8;border-color:#26bdb8;}
 .opt-sub.selected,.opt-sub-row.selected{background:#FFF0E6 !important;border-color:#FF6B1A !important;}
 .opt-sub.selected .opt-sub-name,.opt-sub-row.selected .opt-sub-row-name{color:#FF6B1A;font-weight:700;}
 
@@ -196,7 +208,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 }
 
 .inq-block-title{
-  font-size:22px;font-weight:700;color:#1a1a1a;
+  font-size:15px;font-weight:700;color:#1a1a1a;
   text-align:center;
   padding:6px 0 4px;
   margin-bottom:12px;
@@ -331,7 +343,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 
 .inq-prod-section{padding:16px 18px;border-bottom:1px solid #f0f0f0;}
 .inq-block-title{font-size:12px;font-weight:700;color:#1a1a1a;letter-spacing:.05em;margin-bottom:10px;}
-.inq-block-title span{font-size:22px;color:#aaa;font-weight:400;margin-left:4px;}
+.inq-block-title span{font-size:11px;color:#aaa;font-weight:400;margin-left:4px;}
 .inq-prod-grid{display:flex;flex-wrap:wrap;gap:6px;}
 .inq-prod-btn{padding:7px 11px;border:1.5px solid #e0e0e0;border-radius:4px;background:#fff;font-size:12px;font-weight:600;color:#555;display:flex;flex-direction:column;align-items:center;gap:1px;transition:all .15s;line-height:1.3;cursor:pointer;}
 .inq-prod-btn:hover{border-color:#FF6B1A;color:#FF6B1A;}
@@ -365,7 +377,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-copy-btn{width:100%;margin-top:16px;padding:13px;background:#FF6B1A;color:#fff;border:none;border-radius:4px;font-size:13.5px;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,transform .1s;}
 .inq-copy-btn:hover{background:#e85a00;}
 .inq-copy-btn:active{transform:scale(.98);}
-.inq-copy-btn.done{background:#2d9e6b;}
+.inq-copy-btn.done{background:#006aff;}
 
 /* ════════════════════════════════════
    5. PORTFOLIO
@@ -641,7 +653,7 @@ const OPT_IMGS = {
 function makeCard(type,name,price,desc,sub){
   const key=type+'_'+name;
   const imgSrc = OPT_IMGS[key] || null;
-  const d=document.createElement('div'); d.className='opt-card'; d.dataset.selKey=key; d.style.cursor='pointer';
+  const d=document.createElement('div'); d.className='opt-card'+(type==='CSS'?' css-card':''); d.dataset.selKey=key; d.style.cursor='pointer';
   d.innerHTML=`<div class="opt-card-check">✓</div>
     <div class="opt-card-type">${type}</div>
     <div class="opt-card-name">${name.replace(/\n/g,'<br>')}</div>
@@ -997,7 +1009,7 @@ function buildThumbSlider(data){
 
   const sRT=mkItem('+','RT 포스터',true); sRT.id='inq-sec-rt'; sRT.style.display='none';
   sRT.appendChild(mkLbl('공개 슬롯 개수와 각 슬롯의 RT 수'));
-  sRT.appendChild(mkTA('inq-rt-slots','예) 슬롯 3개 / 각 5RT, 10RT, 20RT',2));
+  sRT.appendChild(mkTA('inq-rt-slots','예) 슬롯 3개 / 각 50RT, 100RT, 200RT',2));
   sRT.appendChild(mkLbl('원하시는 문구'));
   sRT.appendChild(mkTA('inq-rt-text','원하시는 문구를 입력해주세요. (없을 경우 비워두셔도 됩니다.)',2));
   sRT.appendChild(mkTA('inq-rt-note','그 외 RT포스터 요청사항을 입력해주세요',2));
@@ -1022,7 +1034,7 @@ function buildThumbSlider(data){
 
   document.getElementById('inq-copy-btn').onclick=function(){
     const lines=['문의 양식','──────────────'];
-    lines.push('◦ 의뢰 디자인');
+    lines.push('【 의뢰 디자인 】');
     const prods=[...selectedItems.values()].map(v=>v.name);
     lines.push('  '+(prods.length?prods.join('\n  '):'(미선택)'));
     const discountOn = document.getElementById('inq-discount')&&document.getElementById('inq-discount').classList.contains('on');
@@ -1031,46 +1043,46 @@ function buildThumbSlider(data){
     if(discountOn){total=Math.max(0,total-discAmt); lines.push(`  + 리뷰 작성 할인 -${discAmt.toLocaleString()}원`);}
     lines.push(`  총 금액: ${total.toLocaleString()}원`);
     const model=(document.getElementById('inq-model')||{}).value||'';
-    lines.push('◦ 버튜버 모델 이름 및 설정');
+    lines.push('【 버튜버 모델 이름 및 설정 】');
     if(model.trim()) lines.push('  '+model.trim());
     const style=(document.getElementById('inq-style')||{}).value||'';
-    lines.push('◦ 원하시는 디자인 스타일');
+    lines.push('【 원하시는 디자인 스타일 】');
     if(style.trim()) lines.push('  '+style.trim());
     if(document.getElementById('inq-sec-31').style.display!=='none'){
-      lines.push('◦ 방송화면 레이아웃');
+      lines.push('【 방송화면 레이아웃 】');
       const b=wrap.querySelector('.inq-radio-btn[data-rg="layout"].on'); if(b) lines.push('  '+b.textContent);
       const n=(document.getElementById('inq-layout-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
     }
     if(document.getElementById('inq-sec-32').style.display!=='none'){
-      lines.push('◦ 스케줄표 설정');
+      lines.push('【 스케줄표 설정 】');
       const sz=wrap.querySelector('.inq-radio-btn[data-rg="schedsize"].on'); if(sz) lines.push('  사이즈: '+sz.textContent);
       const sb=wrap.querySelector('.inq-radio-btn[data-rg="schedtype"].on'); if(sb) lines.push('  칸 형식: '+sb.textContent);
       const ib=wrap.querySelector('.inq-radio-btn[data-rg="illpos"].on'); if(ib) lines.push('  일러스트: '+ib.textContent);
       const n=(document.getElementById('inq-sched-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
     }
     if(document.getElementById('inq-sec-33').style.display!=='none'){
-      lines.push('◦ CSS 닉네임 정렬');
+      lines.push('【 CSS 닉네임 정렬 】');
       const b=wrap.querySelector('.inq-radio-btn[data-rg="nikalign"].on'); if(b) lines.push('  '+b.textContent);
     }
     if(document.getElementById('inq-sec-34').style.display!=='none'){
-      lines.push('◦ CSS 채팅 길이');
+      lines.push('【 CSS 채팅 길이 】');
       const cb=wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on'); if(cb) lines.push('  '+cb.textContent);
       const ab=wrap.querySelector('.inq-radio-btn[data-rg="chatalign"].on'); if(ab) lines.push('  채팅 정렬: '+ab.textContent);
       const n=(document.getElementById('inq-css-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
     }
     if(document.getElementById('inq-sec-rt').style.display!=='none'){
-      lines.push('◦ RT 포스터');
+      lines.push('【 RT 포스터 】');
       const sl=(document.getElementById('inq-rt-slots')||{}).value||''; if(sl.trim()) lines.push('  슬롯/RT 수: '+sl.trim());
       const tx=(document.getElementById('inq-rt-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
       const n=(document.getElementById('inq-rt-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
     }
     if(document.getElementById('inq-sec-th').style.display!=='none'){
-      lines.push('◦ 가로 썸네일');
+      lines.push('【 가로 썸네일 】');
       const tx=(document.getElementById('inq-th-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
       const ly=(document.getElementById('inq-th-layout')||{}).value||''; if(ly.trim()) lines.push('  레이아웃: '+ly.trim());
     }
     const etc=(document.getElementById('inq-etc')||{}).value||'';
-    lines.push('◦ 그 외 추가 사항'); if(etc.trim()) lines.push('  '+etc.trim());
+    lines.push('【 그 외 추가 사항 】'); if(etc.trim()) lines.push('  '+etc.trim());
     lines.push('──────────────');
     const copyText = lines.join('\n');
     function fallbackCopy(text){
@@ -1314,7 +1326,7 @@ function sendHeight(){
   const h = document.body.scrollHeight + 20;
   try{ window.parent.postMessage({type:'aw-height', h:h}, '*'); }catch(e){}
 }
-// ResizeObserver — 길이
+// ResizeObserver — 콘텐츠 변화 즉시 감지
 if(window.ResizeObserver){
   new ResizeObserver(function(){ sendHeight(); }).observe(document.body);
 } else {
