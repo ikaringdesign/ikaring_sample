@@ -1010,7 +1010,7 @@ function buildThumbSlider(data){
   sTH.appendChild(mkTA('inq-th-layout','원하는 레이아웃이 있다면 적어주세요',2));
   wrap.appendChild(sTH);
 
-  const s_ref=mkItem('3','콘셉트 / 레퍼런스'); s_ref.appendChild(mkTA('inq-ref','콘셉트나 참고 내용을 설명해주세요',2)); wrap.appendChild(s_ref);
+  const s3=mkItem('3','그 외 추가 사항'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
 
   const s3=mkItem('3','그 외 추가 사항'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
 
@@ -1071,8 +1071,6 @@ function buildThumbSlider(data){
       const tx=(document.getElementById('inq-th-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
       const ly=(document.getElementById('inq-th-layout')||{}).value||''; if(ly.trim()) lines.push('  레이아웃: '+ly.trim());
     }
-    const ref=(document.getElementById('inq-ref')||{}).value||'';
-    lines.push('◦ 콘셉트 / 레퍼런스'); if(ref.trim()) lines.push('  '+ref.trim());
     const etc=(document.getElementById('inq-etc')||{}).value||'';
     lines.push('◦ 그 외 추가 사항'); if(etc.trim()) lines.push('  '+etc.trim());
     lines.push('──────────────');
