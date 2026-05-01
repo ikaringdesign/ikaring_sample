@@ -1247,9 +1247,7 @@ function injectLB(){
           '<span id="aw-lb-cnt" style="font-size:12px;color:#aaa;margin-left:10px;"></span></div>' +
           '<button id="aw-lb-x" style="width:30px;height:30px;border-radius:50%;border:none;background:#f0f0f0;font-size:17px;color:#555;cursor:pointer;display:flex;align-items:center;justify-content:center;">&#x2715;</button>' +
         '</div>' +
-        '<div style="position:relative;background:#111;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;">' +
-          '<button id="aw-lb-prev" style="display:none;position:absolute;left:14px;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:50%;font-size:26px;color:#fff;cursor:pointer;z-index:2;">&#8249;</button>' +
-          '<button id="aw-lb-next" style="display:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:50%;font-size:26px;color:#fff;cursor:pointer;z-index:2;">&#8250;</button>' +
+        '<div id="aw-lb-imgwrap" style="position:relative;background:#111;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;">' +
           '<img id="aw-lb-img" src="" alt="" style="max-width:100%;max-height:90vh;object-fit:contain;display:block;">' +
         '</div>' +
         '<div id="aw-lb-ftr" style="padding:14px 18px;border-top:1px solid #f0f0f0;background:#fafafa;flex-shrink:0;">' +
@@ -1274,8 +1272,8 @@ function injectLB(){
       const o = pd.getElementById('aw-lb-ov');
       if(!o || o.style.display==='none') return;
       if(e.key==='Escape')      closeLB();
-      if(e.key==='ArrowLeft')   pd.getElementById('aw-lb-prev').click();
-      if(e.key==='ArrowRight')  pd.getElementById('aw-lb-next').click();
+      if(e.key==='ArrowLeft')  { const b=pd.getElementById('aw-lb-prev'); if(b) b.click(); }
+      if(e.key==='ArrowRight') { const b=pd.getElementById('aw-lb-next'); if(b) b.click(); }
     });
 
     _lbReady = true;
@@ -1317,26 +1315,35 @@ function updLB(){
       });
     }
     const th = pd.getElementById('aw-lb-thumbs');
-    const prevBtn = pd.getElementById('aw-lb-prev');
-    const nextBtn = pd.getElementById('aw-lb-next');
-    /* 항상 먼저 숨기고 시작 */
-    if(prevBtn) prevBtn.style.setProperty('display','none','important');
-    if(nextBtn) nextBtn.style.setProperty('display','none','important');
+    const imgWrap = pd.getElementById('aw-lb-imgwrap');
+
+    /* 기존 화살표 완전 제거 */
+    ['aw-lb-prev','aw-lb-next'].forEach(id=>{
+      const el = pd.getElementById(id);
+      if(el) el.parentNode.removeChild(el);
+    });
+
     if(imgs.length>1){
-      if(prevBtn) prevBtn.style.setProperty('display','flex','important');
-      if(nextBtn) nextBtn.style.setProperty('display','flex','important');
+      /* 화살표 새로 생성 */
+      const btnStyle = 'position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:50%;font-size:26px;color:#fff;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;';
+      const prev = pd.createElement('button'); prev.id='aw-lb-prev'; prev.innerHTML='&#8249;'; prev.style.cssText=btnStyle+'left:14px;';
+      const next = pd.createElement('button'); next.id='aw-lb-next'; next.innerHTML='&#8250;'; next.style.cssText=btnStyle+'right:14px;';
+      imgWrap.appendChild(prev);
+      imgWrap.appendChild(next);
+
       th.innerHTML = imgs.map((url,i)=>
         `<div class="aw-lb-th" data-si="${i}" style="flex-shrink:0;width:52px;height:65px;border-radius:4px;overflow:hidden;cursor:pointer;border:2px solid ${i===0?'#FF6B1A':'transparent'};opacity:${i===0?'1':'0.5'};transition:all .18s;"><img src="${url}" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>`
       ).join('');
       pd.querySelectorAll('.aw-lb-th').forEach(t=>{ t.onclick=()=>showSub(parseInt(t.dataset.si)); });
+      prev.onclick=()=>showSub(si-1);
+      next.onclick=()=>showSub(si+1);
       pd.getElementById('aw-lb-ftr').style.display='block';
     }else{
-      th.innerHTML=''; pd.getElementById('aw-lb-ftr').style.display='none';
+      th.innerHTML='';
+      pd.getElementById('aw-lb-ftr').style.display='none';
     }
-    pd.getElementById('aw-lb-prev').onclick=()=>showSub(si-1);
-    pd.getElementById('aw-lb-next').onclick=()=>showSub(si+1);
     showSub(0);
-  }catch(e){}
+  }catch(e){ console.error('updLB error:',e); }
 }
 
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2800);}
