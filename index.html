@@ -370,7 +370,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 /* ════════════════════════════════════
    5. PORTFOLIO
 ════════════════════════════════════ */
-.portfolio-section{padding:36px 24px 32px;border-top:1px solid #f0f0f0;}
+.portfolio-section{padding:36px 24px 16px;border-top:1px solid #f0f0f0;}
 .pf-tabs-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px;justify-content:center;}
 .pf-tab{padding:7px 18px;border-radius:20px;border:1.5px solid #E8E8E8;background:#fff;font-size:12px;font-weight:700;color:#888;letter-spacing:.05em;transition:all .15s;}
 .pf-tab:hover{border-color:#FF6B1A;color:#FF6B1A;}
@@ -990,7 +990,7 @@ function buildThumbSlider(data){
   s33.appendChild(mkRG('nikalign',['1. 좌','2. 중앙'])); wrap.appendChild(s33);
 
   const s34=mkItem('+','CSS 채팅 길이',true); s34.id='inq-sec-34'; s34.style.display='none';
-  s34.appendChild(mkRG('chatlen',['1. OBS 채팅 사이즈에 맞춰 길이가 늘어남 (내부 텍스트 가운데 정렬)','2. 채팅 텍스트 길이에 맞춰 늘어남']));
+  s34.appendChild(mkRG('chatlen',['1. OBS 채팅 사이즈에 맞춰 길이가 늘어남','2. 채팅 텍스트 길이에 맞춰 늘어남']));
   const alignWrap=document.createElement('div'); alignWrap.id='inq-34-align'; alignWrap.style.display='none';
   alignWrap.appendChild(mkLbl('채팅창 기준 채팅 정렬')); alignWrap.appendChild(mkRG('chatalign',['1. 좌','2. 중앙','3. 우']));
   s34.appendChild(alignWrap); s34.appendChild(mkTA('inq-css-note','그 외 CSS 요청사항을 입력해주세요',2)); wrap.appendChild(s34);
@@ -1303,7 +1303,22 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
     document.getElementById('pf-body').innerHTML=
       `<div class="pf-grid"><div class="pf-state">⚠️ 불러오기 실패 (${e.message})</div></div>`;
   }
+  // 높이 전달
+  setTimeout(sendHeight, 800);
 })();
+
+/* 높이 자동 전달 */
+function sendHeight(){
+  const h = document.body.scrollHeight + 20;
+  try{ window.parent.postMessage({type:'aw-height', h:h}, '*'); }catch(e){}
+}
+// ResizeObserver — 콘텐츠 변화 즉시 감지
+if(window.ResizeObserver){
+  new ResizeObserver(function(){ sendHeight(); }).observe(document.body);
+} else {
+  setInterval(sendHeight, 500);
+}
+window.addEventListener('load', sendHeight);
 </script>
 </body>
 </html>
