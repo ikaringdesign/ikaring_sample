@@ -1220,62 +1220,30 @@ let _lbReady = false;
 function injectLB(){
   try{
     const pd = window.parent.document;
-    /* 기존 오버레이 제거 후 항상 새로 주입 */
     const old = pd.getElementById('aw-lb-ov');
     if(old) old.parentNode.removeChild(old);
-
     const ov = pd.createElement('div');
     ov.id = 'aw-lb-ov';
-    ov.style.cssText = [
-      'display:none',
-      'position:fixed',
-      'inset:0',
-      'z-index:9999999',
-      'background:rgba(0,0,0,.18)',
-      'align-items:center',
-      'justify-content:center',
-      'padding:20px',
-      'box-sizing:border-box',
-      'font-family:sans-serif',
-      'cursor:pointer',
-    ].join(';') + ';';
-
+    ov.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:20px;box-sizing:border-box;cursor:pointer;';
     ov.innerHTML =
-      '<div id="aw-lb-inner" style="position:relative;background:#fff;border-radius:12px;overflow:hidden;width:min(96vw,1400px);max-height:96vh;display:flex;flex-direction:column;box-shadow:0 32px 100px rgba(0,0,0,.4);cursor:default;">' +
-        '<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #f0f0f0;flex-shrink:0;">' +
-          '<div><span id="aw-lb-ttl" style="font-size:14px;font-weight:600;color:#222;"></span>' +
-          '<span id="aw-lb-cnt" style="font-size:12px;color:#aaa;margin-left:10px;"></span></div>' +
-          '<button id="aw-lb-x" style="width:30px;height:30px;border-radius:50%;border:none;background:#f0f0f0;font-size:17px;color:#555;cursor:pointer;display:flex;align-items:center;justify-content:center;">&#x2715;</button>' +
-        '</div>' +
-        '<div id="aw-lb-imgwrap" style="position:relative;background:#111;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;">' +
-          '<img id="aw-lb-img" src="" alt="" style="max-width:100%;max-height:90vh;object-fit:contain;display:block;">' +
-        '</div>' +
-        '<div id="aw-lb-ftr" style="padding:14px 18px;border-top:1px solid #f0f0f0;background:#fafafa;flex-shrink:0;">' +
-          '<div id="aw-lb-thumbs" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;"></div>' +
-        '</div>' +
+      '<button id="aw-lb-x" style="position:fixed;top:16px;right:20px;width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,.15);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10000000;">&#x2715;</button>' +
+      '<div id="aw-lb-inner" style="position:relative;max-width:1400px;width:100%;cursor:default;">' +
+        '<img id="aw-lb-img" src="" alt="" style="width:100%;max-height:88vh;object-fit:contain;display:block;border-radius:6px;">' +
+        '<div id="aw-lb-thumbs" style="display:flex;gap:8px;justify-content:center;margin-top:14px;overflow-x:auto;padding:4px 0;"></div>' +
       '</div>';
-
     pd.body.appendChild(ov);
-
     pd.getElementById('aw-lb-x').onclick = function(e){ e.stopPropagation(); closeLB(); };
-
-    /* 배경 클릭 닫기 — click + mousedown 둘 다 */
-    function checkClose(e){
+    ov.addEventListener('click', function(e){
       const inner = pd.getElementById('aw-lb-inner');
-      if(inner && !inner.contains(e.target)){ closeLB(); }
-    }
-    ov.addEventListener('click', checkClose);
-    ov.addEventListener('mousedown', checkClose);
-
-    /* 키보드 */
+      if(inner && !inner.contains(e.target) && e.target.id !== 'aw-lb-x') closeLB();
+    });
     pd.addEventListener('keydown', function(e){
       const o = pd.getElementById('aw-lb-ov');
       if(!o || o.style.display==='none') return;
-      if(e.key==='Escape')      closeLB();
+      if(e.key==='Escape') closeLB();
       if(e.key==='ArrowLeft')  { const b=pd.getElementById('aw-lb-prev'); if(b) b.click(); }
       if(e.key==='ArrowRight') { const b=pd.getElementById('aw-lb-next'); if(b) b.click(); }
     });
-
     _lbReady = true;
     return true;
   }catch(e){ _lbReady = false; return false; }
@@ -1304,46 +1272,38 @@ function updLB(){
     const item = lbData[lbIdx];
     const imgs = getSubImages(item);
     let si = 0;
-    pd.getElementById('aw-lb-ttl').textContent = item['설명']||'';
-    pd.getElementById('aw-lb-cnt').textContent = (lbIdx+1)+' / '+lbData.length;
     function showSub(n){
       si=((n%imgs.length)+imgs.length)%imgs.length;
       pd.getElementById('aw-lb-img').src=imgs[si];
-      pd.querySelectorAll('.aw-lb-th').forEach((t,i)=>{
+      pd.querySelectorAll('.aw-lb-th').forEach(function(t,i){
         t.style.border = i===si ? '2px solid #FF6B1A' : '2px solid transparent';
         t.style.opacity = i===si ? '1' : '0.5';
       });
     }
-    const th = pd.getElementById('aw-lb-thumbs');
-    const imgWrap = pd.getElementById('aw-lb-imgwrap');
-
-    /* 기존 화살표 완전 제거 */
-    ['aw-lb-prev','aw-lb-next'].forEach(id=>{
-      const el = pd.getElementById(id);
-      if(el) el.parentNode.removeChild(el);
+    /* 기존 화살표 제거 */
+    ['aw-lb-prev','aw-lb-next'].forEach(function(id){
+      const el=pd.getElementById(id); if(el) el.parentNode.removeChild(el);
     });
-
+    const th = pd.getElementById('aw-lb-thumbs');
+    const inner = pd.getElementById('aw-lb-inner');
     if(imgs.length>1){
-      /* 화살표 새로 생성 */
-      const btnStyle = 'position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:50%;font-size:26px;color:#fff;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;';
-      const prev = pd.createElement('button'); prev.id='aw-lb-prev'; prev.innerHTML='&#8249;'; prev.style.cssText=btnStyle+'left:14px;';
-      const next = pd.createElement('button'); next.id='aw-lb-next'; next.innerHTML='&#8250;'; next.style.cssText=btnStyle+'right:14px;';
-      imgWrap.appendChild(prev);
-      imgWrap.appendChild(next);
-
-      th.innerHTML = imgs.map((url,i)=>
-        `<div class="aw-lb-th" data-si="${i}" style="flex-shrink:0;width:52px;height:65px;border-radius:4px;overflow:hidden;cursor:pointer;border:2px solid ${i===0?'#FF6B1A':'transparent'};opacity:${i===0?'1':'0.5'};transition:all .18s;"><img src="${url}" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>`
-      ).join('');
-      pd.querySelectorAll('.aw-lb-th').forEach(t=>{ t.onclick=()=>showSub(parseInt(t.dataset.si)); });
-      prev.onclick=()=>showSub(si-1);
-      next.onclick=()=>showSub(si+1);
-      pd.getElementById('aw-lb-ftr').style.display='block';
-    }else{
-      th.innerHTML='';
-      pd.getElementById('aw-lb-ftr').style.display='none';
+      const s='position:fixed;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:50%;font-size:26px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10000000;';
+      const prev=pd.createElement('button'); prev.id='aw-lb-prev'; prev.innerHTML='&#8249;'; prev.style.cssText=s+'left:16px;';
+      const next=pd.createElement('button'); next.id='aw-lb-next'; next.innerHTML='&#8250;'; next.style.cssText=s+'right:16px;';
+      pd.getElementById('aw-lb-ov').appendChild(prev);
+      pd.getElementById('aw-lb-ov').appendChild(next);
+      prev.onclick=function(e){ e.stopPropagation(); showSub(si-1); };
+      next.onclick=function(e){ e.stopPropagation(); showSub(si+1); };
+      th.innerHTML=imgs.map(function(url,i){
+        return '<div class="aw-lb-th" data-si="'+i+'" style="flex-shrink:0;width:56px;height:70px;border-radius:5px;overflow:hidden;cursor:pointer;border:2px solid '+(i===0?'#FF6B1A':'transparent')+';opacity:'+(i===0?'1':'0.5')+';transition:all .18s;"><img src="'+url+'" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>';
+      }).join('');
+      pd.querySelectorAll('.aw-lb-th').forEach(function(t){ t.onclick=function(e){ e.stopPropagation(); showSub(parseInt(t.dataset.si)); }; });
+      th.style.display='flex';
+    } else {
+      th.innerHTML=''; th.style.display='none';
     }
     showSub(0);
-  }catch(e){ console.error('updLB error:',e); }
+  }catch(e){ console.error('updLB:',e); }
 }
 
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2800);}
