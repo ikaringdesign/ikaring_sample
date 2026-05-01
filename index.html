@@ -889,8 +889,8 @@ function buildThumbSlider(data){
     if(s32) s32.style.display = hasSel('SCHEDULE_스케줄표','pkg_B') ? '' : 'none';
     if(s33) s33.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임 디자인') ? '' : 'none';
     if(s34) s34.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n심플 디자인','CSS_CSS디자인+적용\n닉네임 디자인') ? '' : 'none';
-    if(sRT) sRT.style.display = hasSel('POSTER_RT포스터') ? '' : 'none';
-    if(sTH) sTH.style.display = hasSel('THUMBNAIL_가로 썸네일') ? '' : 'none';
+    if(sRT) sRT.style.display = hasSel('POSTER_RT포스터','pkg_C') ? '' : 'none';
+    if(sTH) sTH.style.display = hasSel('THUMBNAIL_가로 썸네일','pkg_C') ? '' : 'none';
     const alignSec=document.getElementById('inq-34-align');
     const chatlenOn=wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on');
     if(alignSec) alignSec.style.display=(chatlenOn&&chatlenOn.dataset.val==='2')?'':'none';
