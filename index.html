@@ -435,11 +435,71 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .toast-el{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(60px);background:#222;color:#fff;padding:8px 18px;border-radius:20px;font-size:12.5px;opacity:0;transition:all .28s;z-index:9999999;white-space:nowrap;pointer-events:none;}
 .toast-el.on{transform:translateX(-50%) translateY(0);opacity:1;}
 
-@media(max-width:520px){
-  .option-grid{grid-template-columns:repeat(2,1fr);}
+@media(max-width:680px){
+  /* 전체 여백 */
+  .section{padding:24px 14px;}
+  .option-section{padding:24px 14px 20px;}
+  .portfolio-section{padding:24px 14px 16px;}
+  .inquiry-section{padding:24px 14px;}
+  .notice-section{padding:24px 14px;}
+
+  /* 상품 옵션: 2열 유지, 서브만 1열 */
+  .opt-group{grid-template-columns:repeat(2,1fr);}
+  .opt-sub.span2,.opt-sub.span3{grid-column:span 2;}
+  [style*="grid-column:span 2"],[style*="grid-column:span 3"]{grid-column:span 2!important;}
+
+  /* 세트 카드 세로 정렬 */
+  .pkg-card{flex-wrap:wrap;gap:10px;}
+  .pkg-prices{width:100%;display:flex;align-items:center;gap:8px;flex-direction:row;justify-content:flex-end;}
+
+  /* 포폴 그리드 2열 */
+  .pf-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+
+  /* 탭 버튼 작게 */
+  .pf-tab{padding:5px 11px;font-size:11.5px;}
+
+  /* 슬라이더 높이 */
+  .thumb-slider{height:180px;}
+
+  /* 라디오 버튼 1/2 */
+  .inq-radio-btn-wrap{width:calc(50% - 3px);}
+  .inq-radio-btn{width:100%;font-size:11.5px;padding:7px 4px;}
+  .inq-radio-wide{width:100%!important;}
+
+  /* 선택 상품 태그 */
+  .inq-sel-tag{font-size:11.5px;padding:4px 8px 4px 10px;}
+
+  /* 총액 */
+  .inq-total{flex-direction:column;align-items:flex-end;gap:4px;}
+
+  /* 문의 복사 버튼 */
+  .inq-copy-btn{font-size:13px;padding:12px;}
+
+  /* CSS 서브 항목 */
+  .opt-sub .opt-sub-name{font-size:11.5px;}
+  .opt-sub-price{font-size:13px;}
+
+  /* 페이지네이션 */
+  .pf-paging{gap:3px;}
+  .pf-pg{width:28px;height:28px;font-size:12px;}
+
+  /* 프로모 배너 */
+  .promo-banner{flex-direction:column;gap:10px;}
+  .promo-btn{width:100%;text-align:center;}
+
+  /* NOTICE */
+  .notice-item{font-size:12.5px;}
+
+  /* 섹션 타이틀 */
+  .section-title{font-size:17px;}
+
+  /* opt-sub 레이블 */
+  .opt-sub{padding:8px 10px;}
+}
+
+@media(max-width:400px){
   .pf-grid{grid-template-columns:repeat(2,1fr);}
-  .thumb-grid{grid-template-columns:repeat(2,1fr);}
-  .pkg-card{flex-wrap:wrap;}
+  .inq-radio-btn-wrap{width:100%;}
 }
 </style>
 </head>
