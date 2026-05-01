@@ -223,7 +223,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-radio-btn-wrap .inq-radio-btn{width:100%;}
 .inq-radio-ex-img{
   width:100%;aspect-ratio:3/1;
-  object-fit:cover;object-position:center;
+  object-fit:contain;object-position:center;
   border-radius:4px;
   border:1px solid #eee;
   display:block;
@@ -361,9 +361,9 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-item{display:flex;flex-direction:column;gap:9px;padding:14px 18px;border-bottom:1px solid #f5f5f5;transition:background .15s;}
 .inq-item:last-child{border-bottom:none;}
 .inq-item:hover{background:#FFF8F4;}
-.inq-item-top{display:grid;grid-template-columns:26px 1fr;align-items:start;gap:10px;}
-.inq-num{width:22px;height:22px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.inq-num.cond{background:#c85000;font-size:9.5px;}
+.inq-item-top{display:flex;align-items:center;gap:10px;}
+.inq-num{width:22px;height:22px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.inq-num.cond{background:#FF6B1A;font-size:16px;font-weight:900;}
 .inq-key{font-size:13px;font-weight:700;color:#222;}
 /* 조건부 섹션 */
 .inq-cond-sec{background:#FFF9F5;border-left:3px solid #FF6B1A;}
@@ -510,7 +510,7 @@ const PKG_ITEMS = [
   },
   {
     letter:'C', name:'RT포스터 + 메인포스터 + 가로 썸네일',
-    benefit:'세트 구매 혜택',
+    benefit:'10만원 할인',
     original:'600,000', final:'500,000',
   },
 ];
@@ -577,7 +577,7 @@ const PROMO = {
     <div class="inq-wrap" id="inq-wrap"></div>
     <button class="inq-copy-btn" id="inq-copy-btn">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      <span id="inq-copy-lbl">📝 문의 양식 복사하기</span>
+      <span id="inq-copy-lbl">문의 양식 복사하기</span>
     </button>
   </div>
 
@@ -668,7 +668,7 @@ const OPT_IMGS = {
   'POSTER_메인포스터':                         'image/opt_mainposter.png',
   'THUMBNAIL_가로 썸네일':                     'image/opt_thumbnail.png',
   'CSS_CSS디자인+적용\n심플 디자인':           'image/opt_css_simple.png',
-  'CSS_CSS디자인+적용\n닉네임 포함 디자인':    'image/opt_css_name.png',
+  'CSS_CSS디자인+적용\n닉네임 디자인':    'image/opt_css_name.png',
 };
 
 function makeCard(type,name,price,desc,sub){
@@ -714,19 +714,55 @@ function makeSub(name,price,span,note){
 (function(){
   const g=document.getElementById('opt-group-3');
   g.appendChild(makeCard('CSS','CSS디자인+적용\n심플 디자인','65,000','채팅/게임 화면 구매하지 않은 경우\n이 상품으로 구매 부탁드립니다.','','image/opt_css_simple.png'));
-  g.appendChild(makeCard('CSS','CSS디자인+적용\n닉네임 포함 디자인','80,000','채팅/게임 화면 구매하지 않은 경우\n이 상품으로 구매 부탁드립니다.','','image/opt_css_name.png'));
+  g.appendChild(makeCard('CSS','CSS디자인+적용\n닉네임 디자인','80,000','채팅/게임 화면 구매하지 않은 경우\n이 상품으로 구매 부탁드립니다.','','image/opt_css_name.png'));
 
   // CSS 서브 선택지 — 개별 분리
   const cssSubWrap = document.createElement('div');
   cssSubWrap.style.cssText = 'grid-column:span 2; display:flex; flex-direction:column; gap:6px; margin-top:2px;';
-  [{key:'sub_심플추가',  name:'닉네임 포함 디자인 구매 시 심플 디자인 추가', price:'10,000'},
+
+  const CSS_NAME_KEY = 'CSS_CSS디자인+적용\n닉네임 디자인';
+
+  [{key:'sub_심플추가',  name:'심플 디자인 버전 추가 제작', price:'10,000', requiresName:true},
    {key:'sub_애니',     name:'애니메이션 추가',                           price:'20,000'},
    {key:'sub_매니저',   name:'매니저(관리자) 디자인 추가',                  price:'10,000'},
    {key:'sub_후원',     name:'후원 도네 추가',                            price:'10,000'}].forEach(r=>{
     const row = document.createElement('div');
     row.className='opt-sub'; row.dataset.selKey=r.key;
     row.innerHTML=`<div><div class="opt-sub-name">${r.name}</div></div><div class="opt-sub-price">+ ${r.price}</div>`;
-    row.onclick=()=>toggleSelect(row, r.key, `${r.name} (+${r.price})`);
+
+    if(r.requiresName){
+      // 초기 비활성 상태
+      row.style.cssText += ';opacity:0.38;pointer-events:none;filter:grayscale(0.4);';
+      row.dataset.condDisabled = 'true';
+
+      // 닉네임 포함 선택 여부 감지해서 활성/비활성 토글
+      const origToggle = window._origToggleForSim || toggleSelect;
+      row._updateState = function(){
+        const active = selectedItems.has(CSS_NAME_KEY);
+        if(active){
+          row.style.opacity='1'; row.style.pointerEvents='auto'; row.style.filter='none';
+        } else {
+          row.style.opacity='0.38'; row.style.pointerEvents='none'; row.style.filter='grayscale(0.4)';
+          // 비활성 시 선택 해제
+          if(selectedItems.has(r.key)){
+            selectedItems.delete(r.key);
+            row.classList.remove('selected');
+            updateSelectedField();
+          }
+        }
+      };
+      // selectedItems 변화 감지를 위해 updateSelectedField 후킹
+      const _orig = updateSelectedField;
+      updateSelectedField = function(){
+        _orig();
+        row._updateState();
+      };
+    }
+
+    row.onclick=()=>{
+      if(row.dataset.condDisabled==='true' && !selectedItems.has(CSS_NAME_KEY)) return;
+      toggleSelect(row, r.key, `${r.name} (+${r.price})`);
+    };
     cssSubWrap.appendChild(row);
   });
   g.appendChild(cssSubWrap);
@@ -845,10 +881,14 @@ function buildThumbSlider(data){
     const s32=document.getElementById('inq-sec-32');
     const s33=document.getElementById('inq-sec-33');
     const s34=document.getElementById('inq-sec-34');
+    const sRT=document.getElementById('inq-sec-rt');
+    const sTH=document.getElementById('inq-sec-th');
     if(s31) s31.style.display = hasSel('OVERLAY_채팅화면','pkg_A','pkg_B') ? '' : 'none';
     if(s32) s32.style.display = hasSel('SCHEDULE_스케줄표','pkg_B') ? '' : 'none';
-    if(s33) s33.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임 포함 디자인') ? '' : 'none';
-    if(s34) s34.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n심플 디자인','CSS_CSS디자인+적용\n닉네임 포함 디자인') ? '' : 'none';
+    if(s33) s33.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임 디자인') ? '' : 'none';
+    if(s34) s34.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n심플 디자인','CSS_CSS디자인+적용\n닉네임 디자인') ? '' : 'none';
+    if(sRT) sRT.style.display = hasSel('POSTER_RT포스터') ? '' : 'none';
+    if(sTH) sTH.style.display = hasSel('THUMBNAIL_가로 썸네일') ? '' : 'none';
     const alignSec=document.getElementById('inq-34-align');
     const chatlenOn=wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on');
     if(alignSec) alignSec.style.display=(chatlenOn&&chatlenOn.dataset.val==='2')?'':'none';
@@ -985,21 +1025,40 @@ function buildThumbSlider(data){
   s31.appendChild(mkTA('inq-layout-note','그 외 방송화면 요청사항을 입력해주세요',2)); wrap.appendChild(s31);
 
   // 3-2 스케줄
-  const s32=mkItem('3-2','스케줄표 설정',true); s32.id='inq-sec-32'; s32.style.display='none';
+  const s32=mkItem('+','스케줄표 설정',true); s32.id='inq-sec-32'; s32.style.display='none';
+  s32.appendChild(mkLbl('사이즈'));
+  s32.appendChild(mkRG('schedsize',['1. 2000×2000 정사각형 비율','2. 1920×1080 FHD 비율']));
   s32.appendChild(mkLbl('스케줄 칸 형식')); s32.appendChild(mkRG('schedtype',['1. 줄 형식','2. 칸 형식']));
   s32.appendChild(mkLbl('일러스트 위치')); s32.appendChild(mkRG('illpos',['1. 좌','2. 우']));
   s32.appendChild(mkTA('inq-sched-note','그 외 스케줄 요청사항을 입력해주세요',2)); wrap.appendChild(s32);
 
-  // 3-3 닉네임 정렬
-  const s33=mkItem('3-3','닉네임 정렬',true); s33.id='inq-sec-33'; s33.style.display='none';
+  // 3-3 CSS 닉네임 정렬
+  const s33=mkItem('+','CSS 닉네임 정렬',true); s33.id='inq-sec-33'; s33.style.display='none';
   s33.appendChild(mkRG('nikalign',['1. 좌','2. 중앙'])); wrap.appendChild(s33);
 
-  // 3-4 채팅 길이
-  const s34=mkItem('3-4','채팅 길이',true); s34.id='inq-sec-34'; s34.style.display='none';
+  // 3-4 CSS 채팅 길이
+  const s34=mkItem('+','CSS 채팅 길이',true); s34.id='inq-sec-34'; s34.style.display='none';
   s34.appendChild(mkRG('chatlen',['1. OBS 채팅 사이즈에 맞춰 길이가 늘어남 (내부 텍스트 가운데 정렬)','2. 채팅 텍스트 길이에 맞춰 늘어남']));
   const alignWrap=document.createElement('div'); alignWrap.id='inq-34-align'; alignWrap.style.display='none';
   alignWrap.appendChild(mkLbl('채팅창 기준 채팅 정렬')); alignWrap.appendChild(mkRG('chatalign',['1. 좌','2. 중앙','3. 우']));
   s34.appendChild(alignWrap); s34.appendChild(mkTA('inq-css-note','그 외 CSS 요청사항을 입력해주세요',2)); wrap.appendChild(s34);
+
+  // + RT포스터
+  const sRT=mkItem('+','RT 포스터',true); sRT.id='inq-sec-rt'; sRT.style.display='none';
+  sRT.appendChild(mkLbl('공개 슬롯 개수와 각 슬롯의 RT 수'));
+  sRT.appendChild(mkTA('inq-rt-slots','예) 슬롯 3개 / 각 5RT, 10RT, 20RT',2));
+  sRT.appendChild(mkLbl('원하시는 문구'));
+  sRT.appendChild(mkTA('inq-rt-text','없다면 생략 가능합니다.',2));
+  sRT.appendChild(mkTA('inq-rt-note','그 외 RT포스터 요청사항을 입력해주세요',2));
+  wrap.appendChild(sRT);
+
+  // + 가로 썸네일
+  const sTH=mkItem('+','가로 썸네일',true); sTH.id='inq-sec-th'; sTH.style.display='none';
+  sTH.appendChild(mkLbl('원하시는 문구'));
+  sTH.appendChild(mkTA('inq-th-text','원하시는 문구를 적어주세요',2));
+  sTH.appendChild(mkLbl('레이아웃'));
+  sTH.appendChild(mkTA('inq-th-layout','원하는 레이아웃이 있다면 적어주세요',2));
+  wrap.appendChild(sTH);
 
   // 2. 콘셉트/레퍼런스
   const s2=mkItem('2','콘셉트 / 레퍼런스'); s2.appendChild(mkTA('inq-ref','콘셉트나 참고 내용을 설명해주세요',2));
@@ -1015,7 +1074,7 @@ function buildThumbSlider(data){
   // 3. 그 외
   const s3=mkItem('3','그 외 추가 사항'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
 
-  // 라디오 이벤트 (버튼 클릭 → 같은 rg 전체 off 후 on)
+  // 라디오 이벤트
   wrap.addEventListener('click',e=>{
     const btn=e.target.closest('.inq-radio-btn'); if(!btn) return;
     const rg=btn.dataset.rg;
@@ -1045,19 +1104,31 @@ function buildThumbSlider(data){
     }
     if(document.getElementById('inq-sec-32').style.display!=='none'){
       lines.push('■ 스케줄표 설정');
+      const sz=wrap.querySelector('.inq-radio-btn[data-rg="schedsize"].on'); if(sz) lines.push('  사이즈: '+sz.textContent);
       const sb=wrap.querySelector('.inq-radio-btn[data-rg="schedtype"].on'); if(sb) lines.push('  칸 형식: '+sb.textContent);
       const ib=wrap.querySelector('.inq-radio-btn[data-rg="illpos"].on'); if(ib) lines.push('  일러스트: '+ib.textContent);
       const n=(document.getElementById('inq-sched-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
     }
     if(document.getElementById('inq-sec-33').style.display!=='none'){
-      lines.push('■ 닉네임 정렬');
+      lines.push('■ CSS 닉네임 정렬');
       const b=wrap.querySelector('.inq-radio-btn[data-rg="nikalign"].on'); if(b) lines.push('  '+b.textContent);
     }
     if(document.getElementById('inq-sec-34').style.display!=='none'){
-      lines.push('■ 채팅 길이');
+      lines.push('■ CSS 채팅 길이');
       const cb=wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on'); if(cb) lines.push('  '+cb.textContent);
       const ab=wrap.querySelector('.inq-radio-btn[data-rg="chatalign"].on'); if(ab) lines.push('  채팅 정렬: '+ab.textContent);
       const n=(document.getElementById('inq-css-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
+    }
+    if(document.getElementById('inq-sec-rt').style.display!=='none'){
+      lines.push('■ RT 포스터');
+      const sl=(document.getElementById('inq-rt-slots')||{}).value||''; if(sl.trim()) lines.push('  슬롯/RT 수: '+sl.trim());
+      const tx=(document.getElementById('inq-rt-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
+      const n=(document.getElementById('inq-rt-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
+    }
+    if(document.getElementById('inq-sec-th').style.display!=='none'){
+      lines.push('■ 가로 썸네일');
+      const tx=(document.getElementById('inq-th-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
+      const ly=(document.getElementById('inq-th-layout')||{}).value||''; if(ly.trim()) lines.push('  레이아웃: '+ly.trim());
     }
     const ref=(document.getElementById('inq-ref')||{}).value||'';
     lines.push('■ 콘셉트 / 레퍼런스'); if(ref.trim()) lines.push('  '+ref.trim());
@@ -1085,7 +1156,7 @@ function buildThumbSlider(data){
       if(ok){
         this.classList.add('done'); document.getElementById('inq-copy-lbl').textContent='복사 완료!';
         showToast('✅ 문의 양식이 복사되었습니다');
-        setTimeout(()=>{this.classList.remove('done');document.getElementById('inq-copy-lbl').textContent='📝 문의 양식 복사하기';},2500);
+        setTimeout(()=>{this.classList.remove('done');document.getElementById('inq-copy-lbl').textContent='문의 양식 복사하기';},2500);
       } else showToast('복사 실패 — 텍스트를 직접 선택해주세요');
     });
   };
