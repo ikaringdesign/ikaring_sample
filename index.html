@@ -7,7 +7,6 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
 
-/* ─── 리셋 ─── */
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{overflow-x:hidden;}
 body{font-family:'Noto Sans KR',sans-serif;background:#fff;color:#222;}
@@ -93,10 +92,8 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 }
 .single-badge::before,.single-badge::after{content:'';flex:1;height:1px;background:#FF6B1A;max-width:80px;opacity:.3;}
 
-/* ── 상품 그룹 공통 그리드 ── */
 .opt-group{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 
-/* 메인 카드 */
 .opt-card{border:1.5px solid var(--line);border-radius:4px;padding:16px 12px 14px;text-align:center;position:relative;transition:border-color .2s,box-shadow .2s,transform .18s;cursor:default;}
 .opt-card:hover{border-color:#FF6B1A;box-shadow:0 6px 20px rgba(255,107,26,.14);transform:translateY(-3px);}
 .opt-card:hover::before,.opt-card:hover::after{border-color:#FF6B1A;}
@@ -113,7 +110,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .opt-card-desc{font-size:10.5px;color:#666;line-height:1.65;}
 .opt-card-desc small{display:block;font-size:10px;color:#aaa;margin-top:2px;}
 
-/* 서브 카드 (낮은 높이) */
 .opt-sub{
   border:1.5px solid #f0e8e0;border-radius:4px;
   padding:10px 12px;
@@ -130,7 +126,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .opt-sub-note{font-size:10.5px;color:#aaa;margin-top:2px;}
 .opt-sub-price{font-size:14px;font-weight:900;color:#FF6B1A;white-space:nowrap;flex-shrink:0;}
 
-/* 서브 멀티 (CSS 그룹) */
 .opt-sub-multi{
   border:1.5px solid #f0e8e0;border-radius:4px;
   padding:4px 14px;background:#FFF9F5;
@@ -145,7 +140,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .opt-sub-row-note{font-size:10.5px;color:#aaa;}
 .opt-sub-row-price{font-size:13.5px;font-weight:900;color:#FF6B1A;white-space:nowrap;flex-shrink:0;}
 
-/* 선택 상태 */
 .opt-card.selected{border-color:#FF6B1A;background:#FFF4EC;box-shadow:0 4px 16px rgba(255,107,26,.18);}
 .opt-card.selected::before,.opt-card.selected::after{border-color:#FF6B1A;}
 .opt-card.selected .opt-card-type{color:#FF6B1A;}
@@ -155,7 +149,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .opt-sub.selected,.opt-sub-row.selected{background:#FFF0E6 !important;border-color:#FF6B1A !important;}
 .opt-sub.selected .opt-sub-name,.opt-sub-row.selected .opt-sub-row-name{color:#FF6B1A;font-weight:700;}
 
-/* 선택된 품목 미리보기 태그 */
 .selected-preview{
   display:flex;flex-wrap:wrap;gap:6px;
   min-height:32px;padding:8px 12px;
@@ -170,7 +163,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .sel-tag button{background:none;border:none;color:#fff;font-size:12px;padding:0;line-height:1;opacity:.8;cursor:pointer;}
 .sel-placeholder{font-size:12px;color:#ccc;}
 
-/* 문의 양식 인풋 */
 .inq-item{display:flex;flex-direction:column;gap:8px;padding:14px 18px;border-bottom:1px solid #f5f5f5;transition:background .15s;}
 .inq-item:last-child{border-bottom:none;}
 .inq-item:hover{background:#FFF8F4;}
@@ -186,10 +178,8 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
   transition:border-color .15s;
 }
 .inq-input:focus{border-color:#FF6B1A;background:#fff;}
-/* 태그 중앙 정렬 + 폰트 */
 .inq-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;min-height:36px;padding:12px;background:#fafafa;border:1.5px solid #eee;border-radius:6px;align-items:center;}
 .inq-sel-tag{font-size:13px;}
-/* opt-instruction 디자인 */
 .opt-instruction{
   display:flex;align-items:center;justify-content:center;gap:10px;
   margin-bottom:20px;
@@ -205,7 +195,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
   background:linear-gradient(to left,transparent,#FF6B1A88);
 }
 
-/* inq-block-title 가운데 정렬 + 크기 + 여백 */
 .inq-block-title{
   font-size:15px;font-weight:700;color:#1a1a1a;
   text-align:center;
@@ -214,7 +203,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 }
 .inq-block-title span{font-size:11px;color:#aaa;font-weight:400;margin-left:4px;}
 
-/* 라디오 버튼 + 이미지 묶음 */
 .inq-radio-group{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
 .inq-radio-btn-wrap{
   width:calc(33.333% - 4px);
@@ -229,12 +217,10 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
   display:block;
   background:#f5f5f5;
 }
-/* 채팅 길이 버튼도 1/3 고정 (wide 클래스 재정의) */
 .inq-radio-wide{width:calc(33.333% - 4px)!important;}
 .inq-radio-btn{width:calc(33.333% - 4px);padding:8px 6px;border:1.5px solid #e0e0e0;border-radius:4px;background:#fff;font-size:12px;font-weight:600;color:#555;transition:all .15s;cursor:pointer;text-align:center;line-height:1.4;}
 .inq-radio-btn:hover{border-color:#FF6B1A;color:#FF6B1A;}
 .inq-radio-btn.on{background:#FF6B1A;border-color:#FF6B1A;color:#fff;}
-/* 조건부 섹션 번호 → + 원형 */
 .inq-num.cond{background:#FF6B1A;font-size:16px;font-weight:900;}
 .inq-img-area{border:1.5px dashed #ddd;border-radius:6px;padding:13px;text-align:center;cursor:pointer;background:#fafafa;transition:all .15s;}
 .inq-img-area:hover{border-color:#FF6B1A;background:#FFF9F5;}
@@ -255,7 +241,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .opt-sub-row-note{font-size:10.5px;color:#aaa;}
 .opt-sub-row-price{font-size:13.5px;font-weight:900;color:#FF6B1A;white-space:nowrap;flex-shrink:0;}
 
-/* 패키지 */
 .pkg-badge{
   display:block;text-align:center;
   font-size:11px;font-weight:700;letter-spacing:.14em;color:#FF6B1A;
@@ -296,7 +281,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .pkg-name{font-size:15px;font-weight:900;color:#222;margin-bottom:5px;}
 .pkg-benefit{display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;}
 .pkg-benefit-label{font-size:11px;font-weight:700;color:#666;}
-.pkg-benefit-tag{background:#FF6B1A;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;}
+.pkg-benefit-tag{background:#FF6B1A;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;justify-content:center;line-height:1.4;text-align:center;}
 .pkg-prices{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;}
 .pkg-sale-tag{font-size:10px;font-weight:700;letter-spacing:.06em;color:#FF6B1A;background:#FFF3EC;padding:2px 8px;border-radius:3px;margin-bottom:2px;text-align:right;}
 .pkg-original{font-size:12px;color:#bbb;text-decoration:line-through;text-align:right;}
@@ -311,7 +296,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .pkg-card-inner{display:flex;align-items:center;gap:16px;flex:1;}
 .pkg-right{display:flex;flex-direction:column;align-items:flex-end;}
 
-/* 추가 설명 */
 .opt-note{
   background:#f9f9f9;border-radius:4px;
   padding:12px 16px;
@@ -329,7 +313,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-wrap::before,.inq-wrap::after{content:'';position:absolute;width:14px;height:14px;border-color:#FF6B1A;border-style:solid;opacity:.45;z-index:1;pointer-events:none;}
 .inq-wrap::before{top:8px;left:8px;border-width:1.5px 0 0 1.5px;}
 .inq-wrap::after{bottom:8px;right:8px;border-width:0 1.5px 1.5px 0;}
-/* 태그 + 총액 */
 .inq-tags-wrap{display:flex;flex-direction:column;gap:10px;}
 .inq-tags{display:flex;flex-wrap:wrap;gap:7px;min-height:36px;padding:10px 12px;background:#fafafa;border:1.5px solid #eee;border-radius:6px;align-items:center;}
 .inq-tag-empty{font-size:12px;color:#ccc;}
@@ -340,14 +323,12 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-total-label{font-size:12px;font-weight:700;color:#c85000;}
 .inq-total-price{font-size:18px;font-weight:900;color:#FF6B1A;letter-spacing:-.5px;}
 
-/* 할인 옵션 */
 .inq-discount-btn{width:100%;padding:10px 14px;border:1.5px solid #e0e0e0;border-radius:6px;background:#fff;font-size:13px;font-weight:600;color:#555;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all .15s;text-align:left;}
 .inq-discount-btn:hover{border-color:#FF6B1A;color:#FF6B1A;}
 .inq-discount-btn.on{border-color:#FF6B1A;background:#FFF4EC;color:#FF6B1A;}
 .inq-discount-check{width:18px;height:18px;border-radius:50%;border:1.5px solid #ccc;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:transparent;flex-shrink:0;transition:all .2s;}
 .inq-discount-btn.on .inq-discount-check{background:#FF6B1A;border-color:#FF6B1A;color:#fff;}
 
-/* 상품 선택 섹션 (태그용으로 재활용) */
 .inq-prod-section{padding:16px 18px;border-bottom:1px solid #f0f0f0;}
 .inq-block-title{font-size:12px;font-weight:700;color:#1a1a1a;letter-spacing:.05em;margin-bottom:10px;}
 .inq-block-title span{font-size:11px;color:#aaa;font-weight:400;margin-left:4px;}
@@ -357,7 +338,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-prod-btn.on{background:#FF6B1A;border-color:#FF6B1A;color:#fff;}
 .inq-prod-btn .ipb-price{font-size:10px;font-weight:400;opacity:.7;}
 .inq-prod-btn.on .ipb-price{opacity:.85;}
-/* 일반 항목 */
 .inq-item{display:flex;flex-direction:column;gap:9px;padding:14px 18px;border-bottom:1px solid #f5f5f5;transition:background .15s;}
 .inq-item:last-child{border-bottom:none;}
 .inq-item:hover{background:#FFF8F4;}
@@ -365,20 +345,16 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-num{width:22px;height:22px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .inq-num.cond{background:#FF6B1A;font-size:16px;font-weight:900;}
 .inq-key{font-size:13px;font-weight:700;color:#222;}
-/* 조건부 섹션 */
 .inq-cond-sec{background:#FFF9F5;border-left:3px solid #FF6B1A;}
 .inq-cond-sec:hover{background:#FFF4EC;}
 .inq-sub-label{font-size:11.5px;font-weight:700;color:#777;margin:2px 0 6px;}
-/* 라디오 */
 .inq-radio-group{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
 .inq-radio-btn{padding:7px 13px;border:1.5px solid #e0e0e0;border-radius:4px;background:#fff;font-size:12px;font-weight:600;color:#555;transition:all .15s;cursor:pointer;text-align:left;}
 .inq-radio-btn:hover{border-color:#FF6B1A;color:#FF6B1A;}
 .inq-radio-btn.on{background:#FF6B1A;border-color:#FF6B1A;color:#fff;}
 .inq-radio-wide{width:100%;box-sizing:border-box;}
-/* 인풋 */
 .inq-input{width:100%;padding:9px 12px;border:1.5px solid #eee;border-radius:6px;font-family:'Noto Sans KR',sans-serif;font-size:13px;color:#222;background:#fafafa;outline:none;resize:vertical;transition:border-color .15s;}
 .inq-input:focus{border-color:#FF6B1A;background:#fff;}
-/* 이미지 */
 .inq-img-area{border:1.5px dashed #ddd;border-radius:6px;padding:13px;text-align:center;cursor:pointer;background:#fafafa;transition:all .15s;}
 .inq-img-area:hover{border-color:#FF6B1A;background:#FFF9F5;}
 .inq-img-label{font-size:12px;color:#aaa;display:flex;align-items:center;justify-content:center;gap:6px;}
@@ -400,7 +376,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .pf-tab:hover{border-color:#FF6B1A;color:#FF6B1A;}
 .pf-tab.on{background:#FF6B1A;border-color:#FF6B1A;color:#fff;}
 
-/* 포폴 그리드 */
 .pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .pf-card{cursor:pointer;border-radius:6px;overflow:hidden;background:#f9f9f9;border:1px solid #efefef;transition:box-shadow .2s,transform .18s;}
 .pf-card:hover{box-shadow:0 4px 20px rgba(255,107,26,.15);transform:translateY(-2px);}
@@ -417,7 +392,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .pf-pg.arr{color:#FF6B1A;border-color:#ffe0cc;font-size:16px;}
 .pf-pg:disabled{opacity:.3;cursor:not-allowed;}
 
-/* Schedule 프로모 */
 .promo-banner{background:#222;border-radius:6px;padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
 .promo-tag{font-size:9.5px;font-weight:700;color:#FF6B1A;letter-spacing:.1em;margin-bottom:2px;}
 .promo-title{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:2px;}
@@ -444,7 +418,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .lb-thumb.on{border-color:#FF6B1A;opacity:1;}
 .lb-thumb img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;}
 
-/* 스피너·토스트 */
 .spin{width:24px;height:24px;border:2px solid #eee;border-top-color:#FF6B1A;border-radius:50%;animation:sp .7s linear infinite;}
 @keyframes sp{to{transform:rotate(360deg);}}
 .toast-el{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(60px);background:#222;color:#fff;padding:8px 18px;border-radius:20px;font-size:12.5px;opacity:0;transition:all .28s;z-index:9999999;white-space:nowrap;pointer-events:none;}
@@ -466,7 +439,6 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 <script>
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRkWy2k6ZgOGUX9vplgkDrgGeCIm3WZVaeZLikYDjXFiI9RLqxifhsNdOkdH81pwNvheVmhdH0spjiB/pub?output=csv';
 
-/* 작가 정보 */
 const CREATOR = {
   name: '징어링',
   subLabel: 'VIRTUBER DESIGN',
@@ -486,7 +458,6 @@ const NOTICE_ITEMS = [
   `X 및 커미션 플랫폼에 작업을 포트폴리오 기재할 수 있는 작업만 받고 있습니다.`,
 ];
 
-/* OPTION — SINGLE 상품 */
 const SINGLE_ITEMS = [
   { type:'OVERLAY', name:'채팅화면', price:'200,000', desc:'채팅화면용 CSS 디자인 포함됩니다.', sub:'(CSS 적용은 별도 구매 필요)' },
   { type:'OVERLAY', name:'게임화면', price:'120,000', desc:'일반 버전과 풀 화면 모드 2종 제공됩니다.\n게임화면용 CSS 디자인 포함됩니다.', sub:'(CSS 적용은 별도 구매 필요)' },
@@ -515,7 +486,6 @@ const PKG_ITEMS = [
   },
 ];
 
-/* 포트폴리오 탭 */
 const TABS = [
   {label:'ALL',       key:'all'},
   {label:'Overlay',   key:'Overlay'},
@@ -525,7 +495,6 @@ const TABS = [
   {label:'RTPoster',  key:'RTPoster'},
 ];
 
-/* Schedule 탭 프로모 배너 */
 const PROMO = {
   tag:'SAMPLE SITE', title:'스케줄표 샘플 사이트',
   desc:'실제 적용 예시를 확인해보세요.',
@@ -620,7 +589,6 @@ NOTICE_ITEMS.forEach(item=>{
   const d=document.createElement('div');d.className='notice-item';d.innerHTML=item;nb.appendChild(d);
 });
 
-/* ══ 상품 선택 시스템 ══ */
 const selectedItems = new Map();
 
 function updateSelectedField(){
@@ -659,7 +627,6 @@ function toggleSelect(el,key,name){
   updateSelectedField();
 }
 
-// 상품별 이미지 매핑
 const OPT_IMGS = {
   'OVERLAY_채팅화면':                          'image/opt_chat.png',
   'OVERLAY_게임화면':                          'image/opt_game.png',
@@ -713,10 +680,9 @@ function makeSub(name,price,span,note){
 })();
 (function(){
   const g=document.getElementById('opt-group-3');
-  g.appendChild(makeCard('CSS','CSS디자인+적용\n심플 디자인','65,000','채팅/게임 화면 구매하지 않은 경우\n이 상품으로 구매 부탁드립니다.','','image/opt_css_simple.png'));
-  g.appendChild(makeCard('CSS','CSS디자인+적용\n닉네임 디자인','80,000','채팅/게임 화면 구매하지 않은 경우\n이 상품으로 구매 부탁드립니다.','','image/opt_css_name.png'));
+  g.appendChild(makeCard('CSS','CSS디자인+적용\n심플 디자인','65,000','','','image/opt_css_simple.png'));
+  g.appendChild(makeCard('CSS','CSS디자인+적용\n닉네임 디자인','80,000','','','image/opt_css_name.png'));
 
-  // CSS 서브 선택지 — 개별 분리
   const cssSubWrap = document.createElement('div');
   cssSubWrap.style.cssText = 'grid-column:span 2; display:flex; flex-direction:column; gap:6px; margin-top:2px;';
 
@@ -728,14 +694,15 @@ function makeSub(name,price,span,note){
    {key:'sub_후원',     name:'후원 도네 추가',                            price:'10,000'}].forEach(r=>{
     const row = document.createElement('div');
     row.className='opt-sub'; row.dataset.selKey=r.key;
-    row.innerHTML=`<div><div class="opt-sub-name">${r.name}</div></div><div class="opt-sub-price">+ ${r.price}</div>`;
+    row.innerHTML=`<div>
+        ${r.requiresName ? '<span style="display:inline-block;font-size:10px;font-weight:700;color:#c85000;background:#fff0e6;border:1px solid #ffc89a;border-radius:4px;padding:2px 7px;margin-bottom:5px;letter-spacing:.03em;">닉네임 디자인 선택 시 구매 가능</span><br>' : ''}
+        <div class="opt-sub-name">${r.name}</div>
+      </div><div class="opt-sub-price">+ ${r.price}</div>`;
 
     if(r.requiresName){
-      // 초기 비활성 상태
       row.style.cssText += ';opacity:0.38;pointer-events:none;filter:grayscale(0.4);';
       row.dataset.condDisabled = 'true';
 
-      // 닉네임 포함 선택 여부 감지해서 활성/비활성 토글
       const origToggle = window._origToggleForSim || toggleSelect;
       row._updateState = function(){
         const active = selectedItems.has(CSS_NAME_KEY);
@@ -743,7 +710,6 @@ function makeSub(name,price,span,note){
           row.style.opacity='1'; row.style.pointerEvents='auto'; row.style.filter='none';
         } else {
           row.style.opacity='0.38'; row.style.pointerEvents='none'; row.style.filter='grayscale(0.4)';
-          // 비활성 시 선택 해제
           if(selectedItems.has(r.key)){
             selectedItems.delete(r.key);
             row.classList.remove('selected');
@@ -751,7 +717,6 @@ function makeSub(name,price,span,note){
           }
         }
       };
-      // selectedItems 변화 감지를 위해 updateSelectedField 후킹
       const _orig = updateSelectedField;
       updateSelectedField = function(){
         _orig();
@@ -828,7 +793,6 @@ async function fetchCSV(){
   throw new Error(err);
 }
 
-/* ── 슬라이더 ── */
 function buildThumbSlider(data){
   const slider = document.getElementById('thumb-slider');
   const show = data.slice(0, 9);
@@ -853,7 +817,6 @@ function buildThumbSlider(data){
   document.getElementById('thumb-prev').onclick = ()=>goSlide(idx-1);
   document.getElementById('thumb-next').onclick = ()=>goSlide(idx+1);
 
-  // 자동 슬라이드
   setInterval(()=>goSlide(idx >= max ? 0 : idx+1), 3500);
 
   slider.querySelectorAll('.thumb-cell').forEach(cell=>{
@@ -861,21 +824,17 @@ function buildThumbSlider(data){
   });
 }
 
-/* ── 문의 양식 ── */
 (function buildInquiry(){
   const wrap = document.getElementById('inq-wrap');
   wrap.innerHTML = '';
 
-  // 가격 파싱
   function parsePrice(name){
     const m = name.match(/\(([\+]?[\d,]+)\)\s*$/);
     return m ? parseInt(m[1].replace(/[,+]/g,''), 10) : 0;
   }
 
-  // 조건 확인 (selectedItems 기준)
   function hasSel(...keys){ return keys.some(k=>selectedItems.has(k)); }
 
-  // 조건부 섹션 표시/숨김
   function updateVis(){
     const s31=document.getElementById('inq-sec-31');
     const s32=document.getElementById('inq-sec-32');
@@ -894,7 +853,6 @@ function buildThumbSlider(data){
     if(alignSec) alignSec.style.display=(chatlenOn&&chatlenOn.dataset.val==='2')?'':'none';
   }
 
-  // 태그 + 총액 렌더 (전역 노출)
   window.renderInqTags = function(){
     const tagsEl = document.getElementById('inq-tags');
     const totalEl = document.getElementById('inq-total');
@@ -916,15 +874,12 @@ function buildThumbSlider(data){
       });
     }
 
-    // 총액 계산
     let subtotal = 0;
     [...selectedItems.values()].forEach(v=>{ subtotal += parsePrice(v.name); });
 
-    // 할인 금액: 10만 미만 5,000 / 10만 이상 10,000
     const discountAmt = subtotal >= 100000 ? 10000 : 5000;
     const discountChecked = discBtn && discBtn.classList.contains('on');
 
-    // 할인 버튼 라벨 동적 업데이트
     if(discBtn){
       discBtn.querySelector('.inq-discount-label').textContent =
         `리뷰 작성 시 ${discountAmt.toLocaleString()}원 할인`;
@@ -937,14 +892,12 @@ function buildThumbSlider(data){
     updateVis();
   };
 
-  // 의뢰 디자인 태그 섹션
   const selSec = document.createElement('div'); selSec.className='inq-prod-section';
   selSec.innerHTML='<div class="inq-block-title">의뢰 디자인</div>';
   const tagsWrap = document.createElement('div'); tagsWrap.className='inq-tags-wrap';
   const tagsEl = document.createElement('div'); tagsEl.id='inq-tags'; tagsEl.className='inq-tags';
   tagsEl.innerHTML='<span class="inq-tag-empty">위 옵션에서 상품을 선택하면 여기에 표시됩니다</span>';
 
-  // 할인 옵션
   const discountBtn = document.createElement('button');
   discountBtn.id='inq-discount'; discountBtn.className='inq-discount-btn'; discountBtn.type='button';
   discountBtn.innerHTML='<span class="inq-discount-check">✓</span><span class="inq-discount-label">리뷰 작성 시 5,000원 할인</span>';
@@ -961,7 +914,6 @@ function buildThumbSlider(data){
   tagsWrap.appendChild(totalEl);
   selSec.appendChild(tagsWrap); wrap.appendChild(selSec);
 
-  // 헬퍼
   function mkItem(numTxt,keyTxt,isCond){
     const d=document.createElement('div'); d.className='inq-item'+(isCond?' inq-cond-sec':'');
     const top=document.createElement('div'); top.className='inq-item-top';
@@ -971,7 +923,6 @@ function buildThumbSlider(data){
     top.appendChild(n); top.appendChild(k); d.appendChild(top); return d;
   }
   function mkTA(id,ph,rows){ const t=document.createElement('textarea'); t.className='inq-input'; t.id=id; t.placeholder=ph; t.rows=rows||2; return t; }
-  // 라디오 그룹 이미지 매핑: {rg명_val: 'image/경로'}
   const RADIO_IMGS = {
     'layout_1':    'image/layout_1.png',    // 좌:캐릭터 우:채팅창
     'layout_2':    'image/layout_2.png',    // 중앙:캐릭터 우:채팅창
@@ -1015,16 +966,13 @@ function buildThumbSlider(data){
   }
   function mkLbl(t){ const d=document.createElement('div'); d.className='inq-sub-label'; d.textContent=t; return d; }
 
-  // 1. 디자인 스타일
   const s1=mkItem('1','원하시는 디자인 스타일');
   s1.appendChild(mkTA('inq-style','원하는 디자인 스타일 또는 들어갔으면 하는 소품을 적어주세요',3)); wrap.appendChild(s1);
 
-  // 3-1 방송화면
   const s31=mkItem('3-1','방송화면 레이아웃',true); s31.id='inq-sec-31'; s31.style.display='none';
   s31.appendChild(mkRG('layout',['1. 좌: 캐릭터 / 우: 채팅창','2. 중앙: 캐릭터 / 우: 채팅창 (분리 가능)','3. 좌: 채팅창 / 우: 캐릭터']));
   s31.appendChild(mkTA('inq-layout-note','그 외 방송화면 요청사항을 입력해주세요',2)); wrap.appendChild(s31);
 
-  // 3-2 스케줄
   const s32=mkItem('+','스케줄표 설정',true); s32.id='inq-sec-32'; s32.style.display='none';
   s32.appendChild(mkLbl('사이즈'));
   s32.appendChild(mkRG('schedsize',['1. 2000×2000 정사각형 비율','2. 1920×1080 FHD 비율']));
@@ -1032,18 +980,15 @@ function buildThumbSlider(data){
   s32.appendChild(mkLbl('일러스트 위치')); s32.appendChild(mkRG('illpos',['1. 좌','2. 우']));
   s32.appendChild(mkTA('inq-sched-note','그 외 스케줄 요청사항을 입력해주세요',2)); wrap.appendChild(s32);
 
-  // 3-3 CSS 닉네임 정렬
   const s33=mkItem('+','CSS 닉네임 정렬',true); s33.id='inq-sec-33'; s33.style.display='none';
   s33.appendChild(mkRG('nikalign',['1. 좌','2. 중앙'])); wrap.appendChild(s33);
 
-  // 3-4 CSS 채팅 길이
   const s34=mkItem('+','CSS 채팅 길이',true); s34.id='inq-sec-34'; s34.style.display='none';
   s34.appendChild(mkRG('chatlen',['1. OBS 채팅 사이즈에 맞춰 길이가 늘어남 (내부 텍스트 가운데 정렬)','2. 채팅 텍스트 길이에 맞춰 늘어남']));
   const alignWrap=document.createElement('div'); alignWrap.id='inq-34-align'; alignWrap.style.display='none';
   alignWrap.appendChild(mkLbl('채팅창 기준 채팅 정렬')); alignWrap.appendChild(mkRG('chatalign',['1. 좌','2. 중앙','3. 우']));
   s34.appendChild(alignWrap); s34.appendChild(mkTA('inq-css-note','그 외 CSS 요청사항을 입력해주세요',2)); wrap.appendChild(s34);
 
-  // + RT포스터
   const sRT=mkItem('+','RT 포스터',true); sRT.id='inq-sec-rt'; sRT.style.display='none';
   sRT.appendChild(mkLbl('공개 슬롯 개수와 각 슬롯의 RT 수'));
   sRT.appendChild(mkTA('inq-rt-slots','예) 슬롯 3개 / 각 5RT, 10RT, 20RT',2));
@@ -1052,7 +997,6 @@ function buildThumbSlider(data){
   sRT.appendChild(mkTA('inq-rt-note','그 외 RT포스터 요청사항을 입력해주세요',2));
   wrap.appendChild(sRT);
 
-  // + 가로 썸네일
   const sTH=mkItem('+','가로 썸네일',true); sTH.id='inq-sec-th'; sTH.style.display='none';
   sTH.appendChild(mkLbl('원하시는 문구'));
   sTH.appendChild(mkTA('inq-th-text','원하시는 문구를 적어주세요',2));
@@ -1060,7 +1004,6 @@ function buildThumbSlider(data){
   sTH.appendChild(mkTA('inq-th-layout','원하는 레이아웃이 있다면 적어주세요',2));
   wrap.appendChild(sTH);
 
-  // 2. 콘셉트/레퍼런스
   const s2=mkItem('2','콘셉트 / 레퍼런스'); s2.appendChild(mkTA('inq-ref','콘셉트나 참고 내용을 설명해주세요',2));
   const imgArea=document.createElement('div'); imgArea.className='inq-img-area';
   const fileInput=document.createElement('input'); fileInput.type='file'; fileInput.accept='image/*'; fileInput.multiple=true; fileInput.style.display='none';
@@ -1071,10 +1014,8 @@ function buildThumbSlider(data){
   imgArea.appendChild(fileInput); imgArea.appendChild(imgLbl); imgArea.appendChild(imgPrevs);
   imgArea.onclick=()=>fileInput.click(); s2.appendChild(imgArea); wrap.appendChild(s2);
 
-  // 3. 그 외
   const s3=mkItem('3','그 외 추가 사항'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
 
-  // 라디오 이벤트
   wrap.addEventListener('click',e=>{
     const btn=e.target.closest('.inq-radio-btn'); if(!btn) return;
     const rg=btn.dataset.rg;
@@ -1083,7 +1024,6 @@ function buildThumbSlider(data){
     if(rg==='chatlen') updateVis();
   });
 
-  // 복사
   document.getElementById('inq-copy-btn').onclick=function(){
     const lines=['📋 문의 양식','──────────────'];
     lines.push('■ 의뢰 디자인');
@@ -1235,7 +1175,6 @@ function renderGrid(){
   body.innerHTML='';body.appendChild(wrap);
 }
 
-/* ── 라이트박스: artmug parent.document에 직접 주입 ── */
 let _lbReady = false;
 
 function injectLB(){
@@ -1284,7 +1223,6 @@ function openLB(i, data){
     updLB();
     try{ window.parent.document.getElementById('aw-lb-ov').style.display='flex'; }catch(e){}
   } else {
-    // fallback: 새 탭
     const item = data[i];
     const imgs = getSubImages(item);
     const hash = encodeURIComponent(JSON.stringify({imgs, cap:item['설명']||'', idx:i, total:data.length}));
@@ -1326,10 +1264,8 @@ function updLB(){
   }catch(e){}
 }
 
-/* ── 토스트 ── */
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2800);}
 
-/* ── 초기 로드 ── */
 (async function init(){
   try{
     allData=await fetchCSV();
