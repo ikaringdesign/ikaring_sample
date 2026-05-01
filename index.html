@@ -966,8 +966,19 @@ function buildThumbSlider(data){
   }
   function mkLbl(t){ const d=document.createElement('div'); d.className='inq-sub-label'; d.textContent=t; return d; }
 
-  const s1=mkItem('1','원하시는 디자인 스타일');
-  s1.appendChild(mkTA('inq-style','원하는 디자인 스타일 또는 들어갔으면 하는 소품을 적어주세요',3)); wrap.appendChild(s1);
+  const s1=mkItem('1','버튜버 모델 이름 및 설정');
+  s1.appendChild(mkTA('inq-model','버튜버 모델 이름과 설정을 입력해주세요',2));
+  const imgArea1=document.createElement('div'); imgArea1.className='inq-img-area';
+  const fileInput1=document.createElement('input'); fileInput1.type='file'; fileInput1.accept='image/*'; fileInput1.multiple=true; fileInput1.style.display='none';
+  const imgLbl1=document.createElement('div'); imgLbl1.className='inq-img-label';
+  imgLbl1.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>모델 이미지 첨부 (다중 선택 가능)';
+  const imgPrevs1=document.createElement('div'); imgPrevs1.className='inq-img-previews';
+  fileInput1.onchange=function(){ Array.from(this.files).forEach(file=>{ const reader=new FileReader(); reader.onload=e=>{ const thumb=document.createElement('div'); thumb.className='inq-img-thumb'; const img=document.createElement('img'); img.src=e.target.result; const del=document.createElement('button'); del.className='inq-img-thumb-del'; del.textContent='✕'; del.onclick=ev=>{ev.stopPropagation();thumb.remove();}; thumb.appendChild(img); thumb.appendChild(del); imgPrevs1.appendChild(thumb); }; reader.readAsDataURL(file); }); this.value=''; };
+  imgArea1.appendChild(fileInput1); imgArea1.appendChild(imgLbl1); imgArea1.appendChild(imgPrevs1);
+  imgArea1.onclick=()=>fileInput1.click(); s1.appendChild(imgArea1); wrap.appendChild(s1);
+
+  const s1b=mkItem('2','원하시는 디자인 스타일');
+  s1b.appendChild(mkTA('inq-style','원하는 디자인 스타일 또는 들어갔으면 하는 소품을 적어주세요',3)); wrap.appendChild(s1b);
 
   const s31=mkItem('3-1','방송화면 레이아웃',true); s31.id='inq-sec-31'; s31.style.display='none';
   s31.appendChild(mkRG('layout',['1. 좌: 캐릭터 / 우: 채팅창','2. 중앙: 캐릭터 / 우: 채팅창 (분리 가능)','3. 좌: 채팅창 / 우: 캐릭터']));
@@ -1025,8 +1036,8 @@ function buildThumbSlider(data){
   });
 
   document.getElementById('inq-copy-btn').onclick=function(){
-    const lines=['📋 문의 양식','──────────────'];
-    lines.push('■ 의뢰 디자인');
+    const lines=['문의 양식','──────────────'];
+    lines.push('◦ 의뢰 디자인');
     const prods=[...selectedItems.values()].map(v=>v.name);
     lines.push('  '+(prods.length?prods.join('\n  '):'(미선택)'));
     const discountOn = document.getElementById('inq-discount')&&document.getElementById('inq-discount').classList.contains('on');
@@ -1034,46 +1045,49 @@ function buildThumbSlider(data){
     const discAmt = total >= 100000 ? 10000 : 5000;
     if(discountOn){total=Math.max(0,total-discAmt); lines.push(`  + 리뷰 작성 할인 -${discAmt.toLocaleString()}원`);}
     lines.push(`  총 금액: ${total.toLocaleString()}원`);
+    const model=(document.getElementById('inq-model')||{}).value||'';
+    lines.push('◦ 버튜버 모델 이름 및 설정');
+    if(model.trim()) lines.push('  '+model.trim());
     const style=(document.getElementById('inq-style')||{}).value||'';
-    lines.push('■ 원하시는 디자인 스타일');
+    lines.push('◦ 원하시는 디자인 스타일');
     if(style.trim()) lines.push('  '+style.trim());
     if(document.getElementById('inq-sec-31').style.display!=='none'){
-      lines.push('■ 방송화면 레이아웃');
+      lines.push('◦ 방송화면 레이아웃');
       const b=wrap.querySelector('.inq-radio-btn[data-rg="layout"].on'); if(b) lines.push('  '+b.textContent);
       const n=(document.getElementById('inq-layout-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
     }
     if(document.getElementById('inq-sec-32').style.display!=='none'){
-      lines.push('■ 스케줄표 설정');
+      lines.push('◦ 스케줄표 설정');
       const sz=wrap.querySelector('.inq-radio-btn[data-rg="schedsize"].on'); if(sz) lines.push('  사이즈: '+sz.textContent);
       const sb=wrap.querySelector('.inq-radio-btn[data-rg="schedtype"].on'); if(sb) lines.push('  칸 형식: '+sb.textContent);
       const ib=wrap.querySelector('.inq-radio-btn[data-rg="illpos"].on'); if(ib) lines.push('  일러스트: '+ib.textContent);
       const n=(document.getElementById('inq-sched-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
     }
     if(document.getElementById('inq-sec-33').style.display!=='none'){
-      lines.push('■ CSS 닉네임 정렬');
+      lines.push('◦ CSS 닉네임 정렬');
       const b=wrap.querySelector('.inq-radio-btn[data-rg="nikalign"].on'); if(b) lines.push('  '+b.textContent);
     }
     if(document.getElementById('inq-sec-34').style.display!=='none'){
-      lines.push('■ CSS 채팅 길이');
+      lines.push('◦ CSS 채팅 길이');
       const cb=wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on'); if(cb) lines.push('  '+cb.textContent);
       const ab=wrap.querySelector('.inq-radio-btn[data-rg="chatalign"].on'); if(ab) lines.push('  채팅 정렬: '+ab.textContent);
       const n=(document.getElementById('inq-css-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
     }
     if(document.getElementById('inq-sec-rt').style.display!=='none'){
-      lines.push('■ RT 포스터');
+      lines.push('◦ RT 포스터');
       const sl=(document.getElementById('inq-rt-slots')||{}).value||''; if(sl.trim()) lines.push('  슬롯/RT 수: '+sl.trim());
       const tx=(document.getElementById('inq-rt-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
       const n=(document.getElementById('inq-rt-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
     }
     if(document.getElementById('inq-sec-th').style.display!=='none'){
-      lines.push('■ 가로 썸네일');
+      lines.push('◦ 가로 썸네일');
       const tx=(document.getElementById('inq-th-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
       const ly=(document.getElementById('inq-th-layout')||{}).value||''; if(ly.trim()) lines.push('  레이아웃: '+ly.trim());
     }
     const ref=(document.getElementById('inq-ref')||{}).value||'';
-    lines.push('■ 콘셉트 / 레퍼런스'); if(ref.trim()) lines.push('  '+ref.trim());
+    lines.push('◦ 콘셉트 / 레퍼런스'); if(ref.trim()) lines.push('  '+ref.trim());
     const etc=(document.getElementById('inq-etc')||{}).value||'';
-    lines.push('■ 그 외 추가 사항'); if(etc.trim()) lines.push('  '+etc.trim());
+    lines.push('◦ 그 외 추가 사항'); if(etc.trim()) lines.push('  '+etc.trim());
     lines.push('──────────────');
     const copyText = lines.join('\n');
     function fallbackCopy(text){
@@ -1185,7 +1199,7 @@ function injectLB(){
 
     const ov = pd.createElement('div');
     ov.id = 'aw-lb-ov';
-    ov.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.9);align-items:center;justify-content:center;padding:20px;box-sizing:border-box;font-family:sans-serif;';
+    ov.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,.4);align-items:center;justify-content:center;padding:20px;box-sizing:border-box;font-family:sans-serif;';
     ov.innerHTML =
       '<div style="position:relative;background:#fff;border-radius:10px;overflow:hidden;max-width:820px;width:100%;max-height:94vh;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.6);">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid #f0f0f0;flex-shrink:0;">' +
@@ -1205,7 +1219,9 @@ function injectLB(){
 
     pd.body.appendChild(ov);
     pd.getElementById('aw-lb-x').onclick = closeLB;
-    ov.onclick = function(e){ if(e.target===ov) closeLB(); };
+    ov.addEventListener('mousedown', function(e){
+      if(e.target === ov) closeLB();
+    });
     pd.addEventListener('keydown', function(e){
       const o=pd.getElementById('aw-lb-ov'); if(!o||o.style.display==='none') return;
       if(e.key==='Escape') closeLB();
