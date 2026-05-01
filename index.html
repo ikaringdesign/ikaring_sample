@@ -1012,8 +1012,6 @@ function buildThumbSlider(data){
 
   const s3=mkItem('3','그 외 추가 사항'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
 
-  const s3=mkItem('3','그 외 추가 사항'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
-
   wrap.addEventListener('click',e=>{
     const btn=e.target.closest('.inq-radio-btn'); if(!btn) return;
     const rg=btn.dataset.rg;
