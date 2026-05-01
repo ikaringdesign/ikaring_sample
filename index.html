@@ -443,9 +443,46 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
   .inquiry-section{padding:24px 14px;}
   .notice-section{padding:24px 14px;}
 
-  /* 상품 옵션: 2열 유지, 서브(span2)는 2열 그리드에서 자동 풀폭 */
-  .opt-group{grid-template-columns:repeat(2,1fr);}
-  .opt-sub-multi{grid-column:span 2;}
+  /* 기본 폰트 축소 */
+  body{font-size:12.5px;}
+  .section-title{font-size:15px;}
+  .single-badge{font-size:10px;}
+
+  /* 상품 카드 폰트 */
+  .opt-card-type{font-size:9px;}
+  .opt-card-name{font-size:11px;}
+  .opt-card-price{font-size:15px;letter-spacing:-.3px;}
+  .opt-card-desc{font-size:9.5px;}
+  .opt-card-check{width:16px;height:16px;font-size:9px;}
+
+  /* 서브 옵션 */
+  .opt-sub .opt-sub-name{font-size:11px;}
+  .opt-sub-price{font-size:11.5px;}
+
+  /* 세트 카드 */
+  .pkg-name{font-size:12.5px;}
+  .pkg-final{font-size:17px;}
+  .pkg-benefit-label{font-size:9.5px;}
+  .pkg-benefit-tag{font-size:9.5px;padding:2px 7px;}
+  .pkg-sale-tag{font-size:9px;}
+  .pkg-original{font-size:10.5px;}
+
+  /* NOTICE */
+  .notice-item{font-size:12px;}
+
+  /* 문의 양식 */
+  .inq-key{font-size:12px;}
+  .inq-input{font-size:12px;}
+  .inq-block-title{font-size:13px;}
+  .inq-prod-btn{font-size:11px;padding:6px 9px;}
+  .inq-sel-tag{font-size:11px;}
+  .inq-total-price{font-size:16px;}
+  .inq-discount-btn{font-size:12px;}
+
+  /* 상품 옵션: 1열 */
+  .opt-group{grid-template-columns:repeat(1,1fr);}
+  .opt-sub.span2,.opt-sub.span3{grid-column:span 1;}
+  .opt-sub-multi{grid-column:span 1;}
 
   /* 포폴 슬라이더 2열 */
   .thumb-slider{height:auto;}
