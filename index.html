@@ -940,13 +940,18 @@ function buildThumbSlider(data){
   const slider = document.getElementById('thumb-slider');
   const show = data.slice(0, 9);
   if(!show.length){ slider.innerHTML=''; return; }
+
+  const isMobile = window.innerWidth <= 680;
+  const visible = isMobile ? 2 : 3;
+  const cellPct = 100 / visible; // 각 셀 너비 %
   let idx = 0;
-  const visible = window.innerWidth <= 680 ? 2 : 3;
   const max = Math.max(0, show.length - visible);
 
-  let html = `<div class="thumb-track" id="thumb-track">`;
+  let html = `<div class="thumb-track" id="thumb-track" style="display:flex;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1);will-change:transform;">`;
   show.forEach((d,i)=>{
-    html += `<div class="thumb-cell" data-i="${i}"><img src="${d['이미지URL']}" alt="${d['설명']||''}" loading="lazy"></div>`;
+    html += `<div class="thumb-cell" data-i="${i}" style="flex:0 0 ${cellPct}%;min-width:0;height:100%;overflow:hidden;cursor:pointer;">
+      <img src="${d['이미지URL']}" alt="${d['설명']||''}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+    </div>`;
   });
   html += `</div>
     <button class="thumb-prev" id="thumb-prev">‹</button>
@@ -955,13 +960,10 @@ function buildThumbSlider(data){
 
   function goSlide(n){
     idx = Math.max(0, Math.min(n, max));
-    const w = slider.offsetWidth || slider.getBoundingClientRect().width || 600;
-    const cellPx = w / visible;
-    document.getElementById('thumb-track').style.transform = `translateX(-${idx * cellPx}px)`;
+    document.getElementById('thumb-track').style.transform = `translateX(-${idx * cellPct}%)`;
   }
   document.getElementById('thumb-prev').onclick = ()=>goSlide(idx-1);
   document.getElementById('thumb-next').onclick = ()=>goSlide(idx+1);
-
   setInterval(()=>goSlide(idx >= max ? 0 : idx+1), 3500);
 
   slider.querySelectorAll('.thumb-cell').forEach(cell=>{
