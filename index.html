@@ -28,7 +28,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 ════════════════════════════════════ */
 .thumb-slider{position:relative;overflow:hidden;background:#111;height:260px;}
 .thumb-track{display:flex;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1);}
-.thumb-cell{flex:0 0 33.333%;height:100%;overflow:hidden;cursor:pointer;position:relative;}
+.thumb-cell{height:100%;overflow:hidden;cursor:pointer;position:relative;}
 .thumb-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .thumb-cell:hover img{transform:scale(1.04);}
 .thumb-loading{height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#bbb;font-size:13px;background:#111;}
@@ -483,9 +483,8 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
   .opt-group{grid-template-columns:repeat(2,1fr);}
   .opt-sub.span2,.opt-sub.span3,.opt-sub-multi{grid-column:1/-1!important;}
 
-  /* 포폴 슬라이더 → 모바일: 2열(50%)로 슬라이드 유지 */
+  /* 포폴 슬라이더 높이 */
   .thumb-slider{height:160px;}
-  .thumb-cell{flex:0 0 50%;}
 
   /* 세트 카드 세로 정렬 */
   .pkg-card{flex-wrap:wrap;gap:10px;}
