@@ -942,13 +942,13 @@ function buildThumbSlider(data){
 
   const isMobile = window.innerWidth <= 680;
   const visible = isMobile ? 2 : 3;
-  const cellPct = 100 / visible; // 각 셀 너비 %
   let idx = 0;
   const max = Math.max(0, show.length - visible);
+  const cellW = 100 / visible; // 컨테이너 기준 셀 너비(%)
 
-  let html = `<div class="thumb-track" id="thumb-track" style="display:flex;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1);will-change:transform;">`;
+  let html = `<div class="thumb-track" id="thumb-track" style="display:flex;height:100%;width:${show.length * cellW}%;transition:transform .5s cubic-bezier(.4,0,.2,1);will-change:transform;">`;
   show.forEach((d,i)=>{
-    html += `<div class="thumb-cell" data-i="${i}" style="flex:0 0 ${cellPct}%;min-width:0;height:100%;overflow:hidden;cursor:pointer;">
+    html += `<div class="thumb-cell" data-i="${i}" style="flex:0 0 ${100/show.length}%;min-width:0;height:100%;overflow:hidden;cursor:pointer;">
       <img src="${d['이미지URL']}" alt="${d['설명']||''}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
     </div>`;
   });
@@ -959,7 +959,8 @@ function buildThumbSlider(data){
 
   function goSlide(n){
     idx = Math.max(0, Math.min(n, max));
-    // translateX % = 트랙 자신 기준 → 1칸 = 100/show.length %
+    // 트랙 너비 = show.length * cellW% 컨테이너 기준
+    // 1칸 이동 = cellW% 컨테이너 = cellW / (show.length * cellW) * 100% 트랙 = 100/show.length% 트랙
     document.getElementById('thumb-track').style.transform = `translateX(-${idx * 100 / show.length}%)`;
   }
   document.getElementById('thumb-prev').onclick = ()=>goSlide(idx-1);
