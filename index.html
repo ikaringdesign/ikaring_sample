@@ -479,10 +479,9 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
   .inq-total-price{font-size:16px;}
   .inq-discount-btn{font-size:12px;}
 
-  /* 상품 옵션: 1열 */
-  .opt-group{grid-template-columns:repeat(1,1fr);}
-  .opt-sub.span2,.opt-sub.span3{grid-column:span 1;}
-  .opt-sub-multi{grid-column:span 1;}
+  /* 상품 옵션: 2열, 서브만 풀폭 */
+  .opt-group{grid-template-columns:repeat(2,1fr);}
+  .opt-sub.span2,.opt-sub.span3,.opt-sub-multi{grid-column:1/-1!important;}
 
   /* 포폴 슬라이더 2열 */
   .thumb-slider{height:auto;}
@@ -611,7 +610,7 @@ const TABS = [
 const PROMO = {
   tag:'SAMPLE SITE', title:'스케줄표 샘플 사이트',
   desc:'실제 적용 예시를 확인해보세요.',
-  btnLabel:'샘플 보러 가기', btnUrl:'https://schedulesample.netlify.app',
+  btnLabel:'샘플 보러 가기', btnUrl:'https://example.com',
 };
 </script>
 <!-- ═══════════════════════════════ -->
