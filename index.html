@@ -483,10 +483,9 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
   .opt-group{grid-template-columns:repeat(2,1fr);}
   .opt-sub.span2,.opt-sub.span3,.opt-sub-multi{grid-column:1/-1!important;}
 
-  /* 포폴 슬라이더 2열 */
-  .thumb-slider{height:auto;}
-  .thumb-track{flex-wrap:wrap;}
-  .thumb-cell{flex:0 0 50%;height:120px;}
+  /* 포폴 슬라이더 → 모바일: 2열(50%)로 슬라이드 유지 */
+  .thumb-slider{height:160px;}
+  .thumb-cell{flex:0 0 50%;}
 
   /* 세트 카드 세로 정렬 */
   .pkg-card{flex-wrap:wrap;gap:10px;}
@@ -942,7 +941,7 @@ function buildThumbSlider(data){
   const show = data.slice(0, 9);
   if(!show.length){ slider.innerHTML=''; return; }
   let idx = 0;
-  const visible = 3;
+  const visible = window.innerWidth <= 680 ? 2 : 3;
   const max = Math.max(0, show.length - visible);
 
   let html = `<div class="thumb-track" id="thumb-track">`;
