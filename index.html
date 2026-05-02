@@ -609,7 +609,7 @@ const TABS = [
 const PROMO = {
   tag:'SAMPLE SITE', title:'스케줄표 샘플 사이트',
   desc:'실제 적용 예시를 확인해보세요.',
-  btnLabel:'샘플 보러 가기', btnUrl:'https://schedulesample.netlify.app',
+  btnLabel:'샘플 보러 가기', btnUrl:'https://example.com',
 };
 </script>
 <!-- ═══════════════════════════════ -->
@@ -959,7 +959,8 @@ function buildThumbSlider(data){
 
   function goSlide(n){
     idx = Math.max(0, Math.min(n, max));
-    document.getElementById('thumb-track').style.transform = `translateX(-${idx * cellPct}%)`;
+    // translateX % = 트랙 자신 기준 → 1칸 = 100/show.length %
+    document.getElementById('thumb-track').style.transform = `translateX(-${idx * 100 / show.length}%)`;
   }
   document.getElementById('thumb-prev').onclick = ()=>goSlide(idx-1);
   document.getElementById('thumb-next').onclick = ()=>goSlide(idx+1);
@@ -1119,7 +1120,7 @@ function buildThumbSlider(data){
   modelNotice.textContent='문의 시 버튜버 모델 및 참고 이미지 첨부해주세요.';
   s1.appendChild(modelNotice); wrap.appendChild(s1);
 
-  const s2=mkItem('2','원하시는 디자인 스타일'); s2.appendChild(mkTA('inq-style','원하시는 디자인 스타일 또는 들어갔으면 하는 소품을 적어주세요',3)); wrap.appendChild(s2);
+  const s2=mkItem('2','원하시는 디자인 스타일'); s2.appendChild(mkTA('inq-style','원하는 디자인 스타일 또는 들어갔으면 하는 소품을 적어주세요',3)); wrap.appendChild(s2);
 
   const s31=mkItem('3-1','방송화면 레이아웃',true); s31.id='inq-sec-31'; s31.style.display='none';
   s31.appendChild(mkRG('layout',['1. 좌: 캐릭터 / 우: 채팅창','2. 중앙: 캐릭터 / 우: 채팅창 (분리 가능)','3. 좌: 채팅창 / 우: 캐릭터']));
@@ -1153,7 +1154,7 @@ function buildThumbSlider(data){
   sTH.appendChild(mkLbl('원하시는 문구'));
   sTH.appendChild(mkTA('inq-th-text','원하시는 문구를 적어주세요',2));
   sTH.appendChild(mkLbl('레이아웃'));
-  sTH.appendChild(mkTA('inq-th-layout','원하시는 레이아웃이 있다면 적어주세요',2));
+  sTH.appendChild(mkTA('inq-th-layout','원하는 레이아웃이 있다면 적어주세요',2));
   wrap.appendChild(sTH);
 
   const s3=mkItem('3','그 외 추가 사항'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
@@ -1207,12 +1208,12 @@ function buildThumbSlider(data){
     if(document.getElementById('inq-sec-rt').style.display!=='none'){
       lines.push('【 RT 포스터 】');
       const sl=(document.getElementById('inq-rt-slots')||{}).value||''; if(sl.trim()) lines.push('  슬롯/RT 수: '+sl.trim());
-      const tx=(document.getElementById('inq-rt-text')||{}).value||''; if(tx.trim()) lines.push('  원하시는 문구: '+tx.trim());
+      const tx=(document.getElementById('inq-rt-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
       const n=(document.getElementById('inq-rt-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
     }
     if(document.getElementById('inq-sec-th').style.display!=='none'){
       lines.push('【 가로 썸네일 】');
-      const tx=(document.getElementById('inq-th-text')||{}).value||''; if(tx.trim()) lines.push('  원하시는 문구: '+tx.trim());
+      const tx=(document.getElementById('inq-th-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
       const ly=(document.getElementById('inq-th-layout')||{}).value||''; if(ly.trim()) lines.push('  레이아웃: '+ly.trim());
     }
     const etc=(document.getElementById('inq-etc')||{}).value||'';
