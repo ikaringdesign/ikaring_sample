@@ -953,9 +953,11 @@ function buildThumbSlider(data){
     <button class="thumb-next" id="thumb-next">›</button>`;
   slider.innerHTML = html;
 
+  const totalCells = show.length;
+
   function goSlide(n){
     idx = Math.max(0, Math.min(n, max));
-    document.getElementById('thumb-track').style.transform = `translateX(-${idx * (100/visible)}%)`;
+    document.getElementById('thumb-track').style.transform = `translateX(-${idx * (100/totalCells)}%)`;
   }
   document.getElementById('thumb-prev').onclick = ()=>goSlide(idx-1);
   document.getElementById('thumb-next').onclick = ()=>goSlide(idx+1);
