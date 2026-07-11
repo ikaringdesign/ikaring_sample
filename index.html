@@ -335,13 +335,15 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px;}
 .cal-weekday{text-align:center;font-size:10px;font-weight:700;color:#aaa;padding:4px 0;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-.cal-cell{aspect-ratio:1;border-radius:4px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10.5px;color:#555;border:1px solid #f0f0f0;}
+.cal-cell{aspect-ratio:1.5/1;border-radius:4px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10.5px;color:#555;border:1px solid #f0f0f0;}
 .cal-cell.empty{background:transparent;border:none;}
-.cal-cell.off{background:#FFF1EE;border-color:#FFC9BC;}
+.cal-cell.off{background:#FFF3EC;border-color:#FFD4B0;}
 .cal-cell.today{border-color:#FF6B1A;box-shadow:inset 0 0 0 1px #FF6B1A;}
+.cal-cell.past{background:#f6f6f6;border-color:#f0f0f0;}
+.cal-cell.past .cal-daynum{color:#ccc;}
 .cal-daynum{font-weight:700;}
-.cal-cell.off .cal-daynum{color:#e04b2f;}
-.cal-closed{font-size:8px;font-weight:700;color:#e04b2f;margin-top:1px;letter-spacing:-.2px;}
+.cal-cell.off .cal-daynum{color:#FF6B1A;}
+.cal-closed{font-size:8px;font-weight:700;color:#FF6B1A;margin-top:1px;letter-spacing:-.2px;}
 .cal-loading{grid-column:1/-1;text-align:center;font-size:11px;color:#ccc;padding:22px 0;}
 
 @media(max-width:680px){
@@ -413,6 +415,31 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-copy-btn:hover{background:#e85a00;}
 .inq-copy-btn:active{transform:scale(.98);}
 .inq-copy-btn.done{background:#006aff;}
+.inq-copy-btn:disabled{background:#ccc;cursor:not-allowed;}
+.inq-copy-btn:disabled:hover{background:#ccc;}
+.inq-copy-wrap{position:relative;}
+.inq-copy-bubble{
+  position:absolute;bottom:100%;left:50%;
+  transform:translateX(-50%);
+  margin-bottom:11px;
+  background:#333;color:#fff;
+  font-size:11.5px;font-weight:600;
+  padding:7px 14px;border-radius:20px;
+  white-space:nowrap;
+  box-shadow:0 4px 14px rgba(0,0,0,.15);
+  z-index:2;
+}
+.inq-copy-bubble::after{
+  content:'';position:absolute;top:100%;left:50%;
+  transform:translateX(-50%);
+  border:6px solid transparent;border-top-color:#333;
+}
+.inq-copy-bubble.ready{background:#FF6B1A;animation:bubbleFloat 2s ease-in-out infinite;}
+.inq-copy-bubble.ready::after{border-top-color:#FF6B1A;}
+@keyframes bubbleFloat{
+  0%,100%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(-4px);}
+}
 
 /* ════════════════════════════════════
    5. PORTFOLIO
@@ -731,10 +758,13 @@ const PROMO = {
   <div class="inquiry-section">
     <div class="section-title">문의 양식</div>
     <div class="inq-wrap" id="inq-wrap"></div>
-    <button class="inq-copy-btn" id="inq-copy-btn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      <span id="inq-copy-lbl">문의 양식 복사하기</span>
-    </button>
+    <div class="inq-copy-wrap">
+      <div class="inq-copy-bubble" id="inq-copy-bubble">의뢰 양식과 공개 일자를 적어주세요!</div>
+      <button class="inq-copy-btn" id="inq-copy-btn" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span id="inq-copy-lbl">문의 양식 복사하기</span>
+      </button>
+    </div>
   </div>
 
   <!-- 5. PORTFOLIO -->
@@ -821,8 +851,8 @@ const OPT_IMGS = {
   'POSTER_RT포스터':                           'image/opt_rt.png',
   'POSTER_메인포스터':                         'image/opt_mainposter.png',
   'THUMBNAIL_가로 썸네일':                     'image/opt_thumbnail.png',
-  'CSS_CSS디자인+적용\n심플 디자인':           'image/opt_css_simple.png',
-  'CSS_CSS디자인+적용\n닉네임 디자인':    'image/opt_css_name.png',
+  'CSS_CSS디자인+적용\n채팅 디자인':           'image/opt_css_simple.png',
+  'CSS_CSS디자인+적용\n닉네임+채팅 디자인':    'image/opt_css_name.png',
 };
 
 function makeCard(type,name,price,desc,sub){
@@ -865,22 +895,22 @@ function makeSub(name,price,span,note){
 })();
 (function(){
   const g=document.getElementById('opt-group-3');
-  g.appendChild(makeCard('CSS','CSS디자인+적용\n심플 디자인','65,000','닉네임 없는 디자인이며,\n시청자 채팅과 스트리머 채팅\n2종으로 구성됩니다.','','image/opt_css_simple.png'));
-  g.appendChild(makeCard('CSS','CSS디자인+적용\n닉네임 디자인','80,000','닉네임 포함된 디자인이며,\n시청자 채팅과 스트리머 채팅으로\n구성됩니다.','','image/opt_css_name.png'));
+  g.appendChild(makeCard('CSS','CSS디자인+적용\n채팅 디자인','65,000','닉네임 없는 디자인이며,\n시청자 채팅과 스트리머 채팅\n2종으로 구성됩니다.','','image/opt_css_simple.png'));
+  g.appendChild(makeCard('CSS','CSS디자인+적용\n닉네임+채팅 디자인','80,000','닉네임 포함된 디자인이며,\n시청자 채팅과 스트리머 채팅으로\n구성됩니다.','','image/opt_css_name.png'));
 
   const cssSubWrap = document.createElement('div');
   cssSubWrap.style.cssText = 'grid-column:span 2; display:flex; flex-direction:column; gap:6px; margin-top:2px;';
 
-  const CSS_NAME_KEY = 'CSS_CSS디자인+적용\n닉네임 디자인';
+  const CSS_NAME_KEY = 'CSS_CSS디자인+적용\n닉네임+채팅 디자인';
 
-  [{key:'sub_심플추가',  name:'심플 디자인 버전 추가 제작', price:'10,000', requiresName:true},
+  [{key:'sub_심플추가',  name:'닉네임 없는 버전 추가', price:'10,000', requiresName:true},
    {key:'sub_애니',     name:'애니메이션 추가',                           price:'20,000'},
    {key:'sub_매니저',   name:'매니저(관리자) 디자인 추가',                  price:'10,000'},
    {key:'sub_후원',     name:'후원 도네 추가',                            price:'10,000'}].forEach(r=>{
     const row = document.createElement('div');
     row.className='opt-sub'; row.dataset.selKey=r.key;
     row.innerHTML=`<div>
-        ${r.requiresName ? '<span style="display:inline-block;font-size:10px;font-weight:700;color:#c85000;background:#fff0e6;border:1px solid #ffc89a;border-radius:4px;padding:2px 7px;margin-bottom:5px;letter-spacing:.03em;">닉네임 디자인 선택 시 구매 가능</span><br>' : ''}
+        ${r.requiresName ? '<span style="display:inline-block;font-size:10px;font-weight:700;color:#c85000;background:#fff0e6;border:1px solid #ffc89a;border-radius:4px;padding:2px 7px;margin-bottom:5px;letter-spacing:.03em;">닉네임+채팅 디자인 선택 시 구매 가능</span><br>' : ''}
         <div class="opt-sub-name">${r.name}</div>
       </div><div class="opt-sub-price">+ ${r.price}</div>`;
 
@@ -1081,9 +1111,10 @@ function renderCalendar(type){
   for(let i=0;i<firstDay;i++) html+='<div class="cal-cell empty"></div>';
   for(let d=1; d<=daysInMonth; d++){
     const key = `${st.year}-${pad2(st.month+1)}-${pad2(d)}`;
-    const isOff = calData[type][key]==='off';
+    const isPast = key < todayStr;
+    const isOff = !isPast && calData[type][key]==='off';
     const isToday = key===todayStr;
-    html += `<div class="cal-cell${isOff?' off':''}${isToday?' today':''}">
+    html += `<div class="cal-cell${isOff?' off':''}${isToday?' today':''}${isPast?' past':''}">
       <div class="cal-daynum">${d}</div>
       ${isOff?'<div class="cal-closed">마감</div>':''}
     </div>`;
@@ -1200,13 +1231,13 @@ function buildThumbSlider(data){
     const sTH=document.getElementById('inq-sec-th');
     if(s31) s31.style.display = hasSel('OVERLAY_채팅화면','pkg_A','pkg_B') ? '' : 'none';
     if(s32) s32.style.display = hasSel('SCHEDULE_스케줄표','pkg_B') ? '' : 'none';
-    if(s34) s34.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n심플 디자인','CSS_CSS디자인+적용\n닉네임 디자인') ? '' : 'none';
+    if(s34) s34.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n채팅 디자인','CSS_CSS디자인+적용\n닉네임+채팅 디자인') ? '' : 'none';
     if(sRT) sRT.style.display = hasSel('POSTER_RT포스터') ? '' : 'none';
     if(sTH) sTH.style.display = hasSel('THUMBNAIL_가로 썸네일') ? '' : 'none';
     // chatlen 선택값 기반
     const chatlenOn = wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on');
     const chatlenVal = chatlenOn ? chatlenOn.dataset.val : '0';
-    const hasNikProduct = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임 디자인');
+    const hasNikProduct = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임+채팅 디자인');
     const alignSec=document.getElementById('inq-34-align');
     const nikalignSec=document.getElementById('inq-34-nikalign');
     if(alignSec)    alignSec.style.display    = chatlenVal==='2' ? '' : 'none';
@@ -1251,6 +1282,7 @@ function buildThumbSlider(data){
       `<span class="inq-total-label">총 금액</span><span class="inq-total-price">${total.toLocaleString()}원</span>`;
 
     updateVis();
+    if(typeof checkCopyReady==='function') checkCopyReady();
   };
 
   const selSec = document.createElement('div'); selSec.className='inq-prod-section';
@@ -1336,6 +1368,23 @@ function buildThumbSlider(data){
 
   const s2=mkItem('2','원하시는 디자인 스타일'); s2.appendChild(mkTA('inq-style','원하는 디자인 스타일 또는 들어갔으면 하는 소품을 적어주세요',3)); wrap.appendChild(s2);
 
+  const s25=mkItem('3','포트폴리오 공개 희망일');
+  const revealNotice=document.createElement('div');
+  revealNotice.style.cssText='font-size:12px;color:#666;line-height:1.75;margin-bottom:6px;';
+  revealNotice.innerHTML='작업물의 X 및 커미션 플랫폼 포트폴리오 공개됩니다.<br>희망 공개일을 작성해 주세요.<br>일정은 조정 가능하며 별도 요청이 없을 경우 해당 날짜 이후 공개됩니다.';
+  s25.appendChild(revealNotice);
+  const revealSmall=document.createElement('div');
+  revealSmall.style.cssText='font-size:11px;font-weight:700;color:#FF6B1A;margin-bottom:10px;';
+  revealSmall.textContent='※ CSS 포트폴리오에는 모델링 이미지가 포함되지 않습니다.';
+  s25.appendChild(revealSmall);
+  const revealDateInput=document.createElement('input');
+  revealDateInput.type='date';
+  revealDateInput.id='inq-reveal-date';
+  revealDateInput.className='inq-input';
+  revealDateInput.style.cssText='width:200px;max-width:100%;';
+  s25.appendChild(revealDateInput);
+  wrap.appendChild(s25);
+
   const s31=mkItem('3-1','방송화면 레이아웃',true); s31.id='inq-sec-31'; s31.style.display='none';
   s31.appendChild(mkRG('layout',['1. 좌: 캐릭터 / 우: 채팅창','2. 중앙: 캐릭터 / 우: 채팅창 (분리 가능)','3. 좌: 채팅창 / 우: 캐릭터']));
   s31.appendChild(mkTA('inq-layout-note','그 외 방송화면 요청사항을 입력해주세요',2)); wrap.appendChild(s31);
@@ -1387,7 +1436,7 @@ function buildThumbSlider(data){
   sTH.appendChild(mkTA('inq-th-layout','원하는 레이아웃이 있다면 적어주세요',2));
   wrap.appendChild(sTH);
 
-  const s3=mkItem('3','그 외 추가 사항'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
+  const s3=mkItem('4','그 외 추가 사항'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
 
   wrap.addEventListener('click',e=>{
     const btn=e.target.closest('.inq-radio-btn'); if(!btn) return;
@@ -1403,7 +1452,7 @@ function buildThumbSlider(data){
     const img = document.getElementById('css-preview-img');
     const wrap2 = document.getElementById('css-preview-wrap');
     if(!img || !wrap2) return;
-    const isNik = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임 디자인');
+    const isNik = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임+채팅 디자인');
     const len   = (wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on')  || {}).dataset?.val || '0';
     const nik   = (wrap.querySelector('.inq-radio-btn[data-rg="nikalign"].on') || {}).dataset?.val || '0';
     const align = (wrap.querySelector('.inq-radio-btn[data-rg="chatalign"].on')|| {}).dataset?.val || '0';
@@ -1470,6 +1519,8 @@ function buildThumbSlider(data){
       const tx=(document.getElementById('inq-th-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
       const ly=(document.getElementById('inq-th-layout')||{}).value||''; if(ly.trim()) lines.push('  레이아웃: '+ly.trim());
     }
+    const revealDateVal=(document.getElementById('inq-reveal-date')||{}).value||'';
+    lines.push('【 포트폴리오 공개 희망일 】'); if(revealDateVal.trim()) lines.push('  '+revealDateVal.trim());
     const etc=(document.getElementById('inq-etc')||{}).value||'';
     lines.push('【 그 외 추가 사항 】'); if(etc.trim()) lines.push('  '+etc.trim());
     lines.push('──────────────');
@@ -1498,6 +1549,29 @@ function buildThumbSlider(data){
       } else showToast('복사 실패 — 텍스트를 직접 선택해주세요');
     });
   };
+
+  /* ── 복사 버튼 활성화 조건: 의뢰 상품 선택 + 공개 희망일 입력 ── */
+  const copyBtnEl = document.getElementById('inq-copy-btn');
+  const copyBubbleEl = document.getElementById('inq-copy-bubble');
+  function checkCopyReady(){
+    const hasProduct = selectedItems.size > 0;
+    const dateEl = document.getElementById('inq-reveal-date');
+    const hasDate = dateEl && dateEl.value.trim() !== '';
+    const ready = hasProduct && hasDate;
+    if(copyBtnEl) copyBtnEl.disabled = !ready;
+    if(copyBubbleEl){
+      if(ready){
+        copyBubbleEl.textContent = '감사합니다 :D';
+        copyBubbleEl.classList.add('ready');
+      } else {
+        copyBubbleEl.textContent = '의뢰 양식과 공개 일자를 적어주세요!';
+        copyBubbleEl.classList.remove('ready');
+      }
+    }
+  }
+  const revealDateEl = document.getElementById('inq-reveal-date');
+  if(revealDateEl) revealDateEl.addEventListener('input', checkCopyReady);
+  checkCopyReady();
 })();
 let allData=[],filtered=[],lbData=[],lbIdx=0,curTab='all',curPage=0;
 const PER=9;
