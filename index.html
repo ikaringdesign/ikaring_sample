@@ -590,11 +590,6 @@ const PKG_ITEMS = [
     benefit:'CSS & 스케줄 편집 사이트 무료',
     original:'600,000', final:'540,000',
   },
-  {
-    letter:'C', name:'RT포스터 + 메인포스터 + 가로 썸네일',
-    benefit:'8만원 할인',
-    original:'560,000', final:'440,000',
-  },
 ];
 
 const TABS = [
@@ -881,10 +876,35 @@ PKG_ITEMS.forEach(item=>{
 /* ── CSV ── */
 const PROXIES=['','https://api.allorigins.win/raw?url=','https://corsproxy.io/?'];
 function splitLine(l){const r=[];let c='',q=false;for(let i=0;i<l.length;i++){if(l[i]==='"')q=!q;else if(l[i]===','&&!q){r.push(c);c='';}else c+=l[i];}r.push(c);return r;}
+/* 구글 드라이브 링크 → 고화질 링크 자동 변환 */
+function driveFileId(url){
+  if(!url) return null;
+  let m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if(m) return m[1];
+  m = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if(m) return m[1];
+  m = url.match(/lh3\.googleusercontent\.com\/d\/([a-zA-Z0-9_-]+)/);
+  if(m) return m[1];
+  return null;
+}
+function toHiResUrl(url){
+  if(!url) return url;
+  const id = driveFileId(url);
+  if(!id) return url; // 드라이브 링크가 아니면 그대로 사용
+  return `https://lh3.googleusercontent.com/d/${id}=s2000`;
+}
+function hiResField(v){
+  if(!v) return v;
+  return v.split('|').map(s=>toHiResUrl(s.trim())).filter(Boolean).join('|');
+}
+
 function parseCSV(txt){
   const rows=txt.trim().split(/\r?\n/);if(rows.length<2)return[];
   const hdrs=splitLine(rows[0]);
-  return rows.slice(1).map(r=>{const cols=splitLine(r);const o={};hdrs.forEach((h,i)=>{o[h.trim()]=(cols[i]||'').trim().replace(/^"|"$/g,'');});return o;})
+  return rows.slice(1).map(r=>{const cols=splitLine(r);const o={};hdrs.forEach((h,i)=>{o[h.trim()]=(cols[i]||'').trim().replace(/^"|"$/g,'');});
+      if(o['이미지URL'])  o['이미지URL']  = toHiResUrl(o['이미지URL']);
+      if(o['서브이미지']) o['서브이미지'] = hiResField(o['서브이미지']);
+      return o;})
     .filter(r=>r['공개']!=='N'&&r['이미지URL']);
 }
 async function fetchCSV(){
@@ -907,8 +927,6 @@ function buildThumbSlider(data){
   const show = data.slice(0, 9);
   if(!show.length){ slider.innerHTML=''; return; }
   let idx = 0;
-  const visible = 3;
-  const max = Math.max(0, show.length - visible);
 
   let html = `<div class="thumb-track" id="thumb-track">`;
   show.forEach((d,i)=>{
@@ -919,14 +937,35 @@ function buildThumbSlider(data){
     <button class="thumb-next" id="thumb-next">›</button>`;
   slider.innerHTML = html;
 
+  const track = document.getElementById('thumb-track');
+
+  function getCellWidth(){
+    const cell = track.querySelector('.thumb-cell');
+    return cell ? cell.getBoundingClientRect().width : 0;
+  }
+  function getVisible(){
+    const cw = getCellWidth();
+    if(!cw) return 3;
+    return Math.max(1, Math.round(slider.clientWidth / cw));
+  }
+
   function goSlide(n){
+    const visible = getVisible();
+    const max = Math.max(0, show.length - visible);
     idx = Math.max(0, Math.min(n, max));
-    document.getElementById('thumb-track').style.transform = `translateX(-${idx * (100/visible)}%)`;
+    const cw = getCellWidth();
+    track.style.transform = `translateX(-${idx * cw}px)`;
   }
   document.getElementById('thumb-prev').onclick = ()=>goSlide(idx-1);
   document.getElementById('thumb-next').onclick = ()=>goSlide(idx+1);
 
-  setInterval(()=>goSlide(idx >= max ? 0 : idx+1), 3500);
+  setInterval(()=>{
+    const visible = getVisible();
+    const max = Math.max(0, show.length - visible);
+    goSlide(idx >= max ? 0 : idx+1);
+  }, 3500);
+
+  window.addEventListener('resize', ()=>goSlide(idx));
 
   slider.querySelectorAll('.thumb-cell').forEach(cell=>{
     cell.onclick=()=>openLB(parseInt(cell.dataset.i), show);
@@ -953,8 +992,8 @@ function buildThumbSlider(data){
     if(s31) s31.style.display = hasSel('OVERLAY_채팅화면','pkg_A','pkg_B') ? '' : 'none';
     if(s32) s32.style.display = hasSel('SCHEDULE_스케줄표','pkg_B') ? '' : 'none';
     if(s34) s34.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n심플 디자인','CSS_CSS디자인+적용\n닉네임 디자인') ? '' : 'none';
-    if(sRT) sRT.style.display = hasSel('POSTER_RT포스터','pkg_C') ? '' : 'none';
-    if(sTH) sTH.style.display = hasSel('THUMBNAIL_가로 썸네일','pkg_C') ? '' : 'none';
+    if(sRT) sRT.style.display = hasSel('POSTER_RT포스터') ? '' : 'none';
+    if(sTH) sTH.style.display = hasSel('THUMBNAIL_가로 썸네일') ? '' : 'none';
     // chatlen 선택값 기반
     const chatlenOn = wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on');
     const chatlenVal = chatlenOn ? chatlenOn.dataset.val : '0';
@@ -990,7 +1029,7 @@ function buildThumbSlider(data){
     let subtotal = 0;
     [...selectedItems.values()].forEach(v=>{ subtotal += parsePrice(v.name); });
 
-    const discountAmt = subtotal >= 100000 ? 10000 : 5000;
+    const discountAmt = subtotal >= 300000 ? 6000 : 3000;
     const discountChecked = discBtn && discBtn.classList.contains('on');
 
     if(discBtn){
@@ -1013,7 +1052,7 @@ function buildThumbSlider(data){
 
   const discountBtn = document.createElement('button');
   discountBtn.id='inq-discount'; discountBtn.className='inq-discount-btn'; discountBtn.type='button';
-  discountBtn.innerHTML='<span class="inq-discount-check">✓</span><span class="inq-discount-label">리뷰 작성 시 5,000원 할인</span>';
+  discountBtn.innerHTML='<span class="inq-discount-check">✓</span><span class="inq-discount-label">리뷰 작성 시 3,000원 할인</span>';
   discountBtn.onclick=()=>{
     discountBtn.classList.toggle('on');
     window.renderInqTags();
@@ -1183,7 +1222,7 @@ function buildThumbSlider(data){
     lines.push('  '+(prods.length?prods.join('\n  '):'(미선택)'));
     const discountOn = document.getElementById('inq-discount')&&document.getElementById('inq-discount').classList.contains('on');
     let total=0; [...selectedItems.values()].forEach(v=>{total+=parsePrice(v.name);});
-    const discAmt = total >= 100000 ? 10000 : 5000;
+    const discAmt = total >= 300000 ? 6000 : 3000;
     if(discountOn){total=Math.max(0,total-discAmt); lines.push(`  + 리뷰 작성 할인 -${discAmt.toLocaleString()}원`);}
     lines.push(`  총 금액: ${total.toLocaleString()}원`);
     const model=(document.getElementById('inq-model')||{}).value||'';
