@@ -318,6 +318,41 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .opt-note strong{color:#222;}
 
 /* ════════════════════════════════════
+   현재 일정 (달력)
+════════════════════════════════════ */
+.schedule-section{padding:36px 24px 8px;border-top:1px solid #f0f0f0;}
+.sched-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.sched-card{border:1.5px solid var(--line);border-radius:6px;padding:18px 16px;position:relative;}
+.sched-card::before,.sched-card::after{content:'';position:absolute;width:12px;height:12px;border-color:#FF6B1A;border-style:solid;opacity:.4;pointer-events:none;}
+.sched-card::before{top:8px;left:8px;border-width:1.5px 0 0 1.5px;}
+.sched-card::after{bottom:8px;right:8px;border-width:0 1.5px 1.5px 0;}
+.sched-sub{text-align:center;font-size:13px;font-weight:900;letter-spacing:.1em;color:#FF6B1A;margin-bottom:14px;display:flex;align-items:center;gap:8px;justify-content:center;}
+.sched-sub::before,.sched-sub::after{content:'';flex:1;height:1px;background:#FF6B1A;max-width:40px;opacity:.3;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.cal-nav-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid #e0e0e0;background:#fff;font-size:14px;color:#888;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.cal-nav-btn:hover{border-color:#FF6B1A;color:#FF6B1A;}
+.cal-month-label{font-size:12.5px;font-weight:700;color:#222;}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px;}
+.cal-weekday{text-align:center;font-size:10px;font-weight:700;color:#aaa;padding:4px 0;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-cell{aspect-ratio:1;border-radius:4px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10.5px;color:#555;border:1px solid #f0f0f0;}
+.cal-cell.empty{background:transparent;border:none;}
+.cal-cell.off{background:#FFF1EE;border-color:#FFC9BC;}
+.cal-cell.today{border-color:#FF6B1A;box-shadow:inset 0 0 0 1px #FF6B1A;}
+.cal-daynum{font-weight:700;}
+.cal-cell.off .cal-daynum{color:#e04b2f;}
+.cal-closed{font-size:8px;font-weight:700;color:#e04b2f;margin-top:1px;letter-spacing:-.2px;}
+.cal-loading{grid-column:1/-1;text-align:center;font-size:11px;color:#ccc;padding:22px 0;}
+
+@media(max-width:680px){
+  .schedule-section{padding:24px 14px 6px;}
+  .sched-grid{grid-template-columns:1fr;gap:12px;}
+  .cal-cell{font-size:9.5px;}
+  .cal-weekday{font-size:9.5px;}
+  .cal-closed{font-size:7.5px;}
+}
+
+/* ════════════════════════════════════
    문의 양식
 ════════════════════════════════════ */
 .inquiry-section{padding:36px 24px 32px;border-top:1px solid #f0f0f0;}
@@ -550,6 +585,19 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 <script>
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRkWy2k6ZgOGUX9vplgkDrgGeCIm3WZVaeZLikYDjXFiI9RLqxifhsNdOkdH81pwNvheVmhdH0spjiB/pub?output=csv';
 
+/* 현재 일정(달력) 데이터용 구글 시트 CSV
+   구글 시트에 아래처럼 컬럼을 만든 뒤, 파일 > 공유 > 웹에 게시 > CSV 로 게시한 링크를 넣어주세요.
+
+   시작일        | 종료일        | 구분
+   2026-07-15    | 2026-07-20    | CSS
+   2026-08-01    | 2026-08-03    | 방송디자인
+
+   - 시작일~종료일 사이 모든 날짜가 "구분"에 적힌 달력(CSS 또는 방송디자인)에서 마감 처리됩니다.
+   - 하루만 마감이면 시작일=종료일로 동일하게 적으면 됩니다.
+   - 마감 기간만 적으면 되고, 나머지 날짜는 기본적으로 전부 예약 가능으로 표시됩니다.
+   - 날짜는 YYYY-MM-DD 형식 */
+const CALENDAR_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRkWy2k6ZgOGUX9vplgkDrgGeCIm3WZVaeZLikYDjXFiI9RLqxifhsNdOkdH81pwNvheVmhdH0spjiB/pub?gid=1881963897&single=true&output=csv';
+
 const CREATOR = {
   name: '징어링',
   subLabel: 'VIRTUBER DESIGN',
@@ -644,6 +692,39 @@ const PROMO = {
 
     <div class="pkg-badge">PACKAGE</div>
     <div id="pkg-list"></div>
+  </div>
+
+  <!-- 현재 일정 -->
+  <div class="schedule-section">
+    <div class="section-title">현재 일정</div>
+    <div class="sched-grid">
+      <div class="sched-card">
+        <div class="sched-sub">CSS</div>
+        <div class="cal-nav">
+          <button class="cal-nav-btn" data-cal="css" data-dir="-1" type="button">‹</button>
+          <div class="cal-month-label" id="cal-label-css"></div>
+          <button class="cal-nav-btn" data-cal="css" data-dir="1" type="button">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <div class="cal-weekday">일</div><div class="cal-weekday">월</div><div class="cal-weekday">화</div>
+          <div class="cal-weekday">수</div><div class="cal-weekday">목</div><div class="cal-weekday">금</div><div class="cal-weekday">토</div>
+        </div>
+        <div class="cal-grid" id="cal-grid-css"><div class="cal-loading">불러오는 중…</div></div>
+      </div>
+      <div class="sched-card">
+        <div class="sched-sub">방송디자인</div>
+        <div class="cal-nav">
+          <button class="cal-nav-btn" data-cal="broadcast" data-dir="-1" type="button">‹</button>
+          <div class="cal-month-label" id="cal-label-broadcast"></div>
+          <button class="cal-nav-btn" data-cal="broadcast" data-dir="1" type="button">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <div class="cal-weekday">일</div><div class="cal-weekday">월</div><div class="cal-weekday">화</div>
+          <div class="cal-weekday">수</div><div class="cal-weekday">목</div><div class="cal-weekday">금</div><div class="cal-weekday">토</div>
+        </div>
+        <div class="cal-grid" id="cal-grid-broadcast"><div class="cal-loading">불러오는 중…</div></div>
+      </div>
+    </div>
   </div>
 
   <!-- 문의 양식 -->
@@ -907,20 +988,148 @@ function parseCSV(txt){
       return o;})
     .filter(r=>r['공개']!=='N'&&r['이미지URL']);
 }
-async function fetchCSV(){
+async function fetchCSVText(sourceUrl){
   let err='';
   for(const p of PROXIES){
     try{
-      const url=p?p+encodeURIComponent(SHEET_CSV_URL):SHEET_CSV_URL;
+      const url=p?p+encodeURIComponent(sourceUrl):sourceUrl;
       const res=await fetch(url,{cache:'no-cache'});
       if(!res.ok)throw new Error('HTTP '+res.status);
-      const txt=await res.text();
+      const buf = await res.arrayBuffer();
+      const txt = new TextDecoder('utf-8').decode(buf);
       if(!txt||txt.length<10)throw new Error('빈 응답');
-      return parseCSV(txt);
+      return txt;
     }catch(e){err=e.message;}
   }
   throw new Error(err);
 }
+async function fetchCSV(){
+  const txt = await fetchCSVText(SHEET_CSV_URL);
+  return parseCSV(txt);
+}
+
+/* ── 현재 일정(달력) ── */
+const CAL_TYPES = [
+  { key:'css',       elGrid:'cal-grid-css',       elLabel:'cal-label-css' },
+  { key:'broadcast', elGrid:'cal-grid-broadcast', elLabel:'cal-label-broadcast' },
+];
+const calState = {};
+let calData = { css:{}, broadcast:{} };
+
+function pad2(n){ return String(n).padStart(2,'0'); }
+
+function normalizeCalType(v){
+  const t=(v||'').trim().toUpperCase();
+  if(t==='CSS') return 'css';
+  if(t==='방송디자인'||t==='방송화면'||t==='BROADCAST'||t==='방송') return 'broadcast';
+  return null;
+}
+
+function parseFlexibleDate(str){
+  if(!str) return null;
+  str = str.trim();
+  let m = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+  m = str.match(/^(\d{4})[.\s]+(\d{1,2})[.\s]+(\d{1,2})/);
+  if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+  m = str.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})/);
+  if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+  m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if(m) return new Date(+m[3], +m[1]-1, +m[2]);
+  const d = new Date(str);
+  return isNaN(d.getTime()) ? null : d;
+}
+
+function parseScheduleCSV(txt){
+  const rows = txt.trim().split(/\r?\n/); if(rows.length<2) return {css:{},broadcast:{}};
+  const hdrs = splitLine(rows[0]).map(h=>h.trim());
+  const out = { css:{}, broadcast:{} };
+  rows.slice(1).forEach(r=>{
+    const cols = splitLine(r);
+    const o = {}; hdrs.forEach((h,i)=>{ o[h]=(cols[i]||'').trim(); });
+    const startStr = (o['시작일']||'').trim();
+    const endStr   = (o['종료일']||startStr).trim();
+    const typeKey  = normalizeCalType(o['구분']);
+    if(!startStr || !typeKey) return;
+    const start = parseFlexibleDate(startStr);
+    const end   = parseFlexibleDate(endStr);
+    if(!start || !end) return;
+    const cur = new Date(start);
+    while(cur <= end){
+      const key = `${cur.getFullYear()}-${pad2(cur.getMonth()+1)}-${pad2(cur.getDate())}`;
+      out[typeKey][key] = 'off';
+      cur.setDate(cur.getDate()+1);
+    }
+  });
+  return out;
+}
+
+function renderCalendar(type){
+  const cfg = CAL_TYPES.find(c=>c.key===type);
+  const st = calState[type];
+  const grid = document.getElementById(cfg.elGrid);
+  const label = document.getElementById(cfg.elLabel);
+  if(!grid||!label) return;
+  label.textContent = `${st.year}년 ${st.month+1}월`;
+
+  const firstDay = new Date(st.year, st.month, 1).getDay();
+  const daysInMonth = new Date(st.year, st.month+1, 0).getDate();
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${pad2(now.getMonth()+1)}-${pad2(now.getDate())}`;
+
+  let html='';
+  for(let i=0;i<firstDay;i++) html+='<div class="cal-cell empty"></div>';
+  for(let d=1; d<=daysInMonth; d++){
+    const key = `${st.year}-${pad2(st.month+1)}-${pad2(d)}`;
+    const isOff = calData[type][key]==='off';
+    const isToday = key===todayStr;
+    html += `<div class="cal-cell${isOff?' off':''}${isToday?' today':''}">
+      <div class="cal-daynum">${d}</div>
+      ${isOff?'<div class="cal-closed">마감</div>':''}
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function initCalendars(){
+  const now = new Date();
+  CAL_TYPES.forEach(c=>{ calState[c.key] = { year: now.getFullYear(), month: now.getMonth() }; });
+  document.querySelectorAll('.cal-nav-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      const type = btn.dataset.cal;
+      const dir = parseInt(btn.dataset.dir, 10);
+      const st = calState[type];
+      st.month += dir;
+      if(st.month<0){ st.month=11; st.year--; }
+      if(st.month>11){ st.month=0; st.year++; }
+      renderCalendar(type);
+    };
+  });
+  CAL_TYPES.forEach(c=>renderCalendar(c.key));
+}
+
+async function loadSchedule(){
+  if(!CALENDAR_CSV_URL){
+    CAL_TYPES.forEach(c=>{
+      const grid=document.getElementById(c.elGrid);
+      if(grid) grid.innerHTML = '<div class="cal-loading">일정 데이터 연동 대기중</div>';
+    });
+    return;
+  }
+  try{
+    const txt = await fetchCSVText(CALENDAR_CSV_URL);
+    calData = parseScheduleCSV(txt);
+    CAL_TYPES.forEach(c=>renderCalendar(c.key));
+  }catch(e){
+    CAL_TYPES.forEach(c=>{
+      const grid=document.getElementById(c.elGrid);
+      if(grid) grid.innerHTML = `<div class="cal-loading">⚠️ 불러오기 실패</div>`;
+    });
+  }
+}
+
+initCalendars();
+loadSchedule();
 
 function buildThumbSlider(data){
   const slider = document.getElementById('thumb-slider');
