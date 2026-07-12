@@ -1022,6 +1022,9 @@ function parseCSV(txt){
   const hdrs=splitLine(rows[0]);
   return rows.slice(1).map(r=>{const cols=splitLine(r);const o={};hdrs.forEach((h,i)=>{o[h.trim()]=(cols[i]||'').trim().replace(/^"|"$/g,'');});
       if(o['이미지URL'])  o['이미지URL']  = toHiResUrl(o['이미지URL']);
+      const subCols = ['서브이미지1','서브이미지2','서브이미지3','서브이미지4','서브이미지5']
+        .map(k=>o[k]).filter(v=>v && v.trim());
+      if(subCols.length) o['서브이미지'] = subCols.join('|');
       if(o['서브이미지']) o['서브이미지'] = hiResField(o['서브이미지']);
       return o;})
     .filter(r=>r['공개']!=='N'&&r['이미지URL']);
