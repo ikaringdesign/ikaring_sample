@@ -336,6 +336,16 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .cal-cell.past .cal-daynum{color:#ccc;}
 .cal-daynum{font-weight:700;}
 .cal-cell.off .cal-daynum{color:#FF6B1A;}
+
+.sched-card.css-theme::before,.sched-card.css-theme::after{border-color:#26bdb8;}
+.sched-card.css-theme .sched-sub{color:#26bdb8;}
+.sched-card.css-theme .sched-sub::before,.sched-card.css-theme .sched-sub::after{background:#26bdb8;}
+.sched-card.css-theme .cal-closed-months{color:#26bdb8;}
+.sched-card.css-theme .cal-nav-btn:hover{border-color:#26bdb8;color:#26bdb8;}
+.sched-card.css-theme .cal-cell.off{background:#EAFBFA;border-color:#A8E8E2;}
+.sched-card.css-theme .cal-cell.off .cal-daynum{color:#26bdb8;}
+.sched-card.css-theme .cal-cell.off .cal-closed{color:#26bdb8;}
+.sched-card.css-theme .cal-cell.today{border-color:#26bdb8;box-shadow:inset 0 0 0 1px #26bdb8;}
 .cal-closed{font-size:9px;font-weight:700;color:#FF6B1A;margin-top:1px;letter-spacing:-.2px;}
 .cal-loading{grid-column:1/-1;text-align:center;font-size:12px;color:#ccc;padding:22px 0;}
 
@@ -700,20 +710,6 @@ const PROMO = {
     <div class="section-title">현재 일정</div>
     <div class="sched-grid">
       <div class="sched-card">
-        <div class="sched-sub">CSS</div>
-        <div class="cal-closed-months" id="cal-closed-months-css"></div>
-        <div class="cal-nav">
-          <button class="cal-nav-btn" data-cal="css" data-dir="-1" type="button">‹</button>
-          <div class="cal-month-label" id="cal-label-css"></div>
-          <button class="cal-nav-btn" data-cal="css" data-dir="1" type="button">›</button>
-        </div>
-        <div class="cal-weekdays">
-          <div class="cal-weekday">일</div><div class="cal-weekday">월</div><div class="cal-weekday">화</div>
-          <div class="cal-weekday">수</div><div class="cal-weekday">목</div><div class="cal-weekday">금</div><div class="cal-weekday">토</div>
-        </div>
-        <div class="cal-grid" id="cal-grid-css"><div class="cal-loading">불러오는 중…</div></div>
-      </div>
-      <div class="sched-card">
         <div class="sched-sub">방송디자인</div>
         <div class="cal-closed-months" id="cal-closed-months-broadcast"></div>
         <div class="cal-nav">
@@ -726,6 +722,20 @@ const PROMO = {
           <div class="cal-weekday">수</div><div class="cal-weekday">목</div><div class="cal-weekday">금</div><div class="cal-weekday">토</div>
         </div>
         <div class="cal-grid" id="cal-grid-broadcast"><div class="cal-loading">불러오는 중…</div></div>
+      </div>
+      <div class="sched-card css-theme">
+        <div class="sched-sub">CSS</div>
+        <div class="cal-closed-months" id="cal-closed-months-css"></div>
+        <div class="cal-nav">
+          <button class="cal-nav-btn" data-cal="css" data-dir="-1" type="button">‹</button>
+          <div class="cal-month-label" id="cal-label-css"></div>
+          <button class="cal-nav-btn" data-cal="css" data-dir="1" type="button">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <div class="cal-weekday">일</div><div class="cal-weekday">월</div><div class="cal-weekday">화</div>
+          <div class="cal-weekday">수</div><div class="cal-weekday">목</div><div class="cal-weekday">금</div><div class="cal-weekday">토</div>
+        </div>
+        <div class="cal-grid" id="cal-grid-css"><div class="cal-loading">불러오는 중…</div></div>
       </div>
     </div>
   </div>
