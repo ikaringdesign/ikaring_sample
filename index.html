@@ -32,7 +32,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .thumb-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .thumb-cell:hover img{transform:scale(1.04);}
 .thumb-loading{height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#bbb;font-size:14px;background:#111;}
-.thumb-prev,.thumb-next{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;background:rgba(0,0,0,.45);border:1.5px solid rgba(255,255,255,.55);border-radius:50%;color:#fff;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;padding-bottom:3px;z-index:5;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.3);transition:background .15s;}
+.thumb-prev,.thumb-next{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;background:rgba(0,0,0,.45);border:1.5px solid rgba(255,255,255,.55);border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;z-index:5;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.3);transition:background .15s;}
 .thumb-prev:hover,.thumb-next:hover{background:rgba(0,0,0,.65);}
 .thumb-prev{left:14px;} .thumb-next{right:14px;}
 
@@ -322,7 +322,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .sched-sub::before,.sched-sub::after{content:'';flex:1;height:1px;background:#FF6B1A;max-width:40px;opacity:.3;}
 .cal-closed-months{text-align:center;font-size:12px;font-weight:700;color:#FF6B1A;margin:-8px 0 12px;min-height:14px;}
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.cal-nav-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid #e0e0e0;background:#fff;font-size:15px;line-height:1;color:#888;display:flex;align-items:center;justify-content:center;padding-bottom:2px;transition:all .15s;}
+.cal-nav-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid #e0e0e0;background:#fff;color:#888;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .cal-nav-btn:hover{border-color:#FF6B1A;color:#FF6B1A;}
 .cal-month-label{font-size:13.5px;font-weight:700;color:#222;}
 .cal-weekdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));margin-bottom:4px;}
@@ -715,9 +715,9 @@ const PROMO = {
         <div class="sched-sub">방송디자인</div>
         <div class="cal-closed-months" id="cal-closed-months-broadcast"></div>
         <div class="cal-nav">
-          <button class="cal-nav-btn" data-cal="broadcast" data-dir="-1" type="button">‹</button>
+          <button class="cal-nav-btn" data-cal="broadcast" data-dir="-1" type="button"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
           <div class="cal-month-label" id="cal-label-broadcast"></div>
-          <button class="cal-nav-btn" data-cal="broadcast" data-dir="1" type="button">›</button>
+          <button class="cal-nav-btn" data-cal="broadcast" data-dir="1" type="button"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
         </div>
         <div class="cal-weekdays">
           <div class="cal-weekday">일</div><div class="cal-weekday">월</div><div class="cal-weekday">화</div>
@@ -729,9 +729,9 @@ const PROMO = {
         <div class="sched-sub">CSS</div>
         <div class="cal-closed-months" id="cal-closed-months-css"></div>
         <div class="cal-nav">
-          <button class="cal-nav-btn" data-cal="css" data-dir="-1" type="button">‹</button>
+          <button class="cal-nav-btn" data-cal="css" data-dir="-1" type="button"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
           <div class="cal-month-label" id="cal-label-css"></div>
-          <button class="cal-nav-btn" data-cal="css" data-dir="1" type="button">›</button>
+          <button class="cal-nav-btn" data-cal="css" data-dir="1" type="button"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
         </div>
         <div class="cal-weekdays">
           <div class="cal-weekday">일</div><div class="cal-weekday">월</div><div class="cal-weekday">화</div>
@@ -1224,8 +1224,8 @@ function buildThumbSlider(data){
     html += `<div class="thumb-cell" data-i="${i}"><img src="${d['이미지URL']}" alt="${d['설명']||''}" loading="lazy"></div>`;
   });
   html += `</div>
-    <button class="thumb-prev" id="thumb-prev">‹</button>
-    <button class="thumb-next" id="thumb-next">›</button>`;
+    <button class="thumb-prev" id="thumb-prev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+    <button class="thumb-next" id="thumb-next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>`;
   slider.innerHTML = html;
 
   const track = document.getElementById('thumb-track');
@@ -1446,6 +1446,15 @@ function buildThumbSlider(data){
   const schedTypeContainer=document.createElement('div'); s32.appendChild(schedTypeContainer);
   s32.appendChild(mkLbl('일러스트 위치'));
   const illPosContainer=document.createElement('div'); s32.appendChild(illPosContainer);
+  const schedPreviewWrap=document.createElement('div');
+  schedPreviewWrap.id='sched-preview-wrap';
+  schedPreviewWrap.style.cssText='display:none;background:#f5f5f5;border-radius:6px;border:1px solid #eee;padding:10px;margin:12px 0 8px;text-align:center;';
+  const schedPreviewImg=document.createElement('img');
+  schedPreviewImg.id='sched-preview-img';
+  schedPreviewImg.style.cssText='max-width:100%;max-height:200px;width:auto;height:auto;display:block;margin:0 auto;border-radius:4px;object-fit:contain;';
+  schedPreviewImg.onerror=function(){ schedPreviewWrap.style.display='none'; };
+  schedPreviewWrap.appendChild(schedPreviewImg);
+  s32.appendChild(schedPreviewWrap);
   s32.appendChild(mkTA('inq-sched-note','그 외 스케줄 요청사항을 입력해주세요',2)); wrap.appendChild(s32);
 
   function getRGVal(rg){
@@ -1459,6 +1468,8 @@ function buildThumbSlider(data){
       : [ {label:'1. 줄 형식', img:'image/sched_line.png'},      {label:'2. 칸 형식', img:'image/sched_grid.png'} ];
     schedTypeContainer.innerHTML = '';
     schedTypeContainer.appendChild(mkRGCustom('schedtype', opts));
+    const firstBtn = schedTypeContainer.querySelector('.inq-radio-btn[data-rg="schedtype"]');
+    if(firstBtn) firstBtn.classList.add('on');
   }
   function renderIllPosGroup(){
     const is2000 = getRGVal('schedsize')==='1';
@@ -1473,7 +1484,30 @@ function buildThumbSlider(data){
     }
     illPosContainer.innerHTML = '';
     illPosContainer.appendChild(mkRGCustom('illpos', opts));
+    const firstBtn = illPosContainer.querySelector('.inq-radio-btn[data-rg="illpos"]');
+    if(firstBtn) firstBtn.classList.add('on');
   }
+
+  function updateSchedPreview(){
+    const img = document.getElementById('sched-preview-img');
+    const wrap2 = document.getElementById('sched-preview-wrap');
+    if(!img || !wrap2) return;
+    const size = getRGVal('schedsize');
+    const type = getRGVal('schedtype');
+    const pos  = getRGVal('illpos');
+    if(!size || !type || !pos){ wrap2.style.display='none'; return; }
+    const sizeKey = size==='1' ? '2000' : 'fhd';
+    const typeKey = type==='1' ? 'line' : 'grid';
+    let posKey;
+    if(size==='1' && type==='2'){
+      posKey = pos==='1' ? 'top' : 'bottom';
+    } else {
+      posKey = pos==='1' ? 'left' : 'right';
+    }
+    img.src = `image/sched_preview_${sizeKey}_${typeKey}_${posKey}.png`;
+    wrap2.style.display = 'block';
+  }
+
   renderSchedTypeGroup();
   renderIllPosGroup();
 
@@ -1557,6 +1591,7 @@ function buildThumbSlider(data){
     if(rg==='chatlen') updateVis();
     if(rg==='schedsize'){ renderSchedTypeGroup(); renderIllPosGroup(); }
     if(rg==='schedtype'){ renderIllPosGroup(); }
+    if(['schedsize','schedtype','illpos'].includes(rg)) updateSchedPreview();
     // CSS 미리보기 업데이트
     if(['nikalign','chatlen','chatalign'].includes(rg)) updateCssPreview();
   });
