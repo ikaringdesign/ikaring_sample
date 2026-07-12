@@ -449,7 +449,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 /* ════════════════════════════════════
    5. PORTFOLIO
 ════════════════════════════════════ */
-.portfolio-section{padding:36px 24px 16px;margin-top:50px;}
+.portfolio-section{padding:36px 24px 48px;margin-top:50px;}
 .pf-tabs-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px;justify-content:center;}
 .pf-tab{padding:7px 18px;border-radius:20px;border:1.5px solid #E8E8E8;background:#fff;font-size:13px;font-weight:700;color:#888;letter-spacing:.05em;transition:all .15s;}
 .pf-tab:hover{border-color:#FF6B1A;color:#FF6B1A;}
@@ -1195,6 +1195,7 @@ async function loadSchedule(){
       const grid=document.getElementById(c.elGrid);
       if(grid) grid.innerHTML = '<div class="cal-loading">일정 데이터 연동 대기중</div>';
     });
+    if(typeof sendHeight==='function') setTimeout(sendHeight, 200);
     return;
   }
   try{
@@ -1208,6 +1209,7 @@ async function loadSchedule(){
       if(grid) grid.innerHTML = `<div class="cal-loading">⚠️ 불러오기 실패</div>`;
     });
   }
+  if(typeof sendHeight==='function') setTimeout(sendHeight, 200);
 }
 
 initCalendars();
@@ -1731,7 +1733,7 @@ function buildThumbSlider(data){
   checkCopyReady();
 })();
 let allData=[],filtered=[],lbData=[],lbIdx=0,curTab='all',curPage=0;
-const PER=9;
+const PER=8;
 
 (function buildTabs(){
   const row=document.getElementById('pf-tabs');
