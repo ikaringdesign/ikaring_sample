@@ -1469,10 +1469,7 @@ function buildThumbSlider(data){
     return b ? b.dataset.val : null;
   }
   function renderSchedTypeGroup(){
-    const is2000 = getRGVal('schedsize')==='1';
-    const opts = is2000
-      ? [ {label:'1. 줄 형식', img:'image/sched_line_2000.png'}, {label:'2. 칸 형식', img:'image/sched_grid_2000.png'} ]
-      : [ {label:'1. 줄 형식', img:'image/sched_line.png'},      {label:'2. 칸 형식', img:'image/sched_grid.png'} ];
+    const opts = [ {label:'1. 줄 형식'}, {label:'2. 칸 형식'} ];
     schedTypeContainer.innerHTML = '';
     schedTypeContainer.appendChild(mkRGCustom('schedtype', opts));
     const firstBtn = schedTypeContainer.querySelector('.inq-radio-btn[data-rg="schedtype"]');
@@ -1481,14 +1478,9 @@ function buildThumbSlider(data){
   function renderIllPosGroup(){
     const is2000 = getRGVal('schedsize')==='1';
     const schedType = getRGVal('schedtype');
-    let opts;
-    if(is2000 && schedType==='2'){
-      opts = [ {label:'1. 상', img:'image/ill_top_2000.png'}, {label:'2. 하', img:'image/ill_bottom_2000.png'} ];
-    } else if(is2000){
-      opts = [ {label:'1. 좌', img:'image/ill_left_2000.png'}, {label:'2. 우', img:'image/ill_right_2000.png'} ];
-    } else {
-      opts = [ {label:'1. 좌', img:'image/ill_left.png'}, {label:'2. 우', img:'image/ill_right.png'} ];
-    }
+    const opts = (is2000 && schedType==='2')
+      ? [ {label:'1. 상'}, {label:'2. 하'} ]
+      : [ {label:'1. 좌'}, {label:'2. 우'} ];
     illPosContainer.innerHTML = '';
     illPosContainer.appendChild(mkRGCustom('illpos', opts));
     const firstBtn = illPosContainer.querySelector('.inq-radio-btn[data-rg="illpos"]');
