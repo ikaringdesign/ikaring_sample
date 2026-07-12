@@ -28,13 +28,13 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 ════════════════════════════════════ */
 .thumb-slider{position:relative;overflow:hidden;background:#111;height:260px;}
 .thumb-track{display:flex;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1);}
-.thumb-cell{flex:0 0 33.333%;height:100%;overflow:hidden;cursor:pointer;position:relative;}
+.thumb-cell{flex:0 0 50%;height:100%;overflow:hidden;cursor:pointer;position:relative;}
 .thumb-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .thumb-cell:hover img{transform:scale(1.04);}
 .thumb-loading{height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#bbb;font-size:14px;background:#111;}
-.thumb-prev,.thumb-next{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.3);border-radius:50%;color:#fff;font-size:21px;display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;transition:background .15s;}
-.thumb-prev:hover,.thumb-next:hover{background:rgba(255,255,255,.35);}
-.thumb-prev{left:12px;} .thumb-next{right:12px;}
+.thumb-prev,.thumb-next{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;background:rgba(0,0,0,.45);border:1.5px solid rgba(255,255,255,.55);border-radius:50%;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;z-index:5;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.3);transition:background .15s;}
+.thumb-prev:hover,.thumb-next:hover{background:rgba(0,0,0,.65);}
+.thumb-prev{left:14px;} .thumb-next{right:14px;}
 
 /* ════════════════════════════════════
    2. 메인 배너
@@ -322,13 +322,13 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .sched-sub::before,.sched-sub::after{content:'';flex:1;height:1px;background:#FF6B1A;max-width:40px;opacity:.3;}
 .cal-closed-months{text-align:center;font-size:12px;font-weight:700;color:#FF6B1A;margin:-8px 0 12px;min-height:14px;}
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.cal-nav-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid #e0e0e0;background:#fff;font-size:15px;color:#888;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.cal-nav-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid #e0e0e0;background:#fff;font-size:15px;line-height:1;color:#888;display:flex;align-items:center;justify-content:center;padding-bottom:2px;transition:all .15s;}
 .cal-nav-btn:hover{border-color:#FF6B1A;color:#FF6B1A;}
 .cal-month-label{font-size:13.5px;font-weight:700;color:#222;}
 .cal-weekdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));margin-bottom:4px;}
 .cal-weekday{text-align:center;font-size:11px;font-weight:700;color:#aaa;padding:4px 0;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;}
-.cal-cell{aspect-ratio:1.5/1;width:100%;min-width:0;overflow:hidden;border-radius:4px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11.5px;color:#555;border:1px solid #f0f0f0;}
+.cal-cell{aspect-ratio:1.25/1;width:100%;min-width:0;overflow:hidden;border-radius:4px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11.5px;color:#555;border:1px solid #f0f0f0;}
 .cal-cell.empty{background:transparent;border:none;}
 .cal-cell.off{background:#FFF3EC;border-color:#FFD4B0;}
 .cal-cell.today{border-color:#FF6B1A;box-shadow:inset 0 0 0 1px #FF6B1A;}
@@ -346,8 +346,10 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .sched-card.css-theme .cal-cell.off .cal-daynum{color:#26bdb8;}
 .sched-card.css-theme .cal-cell.off .cal-closed{color:#26bdb8;}
 .sched-card.css-theme .cal-cell.today{border-color:#26bdb8;box-shadow:inset 0 0 0 1px #26bdb8;}
-.cal-closed{font-size:9px;font-weight:700;color:#FF6B1A;margin-top:1px;letter-spacing:-.2px;}
+.cal-closed{font-size:8px;font-weight:700;color:#FF6B1A;margin-top:1px;letter-spacing:-.3px;white-space:nowrap;}
+.cal-open{font-size:8px;font-weight:700;color:#aaa;margin-top:1px;letter-spacing:-.3px;white-space:nowrap;}
 .cal-loading{grid-column:1/-1;text-align:center;font-size:12px;color:#ccc;padding:22px 0;}
+.sched-note{background:#f9f9f9;border-radius:4px;padding:12px 16px;font-size:12px;color:#666;line-height:1.75;margin-top:16px;text-align:center;}
 
 @media(max-width:680px){
   .schedule-section{padding:24px 14px 6px;}
@@ -453,7 +455,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .pf-tab:hover{border-color:#FF6B1A;color:#FF6B1A;}
 .pf-tab.on{background:#FF6B1A;border-color:#FF6B1A;color:#fff;}
 
-.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.pf-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
 .pf-card{cursor:pointer;border-radius:6px;overflow:hidden;background:#f9f9f9;border:1px solid #efefef;transition:box-shadow .2s,transform .18s;}
 .pf-card:hover{box-shadow:0 4px 20px rgba(255,107,26,.15);transform:translateY(-2px);}
 .pf-card-img{aspect-ratio:4/3;overflow:hidden;background:#efefef;position:relative;}
@@ -738,6 +740,7 @@ const PROMO = {
         <div class="cal-grid" id="cal-grid-css"><div class="cal-loading">불러오는 중…</div></div>
       </div>
     </div>
+    <div class="sched-note">작업 완료일은 의뢰하신 작업 내용에 따라 다르니 문의 부탁드립니다!</div>
   </div>
 
   <!-- 4. OPTION -->
@@ -1119,9 +1122,11 @@ function renderCalendar(type){
     const isPast = key < todayStr;
     const isOff = !isPast && calData[type][key]==='off';
     const isToday = key===todayStr;
+    const isOpen = !isPast && !isOff;
     html += `<div class="cal-cell${isOff?' off':''}${isToday?' today':''}${isPast?' past':''}">
       <div class="cal-daynum">${d}</div>
       ${isOff?'<div class="cal-closed">마감</div>':''}
+      ${isOpen?'<div class="cal-open">작업가능</div>':''}
     </div>`;
   }
   grid.innerHTML = html;
@@ -1366,10 +1371,6 @@ function buildThumbSlider(data){
     'layout_1':    'image/layout_1.png',    // 좌:캐릭터 우:채팅창
     'layout_2':    'image/layout_2.png',    // 중앙:캐릭터 우:채팅창
     'layout_3':    'image/layout_3.png',    // 좌:채팅창 우:캐릭터
-    'schedtype_1': 'image/sched_line.png',  // 줄 형식
-    'schedtype_2': 'image/sched_grid.png',  // 칸 형식
-    'illpos_1':    'image/ill_left.png',    // 일러스트 좌
-    'illpos_2':    'image/ill_right.png',   // 일러스트 우
     'nikalign_1':  'image/nik_left.png',    // 닉네임 좌
     'nikalign_2':  'image/nik_center.png',  // 닉네임 중앙
     'chatlen_1':   'image/chat_obs.png',    // OBS 사이즈
@@ -1403,6 +1404,26 @@ function buildThumbSlider(data){
     });
     return g;
   }
+  function mkRGCustom(rg, opts){ // opts: [{label, img}]
+    const g = document.createElement('div'); g.className = 'inq-radio-group';
+    opts.forEach((o, i)=>{
+      const val = String(i+1);
+      const wrap = document.createElement('div'); wrap.className = 'inq-radio-btn-wrap';
+      const btn = document.createElement('button');
+      btn.className = 'inq-radio-btn';
+      btn.type = 'button'; btn.dataset.rg = rg; btn.dataset.val = val;
+      btn.textContent = o.label;
+      wrap.appendChild(btn);
+      if(o.img){
+        const img = document.createElement('img');
+        img.src = o.img; img.alt = o.label; img.className = 'inq-radio-ex-img';
+        img.onerror = ()=>img.style.display='none';
+        wrap.appendChild(img);
+      }
+      g.appendChild(wrap);
+    });
+    return g;
+  }
   function mkLbl(t){ const d=document.createElement('div'); d.className='inq-sub-label'; d.textContent=t; return d; }
 
   const s1=mkItem('1','버튜버 모델 이름 및 설정');
@@ -1421,9 +1442,40 @@ function buildThumbSlider(data){
   const s32=mkItem('+','스케줄표 설정',true); s32.id='inq-sec-32'; s32.style.display='none';
   s32.appendChild(mkLbl('사이즈'));
   s32.appendChild(mkRG('schedsize',['1. 2000×2000 정사각형 비율','2. 1920×1080 FHD 비율']));
-  s32.appendChild(mkLbl('스케줄 칸 형식')); s32.appendChild(mkRG('schedtype',['1. 줄 형식','2. 칸 형식']));
-  s32.appendChild(mkLbl('일러스트 위치')); s32.appendChild(mkRG('illpos',['1. 좌','2. 우']));
+  s32.appendChild(mkLbl('스케줄 칸 형식'));
+  const schedTypeContainer=document.createElement('div'); s32.appendChild(schedTypeContainer);
+  s32.appendChild(mkLbl('일러스트 위치'));
+  const illPosContainer=document.createElement('div'); s32.appendChild(illPosContainer);
   s32.appendChild(mkTA('inq-sched-note','그 외 스케줄 요청사항을 입력해주세요',2)); wrap.appendChild(s32);
+
+  function getRGVal(rg){
+    const b = wrap.querySelector('.inq-radio-btn[data-rg="'+rg+'"].on');
+    return b ? b.dataset.val : null;
+  }
+  function renderSchedTypeGroup(){
+    const is2000 = getRGVal('schedsize')==='1';
+    const opts = is2000
+      ? [ {label:'1. 줄 형식', img:'image/sched_line_2000.png'}, {label:'2. 칸 형식', img:'image/sched_grid_2000.png'} ]
+      : [ {label:'1. 줄 형식', img:'image/sched_line.png'},      {label:'2. 칸 형식', img:'image/sched_grid.png'} ];
+    schedTypeContainer.innerHTML = '';
+    schedTypeContainer.appendChild(mkRGCustom('schedtype', opts));
+  }
+  function renderIllPosGroup(){
+    const is2000 = getRGVal('schedsize')==='1';
+    const schedType = getRGVal('schedtype');
+    let opts;
+    if(is2000 && schedType==='2'){
+      opts = [ {label:'1. 상', img:'image/ill_top_2000.png'}, {label:'2. 하', img:'image/ill_bottom_2000.png'} ];
+    } else if(is2000){
+      opts = [ {label:'1. 좌', img:'image/ill_left_2000.png'}, {label:'2. 우', img:'image/ill_right_2000.png'} ];
+    } else {
+      opts = [ {label:'1. 좌', img:'image/ill_left.png'}, {label:'2. 우', img:'image/ill_right.png'} ];
+    }
+    illPosContainer.innerHTML = '';
+    illPosContainer.appendChild(mkRGCustom('illpos', opts));
+  }
+  renderSchedTypeGroup();
+  renderIllPosGroup();
 
   const s34=mkItem('+','CSS 채팅 길이',true); s34.id='inq-sec-34'; s34.style.display='none';
   s34.appendChild(mkRG('chatlen',['1. 채팅 사이즈 고정 (OBS 채팅 사이즈로 고정)','2. 채팅 텍스트에 맞춰 늘어남']));
@@ -1431,10 +1483,12 @@ function buildThumbSlider(data){
   /* 닉네임 정렬 — chatlen=1 선택 시 표시 */
   const nikalignWrap=document.createElement('div'); nikalignWrap.id='inq-34-nikalign'; nikalignWrap.style.display='none';
   nikalignWrap.appendChild(mkLbl('닉네임 정렬')); nikalignWrap.appendChild(mkRG('nikalign',['1. 좌','2. 중앙']));
+  nikalignWrap.querySelector('.inq-radio-btn[data-rg="nikalign"]').classList.add('on');
   s34.appendChild(nikalignWrap);
 
   const alignWrap=document.createElement('div'); alignWrap.id='inq-34-align'; alignWrap.style.display='none';
   alignWrap.appendChild(mkLbl('채팅창 기준 채팅 정렬')); alignWrap.appendChild(mkRG('chatalign',['1. 좌','2. 중앙','3. 우']));
+  alignWrap.querySelector('.inq-radio-btn[data-rg="chatalign"]').classList.add('on');
   s34.appendChild(alignWrap);
 
   /* CSS 조합 미리보기 이미지 */
@@ -1501,6 +1555,8 @@ function buildThumbSlider(data){
     wrap.querySelectorAll('.inq-radio-btn[data-rg="'+rg+'"]').forEach(b=>b.classList.remove('on'));
     btn.classList.add('on');
     if(rg==='chatlen') updateVis();
+    if(rg==='schedsize'){ renderSchedTypeGroup(); renderIllPosGroup(); }
+    if(rg==='schedtype'){ renderIllPosGroup(); }
     // CSS 미리보기 업데이트
     if(['nikalign','chatlen','chatalign'].includes(rg)) updateCssPreview();
   });
