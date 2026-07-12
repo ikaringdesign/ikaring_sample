@@ -195,16 +195,8 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .opt-instruction{
   display:flex;align-items:center;justify-content:center;gap:10px;
   margin-bottom:20px;
-  font-size:13px;font-weight:700;color:#FF6B1A;
+  font-size:15px;font-weight:700;color:#FF6B1A;
   letter-spacing:.06em;
-}
-.opt-instruction::before,.opt-instruction::after{
-  content:'';flex:1;height:1px;
-  background:linear-gradient(to right,transparent,#FF6B1A88);
-  max-width:60px;
-}
-.opt-instruction::after{
-  background:linear-gradient(to left,transparent,#FF6B1A88);
 }
 
 .inq-block-title{
@@ -318,6 +310,44 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .opt-note strong{color:#222;}
 
 /* ════════════════════════════════════
+   현재 일정 (달력)
+════════════════════════════════════ */
+.schedule-section{padding:36px 24px 8px;border-top:1px solid #f0f0f0;}
+.sched-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.sched-card{border:1.5px solid var(--line);border-radius:6px;padding:18px 16px;position:relative;}
+.sched-card::before,.sched-card::after{content:'';position:absolute;width:12px;height:12px;border-color:#FF6B1A;border-style:solid;opacity:.4;pointer-events:none;}
+.sched-card::before{top:8px;left:8px;border-width:1.5px 0 0 1.5px;}
+.sched-card::after{bottom:8px;right:8px;border-width:0 1.5px 1.5px 0;}
+.sched-sub{text-align:center;font-size:13px;font-weight:900;letter-spacing:.1em;color:#FF6B1A;margin-bottom:14px;display:flex;align-items:center;gap:8px;justify-content:center;}
+.sched-sub::before,.sched-sub::after{content:'';flex:1;height:1px;background:#FF6B1A;max-width:40px;opacity:.3;}
+.cal-closed-months{text-align:center;font-size:11px;font-weight:700;color:#FF6B1A;margin:-8px 0 12px;min-height:14px;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.cal-nav-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid #e0e0e0;background:#fff;font-size:14px;color:#888;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.cal-nav-btn:hover{border-color:#FF6B1A;color:#FF6B1A;}
+.cal-month-label{font-size:12.5px;font-weight:700;color:#222;}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));margin-bottom:4px;}
+.cal-weekday{text-align:center;font-size:10px;font-weight:700;color:#aaa;padding:4px 0;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;}
+.cal-cell{aspect-ratio:1.5/1;width:100%;min-width:0;overflow:hidden;border-radius:4px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10.5px;color:#555;border:1px solid #f0f0f0;}
+.cal-cell.empty{background:transparent;border:none;}
+.cal-cell.off{background:#FFF3EC;border-color:#FFD4B0;}
+.cal-cell.today{border-color:#FF6B1A;box-shadow:inset 0 0 0 1px #FF6B1A;}
+.cal-cell.past{background:#f6f6f6;border-color:#f0f0f0;}
+.cal-cell.past .cal-daynum{color:#ccc;}
+.cal-daynum{font-weight:700;}
+.cal-cell.off .cal-daynum{color:#FF6B1A;}
+.cal-closed{font-size:8px;font-weight:700;color:#FF6B1A;margin-top:1px;letter-spacing:-.2px;}
+.cal-loading{grid-column:1/-1;text-align:center;font-size:11px;color:#ccc;padding:22px 0;}
+
+@media(max-width:680px){
+  .schedule-section{padding:24px 14px 6px;}
+  .sched-grid{grid-template-columns:1fr;gap:12px;}
+  .cal-cell{font-size:9.5px;}
+  .cal-weekday{font-size:9.5px;}
+  .cal-closed{font-size:7.5px;}
+}
+
+/* ════════════════════════════════════
    문의 양식
 ════════════════════════════════════ */
 .inquiry-section{padding:36px 24px 32px;border-top:1px solid #f0f0f0;}
@@ -327,7 +357,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-wrap::after{bottom:8px;right:8px;border-width:0 1.5px 1.5px 0;}
 .inq-tags-wrap{display:flex;flex-direction:column;gap:10px;}
 .inq-tags{display:flex;flex-wrap:wrap;gap:7px;min-height:36px;padding:10px 12px;background:#fafafa;border:1.5px solid #eee;border-radius:6px;align-items:center;}
-.inq-tag-empty{font-size:12px;color:#ccc;}
+.inq-tag-empty{font-size:13px;font-weight:700;color:#FF6B1A;}
 .inq-sel-tag{display:inline-flex;align-items:center;gap:5px;background:#FF6B1A;color:#fff;font-size:12px;font-weight:600;padding:5px 10px 5px 12px;border-radius:4px;line-height:1.3;}
 .inq-sel-del{background:none;border:none;color:rgba(255,255,255,.75);font-size:13px;cursor:pointer;padding:0;line-height:1;display:flex;align-items:center;transition:color .15s;}
 .inq-sel-del:hover{color:#fff;}
@@ -378,6 +408,31 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-copy-btn:hover{background:#e85a00;}
 .inq-copy-btn:active{transform:scale(.98);}
 .inq-copy-btn.done{background:#006aff;}
+.inq-copy-btn:disabled{background:#ccc;cursor:not-allowed;}
+.inq-copy-btn:disabled:hover{background:#ccc;}
+.inq-copy-wrap{position:relative;}
+.inq-copy-bubble{
+  position:absolute;bottom:100%;left:50%;
+  transform:translateX(-50%);
+  margin-bottom:11px;
+  background:#333;color:#fff;
+  font-size:11.5px;font-weight:600;
+  padding:7px 14px;border-radius:20px;
+  white-space:nowrap;
+  box-shadow:0 4px 14px rgba(0,0,0,.15);
+  z-index:2;
+}
+.inq-copy-bubble::after{
+  content:'';position:absolute;top:100%;left:50%;
+  transform:translateX(-50%);
+  border:6px solid transparent;border-top-color:#333;
+}
+.inq-copy-bubble.ready{background:#FF6B1A;animation:bubbleFloat 2s ease-in-out infinite;}
+.inq-copy-bubble.ready::after{border-top-color:#FF6B1A;}
+@keyframes bubbleFloat{
+  0%,100%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(-4px);}
+}
 
 /* ════════════════════════════════════
    5. PORTFOLIO
@@ -550,6 +605,19 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 <script>
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRkWy2k6ZgOGUX9vplgkDrgGeCIm3WZVaeZLikYDjXFiI9RLqxifhsNdOkdH81pwNvheVmhdH0spjiB/pub?output=csv';
 
+/* 현재 일정(달력) 데이터용 구글 시트 CSV
+   구글 시트에 아래처럼 컬럼을 만든 뒤, 파일 > 공유 > 웹에 게시 > CSV 로 게시한 링크를 넣어주세요.
+
+   시작일        | 종료일        | 구분
+   2026-07-15    | 2026-07-20    | CSS
+   2026-08-01    | 2026-08-03    | 방송디자인
+
+   - 시작일~종료일 사이 모든 날짜가 "구분"에 적힌 달력(CSS 또는 방송디자인)에서 마감 처리됩니다.
+   - 하루만 마감이면 시작일=종료일로 동일하게 적으면 됩니다.
+   - 마감 기간만 적으면 되고, 나머지 날짜는 기본적으로 전부 예약 가능으로 표시됩니다.
+   - 날짜는 YYYY-MM-DD 형식 */
+const CALENDAR_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRkWy2k6ZgOGUX9vplgkDrgGeCIm3WZVaeZLikYDjXFiI9RLqxifhsNdOkdH81pwNvheVmhdH0spjiB/pub?gid=1881963897&single=true&output=csv';
+
 const CREATOR = {
   name: '징어링',
   subLabel: 'VIRTUBER DESIGN',
@@ -627,20 +695,55 @@ const PROMO = {
     <div class="thumb-loading"><div class="spin"></div></div>
   </div>
 
+  <!-- 현재 일정 -->
+  <div class="schedule-section">
+    <div class="section-title">현재 일정</div>
+    <div class="sched-grid">
+      <div class="sched-card">
+        <div class="sched-sub">CSS</div>
+        <div class="cal-closed-months" id="cal-closed-months-css"></div>
+        <div class="cal-nav">
+          <button class="cal-nav-btn" data-cal="css" data-dir="-1" type="button">‹</button>
+          <div class="cal-month-label" id="cal-label-css"></div>
+          <button class="cal-nav-btn" data-cal="css" data-dir="1" type="button">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <div class="cal-weekday">일</div><div class="cal-weekday">월</div><div class="cal-weekday">화</div>
+          <div class="cal-weekday">수</div><div class="cal-weekday">목</div><div class="cal-weekday">금</div><div class="cal-weekday">토</div>
+        </div>
+        <div class="cal-grid" id="cal-grid-css"><div class="cal-loading">불러오는 중…</div></div>
+      </div>
+      <div class="sched-card">
+        <div class="sched-sub">방송디자인</div>
+        <div class="cal-closed-months" id="cal-closed-months-broadcast"></div>
+        <div class="cal-nav">
+          <button class="cal-nav-btn" data-cal="broadcast" data-dir="-1" type="button">‹</button>
+          <div class="cal-month-label" id="cal-label-broadcast"></div>
+          <button class="cal-nav-btn" data-cal="broadcast" data-dir="1" type="button">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <div class="cal-weekday">일</div><div class="cal-weekday">월</div><div class="cal-weekday">화</div>
+          <div class="cal-weekday">수</div><div class="cal-weekday">목</div><div class="cal-weekday">금</div><div class="cal-weekday">토</div>
+        </div>
+        <div class="cal-grid" id="cal-grid-broadcast"><div class="cal-loading">불러오는 중…</div></div>
+      </div>
+    </div>
+  </div>
+
   <!-- 4. OPTION -->
   <div class="option-section">
     <div class="section-title">OPTION</div>
-    <div class="single-badge">SINGLE</div>
     <div class="opt-instruction">아래에 의뢰할 내용을 선택해주세요.</div>
+    <div class="single-badge">SINGLE</div>
 
     <!-- 그룹 1: 채팅/게임/스케줄 -->
     <div class="opt-group" id="opt-group-1"></div>
 
     <!-- 그룹 2: RT포스터/메인포스터/썸네일 -->
-    <div class="opt-group" id="opt-group-2" style="margin-top:12px;"></div>
+    <div class="opt-group" id="opt-group-2" style="margin-top:22px;"></div>
 
     <!-- 그룹 3: CSS 2종 -->
-    <div class="opt-group" id="opt-group-3" style="margin-top:12px;"></div>
+    <div class="opt-group" id="opt-group-3" style="margin-top:22px;"></div>
 
     <div class="pkg-badge">PACKAGE</div>
     <div id="pkg-list"></div>
@@ -650,10 +753,13 @@ const PROMO = {
   <div class="inquiry-section">
     <div class="section-title">문의 양식</div>
     <div class="inq-wrap" id="inq-wrap"></div>
-    <button class="inq-copy-btn" id="inq-copy-btn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      <span id="inq-copy-lbl">문의 양식 복사하기</span>
-    </button>
+    <div class="inq-copy-wrap">
+      <div class="inq-copy-bubble" id="inq-copy-bubble">의뢰 양식과 공개 일자를 적어주세요!</div>
+      <button class="inq-copy-btn" id="inq-copy-btn" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span id="inq-copy-lbl">문의 양식 복사하기</span>
+      </button>
+    </div>
   </div>
 
   <!-- 5. PORTFOLIO -->
@@ -740,8 +846,8 @@ const OPT_IMGS = {
   'POSTER_RT포스터':                           'image/opt_rt.png',
   'POSTER_메인포스터':                         'image/opt_mainposter.png',
   'THUMBNAIL_가로 썸네일':                     'image/opt_thumbnail.png',
-  'CSS_CSS디자인+적용\n심플 디자인':           'image/opt_css_simple.png',
-  'CSS_CSS디자인+적용\n닉네임 디자인':    'image/opt_css_name.png',
+  'CSS_CSS디자인+적용\n채팅 디자인':           'image/opt_css_simple.png',
+  'CSS_CSS디자인+적용\n닉네임+채팅 디자인':    'image/opt_css_name.png',
 };
 
 function makeCard(type,name,price,desc,sub){
@@ -784,22 +890,22 @@ function makeSub(name,price,span,note){
 })();
 (function(){
   const g=document.getElementById('opt-group-3');
-  g.appendChild(makeCard('CSS','CSS디자인+적용\n심플 디자인','65,000','닉네임 없는 디자인이며,\n시청자 채팅과 스트리머 채팅\n2종으로 구성됩니다.','','image/opt_css_simple.png'));
-  g.appendChild(makeCard('CSS','CSS디자인+적용\n닉네임 디자인','80,000','닉네임 포함된 디자인이며,\n시청자 채팅과 스트리머 채팅으로\n구성됩니다.','','image/opt_css_name.png'));
+  g.appendChild(makeCard('CSS','CSS디자인+적용\n채팅 디자인','65,000','닉네임 없는 디자인이며,\n시청자 채팅과 스트리머 채팅\n2종으로 구성됩니다.','','image/opt_css_simple.png'));
+  g.appendChild(makeCard('CSS','CSS디자인+적용\n닉네임+채팅 디자인','80,000','닉네임 포함된 디자인이며,\n시청자 채팅과 스트리머 채팅으로\n구성됩니다.','','image/opt_css_name.png'));
 
   const cssSubWrap = document.createElement('div');
   cssSubWrap.style.cssText = 'grid-column:span 2; display:flex; flex-direction:column; gap:6px; margin-top:2px;';
 
-  const CSS_NAME_KEY = 'CSS_CSS디자인+적용\n닉네임 디자인';
+  const CSS_NAME_KEY = 'CSS_CSS디자인+적용\n닉네임+채팅 디자인';
 
-  [{key:'sub_심플추가',  name:'심플 디자인 버전 추가 제작', price:'10,000', requiresName:true},
+  [{key:'sub_심플추가',  name:'닉네임 없는 버전 추가', price:'10,000', requiresName:true},
    {key:'sub_애니',     name:'애니메이션 추가',                           price:'20,000'},
    {key:'sub_매니저',   name:'매니저(관리자) 디자인 추가',                  price:'10,000'},
    {key:'sub_후원',     name:'후원 도네 추가',                            price:'10,000'}].forEach(r=>{
     const row = document.createElement('div');
     row.className='opt-sub'; row.dataset.selKey=r.key;
     row.innerHTML=`<div>
-        ${r.requiresName ? '<span style="display:inline-block;font-size:10px;font-weight:700;color:#c85000;background:#fff0e6;border:1px solid #ffc89a;border-radius:4px;padding:2px 7px;margin-bottom:5px;letter-spacing:.03em;">닉네임 디자인 선택 시 구매 가능</span><br>' : ''}
+        ${r.requiresName ? '<span style="display:inline-block;font-size:10px;font-weight:700;color:#c85000;background:#fff0e6;border:1px solid #ffc89a;border-radius:4px;padding:2px 7px;margin-bottom:5px;letter-spacing:.03em;">닉네임+채팅 디자인 선택 시 구매 가능</span><br>' : ''}
         <div class="opt-sub-name">${r.name}</div>
       </div><div class="opt-sub-price">+ ${r.price}</div>`;
 
@@ -907,20 +1013,190 @@ function parseCSV(txt){
       return o;})
     .filter(r=>r['공개']!=='N'&&r['이미지URL']);
 }
-async function fetchCSV(){
+async function fetchCSVText(sourceUrl){
   let err='';
   for(const p of PROXIES){
     try{
-      const url=p?p+encodeURIComponent(SHEET_CSV_URL):SHEET_CSV_URL;
+      const url=p?p+encodeURIComponent(sourceUrl):sourceUrl;
       const res=await fetch(url,{cache:'no-cache'});
       if(!res.ok)throw new Error('HTTP '+res.status);
-      const txt=await res.text();
+      const buf = await res.arrayBuffer();
+      const txt = new TextDecoder('utf-8').decode(buf);
       if(!txt||txt.length<10)throw new Error('빈 응답');
-      return parseCSV(txt);
+      return txt;
     }catch(e){err=e.message;}
   }
   throw new Error(err);
 }
+async function fetchCSV(){
+  const txt = await fetchCSVText(SHEET_CSV_URL);
+  return parseCSV(txt);
+}
+
+/* ── 현재 일정(달력) ── */
+const CAL_TYPES = [
+  { key:'css',       elGrid:'cal-grid-css',       elLabel:'cal-label-css' },
+  { key:'broadcast', elGrid:'cal-grid-broadcast', elLabel:'cal-label-broadcast' },
+];
+const calState = {};
+let calData = { css:{}, broadcast:{} };
+
+function pad2(n){ return String(n).padStart(2,'0'); }
+
+function normalizeCalType(v){
+  const t=(v||'').trim().toUpperCase();
+  if(t==='CSS') return 'css';
+  if(t==='방송디자인'||t==='방송화면'||t==='BROADCAST'||t==='방송') return 'broadcast';
+  return null;
+}
+
+function parseFlexibleDate(str){
+  if(!str) return null;
+  str = str.trim();
+  let m = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+  m = str.match(/^(\d{4})[.\s]+(\d{1,2})[.\s]+(\d{1,2})/);
+  if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+  m = str.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})/);
+  if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+  m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if(m) return new Date(+m[3], +m[1]-1, +m[2]);
+  const d = new Date(str);
+  return isNaN(d.getTime()) ? null : d;
+}
+
+function parseScheduleCSV(txt){
+  const rows = txt.trim().split(/\r?\n/); if(rows.length<2) return {css:{},broadcast:{}};
+  const hdrs = splitLine(rows[0]).map(h=>h.trim());
+  const out = { css:{}, broadcast:{} };
+  rows.slice(1).forEach(r=>{
+    const cols = splitLine(r);
+    const o = {}; hdrs.forEach((h,i)=>{ o[h]=(cols[i]||'').trim(); });
+    const startStr = (o['시작일']||'').trim();
+    const endStr   = (o['종료일']||startStr).trim();
+    const typeKey  = normalizeCalType(o['구분']);
+    if(!startStr || !typeKey) return;
+    const start = parseFlexibleDate(startStr);
+    const end   = parseFlexibleDate(endStr);
+    if(!start || !end) return;
+    const cur = new Date(start);
+    while(cur <= end){
+      const key = `${cur.getFullYear()}-${pad2(cur.getMonth()+1)}-${pad2(cur.getDate())}`;
+      out[typeKey][key] = 'off';
+      cur.setDate(cur.getDate()+1);
+    }
+  });
+  return out;
+}
+
+function renderCalendar(type){
+  const cfg = CAL_TYPES.find(c=>c.key===type);
+  const st = calState[type];
+  const grid = document.getElementById(cfg.elGrid);
+  const label = document.getElementById(cfg.elLabel);
+  if(!grid||!label) return;
+  label.textContent = `${st.year}년 ${st.month+1}월`;
+
+  const firstDay = new Date(st.year, st.month, 1).getDay();
+  const daysInMonth = new Date(st.year, st.month+1, 0).getDate();
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${pad2(now.getMonth()+1)}-${pad2(now.getDate())}`;
+
+  let html='';
+  for(let i=0;i<firstDay;i++) html+='<div class="cal-cell empty"></div>';
+  for(let d=1; d<=daysInMonth; d++){
+    const key = `${st.year}-${pad2(st.month+1)}-${pad2(d)}`;
+    const isPast = key < todayStr;
+    const isOff = !isPast && calData[type][key]==='off';
+    const isToday = key===todayStr;
+    html += `<div class="cal-cell${isOff?' off':''}${isToday?' today':''}${isPast?' past':''}">
+      <div class="cal-daynum">${d}</div>
+      ${isOff?'<div class="cal-closed">마감</div>':''}
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function computeClosedMonthsLabel(type){
+  const now = new Date();
+  const runs = [];
+  let currentRun = null;
+  const maxMonths = 12;
+  for(let i=0;i<maxMonths;i++){
+    const totalMonth = now.getMonth() + i;
+    const viewYear = now.getFullYear() + Math.floor(totalMonth/12);
+    const viewMonth = ((totalMonth % 12) + 12) % 12;
+    const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
+    const startDay = (i===0) ? now.getDate() : 1;
+    let allOff = true;
+    for(let d=startDay; d<=daysInMonth; d++){
+      const key = `${viewYear}-${pad2(viewMonth+1)}-${pad2(d)}`;
+      if(calData[type][key] !== 'off'){ allOff = false; break; }
+    }
+    if(allOff){
+      if(currentRun && currentRun.endIdx === i-1){
+        currentRun.endIdx = i;
+        currentRun.endMonth = viewMonth+1;
+      } else {
+        currentRun = { endIdx:i, startMonth:viewMonth+1, endMonth:viewMonth+1 };
+        runs.push(currentRun);
+      }
+    } else {
+      currentRun = null;
+    }
+  }
+  if(!runs.length) return '';
+  const parts = runs.map(r => r.startMonth===r.endMonth ? `${r.startMonth}월` : `${r.startMonth}/${r.endMonth}월`);
+  return `[${parts.join(', ')} 마감]`;
+}
+
+function renderClosedMonthsLabels(){
+  CAL_TYPES.forEach(c=>{
+    const el = document.getElementById('cal-closed-months-'+c.key);
+    if(el) el.textContent = computeClosedMonthsLabel(c.key);
+  });
+}
+
+function initCalendars(){
+  const now = new Date();
+  CAL_TYPES.forEach(c=>{ calState[c.key] = { year: now.getFullYear(), month: now.getMonth() }; });
+  document.querySelectorAll('.cal-nav-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      const type = btn.dataset.cal;
+      const dir = parseInt(btn.dataset.dir, 10);
+      const st = calState[type];
+      st.month += dir;
+      if(st.month<0){ st.month=11; st.year--; }
+      if(st.month>11){ st.month=0; st.year++; }
+      renderCalendar(type);
+    };
+  });
+  CAL_TYPES.forEach(c=>renderCalendar(c.key));
+}
+
+async function loadSchedule(){
+  if(!CALENDAR_CSV_URL){
+    CAL_TYPES.forEach(c=>{
+      const grid=document.getElementById(c.elGrid);
+      if(grid) grid.innerHTML = '<div class="cal-loading">일정 데이터 연동 대기중</div>';
+    });
+    return;
+  }
+  try{
+    const txt = await fetchCSVText(CALENDAR_CSV_URL);
+    calData = parseScheduleCSV(txt);
+    CAL_TYPES.forEach(c=>renderCalendar(c.key));
+    renderClosedMonthsLabels();
+  }catch(e){
+    CAL_TYPES.forEach(c=>{
+      const grid=document.getElementById(c.elGrid);
+      if(grid) grid.innerHTML = `<div class="cal-loading">⚠️ 불러오기 실패</div>`;
+    });
+  }
+}
+
+initCalendars();
+loadSchedule();
 
 function buildThumbSlider(data){
   const slider = document.getElementById('thumb-slider');
@@ -991,13 +1267,13 @@ function buildThumbSlider(data){
     const sTH=document.getElementById('inq-sec-th');
     if(s31) s31.style.display = hasSel('OVERLAY_채팅화면','pkg_A','pkg_B') ? '' : 'none';
     if(s32) s32.style.display = hasSel('SCHEDULE_스케줄표','pkg_B') ? '' : 'none';
-    if(s34) s34.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n심플 디자인','CSS_CSS디자인+적용\n닉네임 디자인') ? '' : 'none';
+    if(s34) s34.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n채팅 디자인','CSS_CSS디자인+적용\n닉네임+채팅 디자인') ? '' : 'none';
     if(sRT) sRT.style.display = hasSel('POSTER_RT포스터') ? '' : 'none';
     if(sTH) sTH.style.display = hasSel('THUMBNAIL_가로 썸네일') ? '' : 'none';
     // chatlen 선택값 기반
     const chatlenOn = wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on');
     const chatlenVal = chatlenOn ? chatlenOn.dataset.val : '0';
-    const hasNikProduct = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임 디자인');
+    const hasNikProduct = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임+채팅 디자인');
     const alignSec=document.getElementById('inq-34-align');
     const nikalignSec=document.getElementById('inq-34-nikalign');
     if(alignSec)    alignSec.style.display    = chatlenVal==='2' ? '' : 'none';
@@ -1012,7 +1288,7 @@ function buildThumbSlider(data){
     if(!tagsEl) return;
 
     if(!selectedItems.size){
-      tagsEl.innerHTML='<span class="inq-tag-empty">위 옵션에서 상품을 선택하면 여기에 표시됩니다</span>';
+      tagsEl.innerHTML='<span class="inq-tag-empty">위에서 구매하실 옵션을 선택해주세요</span>';
     } else {
       tagsEl.innerHTML = '';
       [...selectedItems.entries()].forEach(([k,v])=>{
@@ -1042,13 +1318,14 @@ function buildThumbSlider(data){
       `<span class="inq-total-label">총 금액</span><span class="inq-total-price">${total.toLocaleString()}원</span>`;
 
     updateVis();
+    if(typeof checkCopyReady==='function') checkCopyReady();
   };
 
   const selSec = document.createElement('div'); selSec.className='inq-prod-section';
   selSec.innerHTML='<div class="inq-block-title">의뢰 디자인</div>';
   const tagsWrap = document.createElement('div'); tagsWrap.className='inq-tags-wrap';
   const tagsEl = document.createElement('div'); tagsEl.id='inq-tags'; tagsEl.className='inq-tags';
-  tagsEl.innerHTML='<span class="inq-tag-empty">위 옵션에서 상품을 선택하면 여기에 표시됩니다</span>';
+  tagsEl.innerHTML='<span class="inq-tag-empty">위에서 구매하실 옵션을 선택해주세요</span>';
 
   const discountBtn = document.createElement('button');
   discountBtn.id='inq-discount'; discountBtn.className='inq-discount-btn'; discountBtn.type='button';
@@ -1178,7 +1455,35 @@ function buildThumbSlider(data){
   sTH.appendChild(mkTA('inq-th-layout','원하는 레이아웃이 있다면 적어주세요',2));
   wrap.appendChild(sTH);
 
-  const s3=mkItem('3','그 외 추가 사항'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
+  const s25=mkItem('3','포트폴리오 공개 희망일');
+  const revealNotice=document.createElement('div');
+  revealNotice.style.cssText='font-size:12px;color:#666;line-height:1.75;margin-bottom:6px;';
+  revealNotice.innerHTML='작업물은 X 및 커미션 플랫폼 포트폴리오 공개됩니다.<br>희망 공개일을 작성해 주세요.<br>일정은 조정 가능하며 별도 요청이 없을 경우 해당 날짜 이후 공개됩니다.';
+  s25.appendChild(revealNotice);
+  const revealSmall=document.createElement('div');
+  revealSmall.style.cssText='font-size:11px;font-weight:700;color:#FF6B1A;margin-bottom:10px;';
+  revealSmall.textContent='※ CSS 포트폴리오에는 모델링 이미지가 포함되지 않습니다.';
+  s25.appendChild(revealSmall);
+  const revealQuickBtn=document.createElement('button');
+  revealQuickBtn.id='inq-reveal-quick';
+  revealQuickBtn.type='button';
+  revealQuickBtn.className='inq-discount-btn';
+  revealQuickBtn.style.marginBottom='8px';
+  revealQuickBtn.innerHTML='<span class="inq-discount-check">✓</span><span>2일 이내 공개 가능</span>';
+  revealQuickBtn.onclick=()=>{
+    revealQuickBtn.classList.toggle('on');
+    if(typeof checkCopyReady==='function') checkCopyReady();
+  };
+  s25.appendChild(revealQuickBtn);
+  const revealDateInput=document.createElement('input');
+  revealDateInput.type='text';
+  revealDateInput.id='inq-reveal-date';
+  revealDateInput.className='inq-input';
+  revealDateInput.placeholder='희망 공개일을 적어주세요 (예: 2026년 12월 25일, 9월 중순 등)';
+  s25.appendChild(revealDateInput);
+  wrap.appendChild(s25);
+
+  const s3=mkItem('4','그 외 추가 사항(선택)'); s3.appendChild(mkTA('inq-etc','추가 요청 사항이 있으면 입력해주세요',3)); wrap.appendChild(s3);
 
   wrap.addEventListener('click',e=>{
     const btn=e.target.closest('.inq-radio-btn'); if(!btn) return;
@@ -1194,7 +1499,7 @@ function buildThumbSlider(data){
     const img = document.getElementById('css-preview-img');
     const wrap2 = document.getElementById('css-preview-wrap');
     if(!img || !wrap2) return;
-    const isNik = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임 디자인');
+    const isNik = hasSel('pkg_A','pkg_B','CSS_CSS디자인+적용\n닉네임+채팅 디자인');
     const len   = (wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on')  || {}).dataset?.val || '0';
     const nik   = (wrap.querySelector('.inq-radio-btn[data-rg="nikalign"].on') || {}).dataset?.val || '0';
     const align = (wrap.querySelector('.inq-radio-btn[data-rg="chatalign"].on')|| {}).dataset?.val || '0';
@@ -1261,6 +1566,11 @@ function buildThumbSlider(data){
       const tx=(document.getElementById('inq-th-text')||{}).value||''; if(tx.trim()) lines.push('  원하는 문구: '+tx.trim());
       const ly=(document.getElementById('inq-th-layout')||{}).value||''; if(ly.trim()) lines.push('  레이아웃: '+ly.trim());
     }
+    const revealDateVal=(document.getElementById('inq-reveal-date')||{}).value||'';
+    const revealQuickOn=document.getElementById('inq-reveal-quick')&&document.getElementById('inq-reveal-quick').classList.contains('on');
+    lines.push('【 포트폴리오 공개 희망일 】');
+    if(revealQuickOn) lines.push('  2일 이내 공개 가능');
+    if(revealDateVal.trim()) lines.push('  '+revealDateVal.trim());
     const etc=(document.getElementById('inq-etc')||{}).value||'';
     lines.push('【 그 외 추가 사항 】'); if(etc.trim()) lines.push('  '+etc.trim());
     lines.push('──────────────');
@@ -1289,6 +1599,30 @@ function buildThumbSlider(data){
       } else showToast('복사 실패 — 텍스트를 직접 선택해주세요');
     });
   };
+
+  /* ── 복사 버튼 활성화 조건: 의뢰 상품 선택 + 공개 희망일(텍스트 또는 체크박스) ── */
+  const copyBtnEl = document.getElementById('inq-copy-btn');
+  const copyBubbleEl = document.getElementById('inq-copy-bubble');
+  function checkCopyReady(){
+    const hasProduct = selectedItems.size > 0;
+    const dateEl = document.getElementById('inq-reveal-date');
+    const quickEl = document.getElementById('inq-reveal-quick');
+    const hasDate = (dateEl && dateEl.value.trim() !== '') || (quickEl && quickEl.classList.contains('on'));
+    const ready = hasProduct && hasDate;
+    if(copyBtnEl) copyBtnEl.disabled = !ready;
+    if(copyBubbleEl){
+      if(ready){
+        copyBubbleEl.textContent = '감사합니다 :D';
+        copyBubbleEl.classList.add('ready');
+      } else {
+        copyBubbleEl.textContent = '의뢰 양식과 공개 일자를 적어주세요!';
+        copyBubbleEl.classList.remove('ready');
+      }
+    }
+  }
+  const revealDateEl = document.getElementById('inq-reveal-date');
+  if(revealDateEl) revealDateEl.addEventListener('input', checkCopyReady);
+  checkCopyReady();
 })();
 let allData=[],filtered=[],lbData=[],lbIdx=0,curTab='all',curPage=0;
 const PER=9;
