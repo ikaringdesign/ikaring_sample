@@ -1442,10 +1442,17 @@ function buildThumbSlider(data){
   const s32=mkItem('+','스케줄표 설정',true); s32.id='inq-sec-32'; s32.style.display='none';
   s32.appendChild(mkLbl('사이즈'));
   s32.appendChild(mkRG('schedsize',['1. 2000×2000 정사각형 비율','2. 1920×1080 FHD 비율']));
-  s32.appendChild(mkLbl('스케줄 칸 형식'));
-  const schedTypeContainer=document.createElement('div'); s32.appendChild(schedTypeContainer);
-  s32.appendChild(mkLbl('일러스트 위치'));
-  const illPosContainer=document.createElement('div'); s32.appendChild(illPosContainer);
+
+  const schedTypeWrap=document.createElement('div'); schedTypeWrap.id='sched-type-wrap'; schedTypeWrap.style.display='none';
+  schedTypeWrap.appendChild(mkLbl('스케줄 칸 형식'));
+  const schedTypeContainer=document.createElement('div'); schedTypeWrap.appendChild(schedTypeContainer);
+  s32.appendChild(schedTypeWrap);
+
+  const illPosWrap=document.createElement('div'); illPosWrap.id='illpos-wrap'; illPosWrap.style.display='none';
+  illPosWrap.appendChild(mkLbl('일러스트 위치'));
+  const illPosContainer=document.createElement('div'); illPosWrap.appendChild(illPosContainer);
+  s32.appendChild(illPosWrap);
+
   const schedPreviewWrap=document.createElement('div');
   schedPreviewWrap.id='sched-preview-wrap';
   schedPreviewWrap.style.cssText='display:none;background:#f5f5f5;border-radius:6px;border:1px solid #eee;padding:10px;margin:12px 0 8px;text-align:center;';
@@ -1487,6 +1494,11 @@ function buildThumbSlider(data){
     const firstBtn = illPosContainer.querySelector('.inq-radio-btn[data-rg="illpos"]');
     if(firstBtn) firstBtn.classList.add('on');
   }
+  function updateSchedVis(){
+    const sizeVal = getRGVal('schedsize');
+    schedTypeWrap.style.display = sizeVal ? '' : 'none';
+    illPosWrap.style.display = sizeVal ? '' : 'none';
+  }
 
   function updateSchedPreview(){
     const img = document.getElementById('sched-preview-img');
@@ -1510,6 +1522,7 @@ function buildThumbSlider(data){
 
   renderSchedTypeGroup();
   renderIllPosGroup();
+  updateSchedVis();
 
   const s34=mkItem('+','CSS 채팅 길이',true); s34.id='inq-sec-34'; s34.style.display='none';
   s34.appendChild(mkRG('chatlen',['1. 채팅 사이즈 고정 (OBS 채팅 사이즈로 고정)','2. 채팅 텍스트에 맞춰 늘어남']));
@@ -1589,7 +1602,7 @@ function buildThumbSlider(data){
     wrap.querySelectorAll('.inq-radio-btn[data-rg="'+rg+'"]').forEach(b=>b.classList.remove('on'));
     btn.classList.add('on');
     if(rg==='chatlen') updateVis();
-    if(rg==='schedsize'){ renderSchedTypeGroup(); renderIllPosGroup(); }
+    if(rg==='schedsize'){ renderSchedTypeGroup(); renderIllPosGroup(); updateSchedVis(); }
     if(rg==='schedtype'){ renderIllPosGroup(); }
     if(['schedsize','schedtype','illpos'].includes(rg)) updateSchedPreview();
     // CSS 미리보기 업데이트
