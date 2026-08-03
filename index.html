@@ -1349,6 +1349,15 @@ function buildThumbSlider(data){
   }
 
   function hasSel(...keys){ return keys.some(k=>selectedItems.has(k)); }
+  function isNikSelected(){
+    if(hasSel('CSS_CSS디자인&적용\n닉네임+채팅 디자인')) return true;
+    if(hasSel('CSS_CSS디자인&적용\n채팅 디자인')) return false;
+    if(hasSel('pkg_A','pkg_B')){
+      const v = getRGVal('pkgnik');
+      return v === '2';
+    }
+    return false;
+  }
 
   function updateVis(){
     const s31=document.getElementById('inq-sec-31');
@@ -1368,7 +1377,7 @@ function buildThumbSlider(data){
     // chatlen 선택값 기반
     const chatlenOn = wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on');
     const chatlenVal = chatlenOn ? chatlenOn.dataset.val : '0';
-    const hasNikProduct = hasSel('pkg_A','pkg_B','CSS_CSS디자인&적용\n닉네임+채팅 디자인');
+    const hasNikProduct = isNikSelected();
     const alignSec=document.getElementById('inq-34-align');
     const nikalignSec=document.getElementById('inq-34-nikalign');
     if(alignSec)    alignSec.style.display    = chatlenVal==='2' ? '' : 'none';
@@ -1690,6 +1699,7 @@ function buildThumbSlider(data){
     wrap.querySelectorAll('.inq-radio-btn[data-rg="'+rg+'"]').forEach(b=>b.classList.remove('on'));
     btn.classList.add('on');
     if(rg==='chatlen') updateVis();
+    if(rg==='pkgnik') { updateVis(); updateCssPreview(); }
     if(rg==='schedsize'){ renderSchedTypeGroup(); renderIllPosGroup(); updateSchedVis(); }
     if(rg==='schedtype'){ renderIllPosGroup(); }
     if(['schedsize','schedtype','illpos'].includes(rg)) updateSchedPreview();
@@ -1701,7 +1711,7 @@ function buildThumbSlider(data){
     const img = document.getElementById('css-preview-img');
     const wrap2 = document.getElementById('css-preview-wrap');
     if(!img || !wrap2) return;
-    const isNik = hasSel('pkg_A','pkg_B','CSS_CSS디자인&적용\n닉네임+채팅 디자인');
+    const isNik = isNikSelected();
     const len   = (wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on')  || {}).dataset?.val || '0';
     const nik   = (wrap.querySelector('.inq-radio-btn[data-rg="nikalign"].on') || {}).dataset?.val || '0';
     const align = (wrap.querySelector('.inq-radio-btn[data-rg="chatalign"].on')|| {}).dataset?.val || '0';
