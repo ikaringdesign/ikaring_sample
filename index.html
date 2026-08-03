@@ -320,7 +320,8 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .sched-card::after{bottom:8px;right:8px;border-width:0 1.5px 1.5px 0;}
 .sched-sub{text-align:center;font-size:14px;font-weight:900;letter-spacing:.1em;color:#FF6B1A;margin-bottom:14px;display:flex;align-items:center;gap:8px;justify-content:center;}
 .sched-sub::before,.sched-sub::after{content:'';flex:1;height:1px;background:#FF6B1A;max-width:40px;opacity:.3;}
-.cal-closed-months{text-align:center;font-size:12px;font-weight:700;color:#FF6B1A;margin:-8px 0 12px;min-height:14px;}
+.cal-lastclosed{text-align:center;font-size:12px;font-weight:700;color:#FF6B1A;background:#FFF3EC;border:1px solid #FFD4B0;border-radius:6px;padding:6px 10px;margin-bottom:10px;}
+.cal-closed-months{text-align:center;font-size:12px;font-weight:700;color:#FF6B1A;margin:-2px 0 12px;min-height:14px;}
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .cal-nav-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid #e0e0e0;background:#fff;color:#888;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .cal-nav-btn:hover{border-color:#FF6B1A;color:#FF6B1A;}
@@ -328,24 +329,52 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .cal-weekdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));margin-bottom:4px;}
 .cal-weekday{text-align:center;font-size:11px;font-weight:700;color:#aaa;padding:4px 0;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;}
-.cal-cell{aspect-ratio:1.25/1;width:100%;min-width:0;overflow:hidden;border-radius:4px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11.5px;color:#555;border:1px solid #f0f0f0;}
+.cal-cell{aspect-ratio:1.25/1;width:100%;min-width:0;position:relative;border-radius:4px;background:#fafafa;border:1px solid #f0f0f0;}
+.cal-cell-inner{width:100%;height:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11.5px;color:#555;}
 .cal-cell.empty{background:transparent;border:none;}
 .cal-cell.off{background:#FFF3EC;border-color:#FFD4B0;}
 .cal-cell.today{border-color:#FF6B1A;box-shadow:inset 0 0 0 1px #FF6B1A;}
 .cal-cell.past{background:#f6f6f6;border-color:#f0f0f0;}
 .cal-cell.past .cal-daynum{color:#ccc;}
+.cal-cell.last-closed{border-color:#FF6B1A;box-shadow:0 0 0 2px #FF6B1A;z-index:1;}
 .cal-daynum{font-weight:700;}
 .cal-cell.off .cal-daynum{color:#FF6B1A;}
+.cal-bubble{
+  position:absolute;bottom:100%;left:50%;
+  transform:translateX(-50%);
+  margin-bottom:5px;
+  background:#FF6B1A;color:#fff;
+  font-size:8.5px;font-weight:700;
+  padding:3px 8px;border-radius:12px;
+  white-space:nowrap;z-index:10;
+  animation:bubbleJelly 1.6s ease-in-out infinite;
+}
+.cal-bubble::after{
+  content:'';position:absolute;top:100%;left:50%;
+  transform:translateX(-50%);
+  border:4px solid transparent;border-top-color:#FF6B1A;
+}
+@keyframes bubbleJelly{
+  0%,100%{transform:translateX(-50%) scale(1,1) rotate(0deg);}
+  20%{transform:translateX(-50%) scale(1.15,0.85) rotate(-4deg);}
+  40%{transform:translateX(-50%) scale(0.9,1.1) rotate(3deg);}
+  60%{transform:translateX(-50%) scale(1.08,0.92) rotate(-2deg);}
+  80%{transform:translateX(-50%) scale(0.97,1.03) rotate(1deg);}
+}
 
 .sched-card.css-theme::before,.sched-card.css-theme::after{border-color:#26bdb8;}
 .sched-card.css-theme .sched-sub{color:#26bdb8;}
 .sched-card.css-theme .sched-sub::before,.sched-card.css-theme .sched-sub::after{background:#26bdb8;}
+.sched-card.css-theme .cal-lastclosed{color:#26bdb8;background:#EAFBFA;border-color:#A8E8E2;}
 .sched-card.css-theme .cal-closed-months{color:#26bdb8;}
 .sched-card.css-theme .cal-nav-btn:hover{border-color:#26bdb8;color:#26bdb8;}
 .sched-card.css-theme .cal-cell.off{background:#EAFBFA;border-color:#A8E8E2;}
 .sched-card.css-theme .cal-cell.off .cal-daynum{color:#26bdb8;}
 .sched-card.css-theme .cal-cell.off .cal-closed{color:#26bdb8;}
 .sched-card.css-theme .cal-cell.today{border-color:#26bdb8;box-shadow:inset 0 0 0 1px #26bdb8;}
+.sched-card.css-theme .cal-cell.last-closed{border-color:#26bdb8;box-shadow:0 0 0 2px #26bdb8;}
+.sched-card.css-theme .cal-bubble{background:#26bdb8;}
+.sched-card.css-theme .cal-bubble::after{border-top-color:#26bdb8;}
 .cal-closed{font-size:8px;font-weight:700;color:#FF6B1A;margin-top:1px;letter-spacing:-.3px;white-space:nowrap;}
 .cal-open{font-size:8px;font-weight:700;color:#aaa;margin-top:1px;letter-spacing:-.3px;white-space:nowrap;}
 .cal-loading{grid-column:1/-1;text-align:center;font-size:12px;color:#ccc;padding:22px 0;}
@@ -713,6 +742,7 @@ const PROMO = {
     <div class="sched-grid">
       <div class="sched-card">
         <div class="sched-sub">방송디자인</div>
+        <div class="cal-lastclosed" id="cal-lastclosed-broadcast" style="display:none;"></div>
         <div class="cal-closed-months" id="cal-closed-months-broadcast"></div>
         <div class="cal-nav">
           <button class="cal-nav-btn" data-cal="broadcast" data-dir="-1" type="button"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -727,6 +757,7 @@ const PROMO = {
       </div>
       <div class="sched-card css-theme">
         <div class="sched-sub">CSS</div>
+        <div class="cal-lastclosed" id="cal-lastclosed-css" style="display:none;"></div>
         <div class="cal-closed-months" id="cal-closed-months-css"></div>
         <div class="cal-nav">
           <button class="cal-nav-btn" data-cal="css" data-dir="-1" type="button"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -1114,6 +1145,18 @@ function parseScheduleCSV(txt){
   return out;
 }
 
+function getTodayStr(){
+  const now = new Date();
+  return `${now.getFullYear()}-${pad2(now.getMonth()+1)}-${pad2(now.getDate())}`;
+}
+function getLastClosedDate(type){
+  const todayStr = getTodayStr();
+  const keys = Object.keys(calData[type]||{}).filter(k=>calData[type][k]==='off' && k>=todayStr);
+  if(!keys.length) return null;
+  keys.sort();
+  return keys[keys.length-1];
+}
+
 function renderCalendar(type){
   const cfg = CAL_TYPES.find(c=>c.key===type);
   const st = calState[type];
@@ -1124,8 +1167,8 @@ function renderCalendar(type){
 
   const firstDay = new Date(st.year, st.month, 1).getDay();
   const daysInMonth = new Date(st.year, st.month+1, 0).getDate();
-  const now = new Date();
-  const todayStr = `${now.getFullYear()}-${pad2(now.getMonth()+1)}-${pad2(now.getDate())}`;
+  const todayStr = getTodayStr();
+  const lastClosed = getLastClosedDate(type);
 
   let html='';
   for(let i=0;i<firstDay;i++) html+='<div class="cal-cell empty"></div>';
@@ -1135,13 +1178,27 @@ function renderCalendar(type){
     const isOff = !isPast && calData[type][key]==='off';
     const isToday = key===todayStr;
     const isOpen = !isPast && !isOff;
-    html += `<div class="cal-cell${isOff?' off':''}${isToday?' today':''}${isPast?' past':''}">
-      <div class="cal-daynum">${d}</div>
-      ${isOff?'<div class="cal-closed">마감</div>':''}
-      ${isOpen?'<div class="cal-open">작업가능</div>':''}
+    const isLastClosed = lastClosed && key===lastClosed;
+    html += `<div class="cal-cell${isOff?' off':''}${isToday?' today':''}${isPast?' past':''}${isLastClosed?' last-closed':''}">
+      ${isLastClosed?'<div class="cal-bubble">예정 마감일</div>':''}
+      <div class="cal-cell-inner">
+        <div class="cal-daynum">${d}</div>
+        ${isOff?'<div class="cal-closed">마감</div>':''}
+        ${isOpen?'<div class="cal-open">작업가능</div>':''}
+      </div>
     </div>`;
   }
   grid.innerHTML = html;
+}
+
+function renderLastClosedBox(type){
+  const el = document.getElementById('cal-lastclosed-'+type);
+  if(!el) return;
+  const last = getLastClosedDate(type);
+  if(!last){ el.style.display='none'; return; }
+  const [y,m,d] = last.split('-');
+  el.textContent = `예정 마감일 : ${parseInt(m,10)}월 ${parseInt(d,10)}일`;
+  el.style.display = '';
 }
 
 function computeClosedMonthsLabel(type){
@@ -1213,7 +1270,15 @@ async function loadSchedule(){
   try{
     const txt = await fetchCSVText(CALENDAR_CSV_URL);
     calData = parseScheduleCSV(txt);
-    CAL_TYPES.forEach(c=>renderCalendar(c.key));
+    CAL_TYPES.forEach(c=>{
+      const last = getLastClosedDate(c.key);
+      if(last){
+        const [y,m] = last.split('-');
+        calState[c.key] = { year: parseInt(y,10), month: parseInt(m,10)-1 };
+      }
+      renderCalendar(c.key);
+      renderLastClosedBox(c.key);
+    });
     renderClosedMonthsLabels();
   }catch(e){
     CAL_TYPES.forEach(c=>{
