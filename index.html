@@ -1357,12 +1357,14 @@ function buildThumbSlider(data){
     const sRT=document.getElementById('inq-sec-rt');
     const sTH=document.getElementById('inq-sec-th');
     const sDonate=document.getElementById('inq-sec-donate');
+    const sPkgNik=document.getElementById('inq-sec-pkgnik');
     if(s31) s31.style.display = hasSel('OVERLAY_채팅화면','pkg_A','pkg_B') ? '' : 'none';
     if(s32) s32.style.display = hasSel('SCHEDULE_스케줄표','pkg_B') ? '' : 'none';
     if(s34) s34.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인&적용\n채팅 디자인','CSS_CSS디자인&적용\n닉네임+채팅 디자인') ? '' : 'none';
     if(sRT) sRT.style.display = hasSel('POSTER_RT포스터') ? '' : 'none';
     if(sTH) sTH.style.display = hasSel('THUMBNAIL_가로 썸네일') ? '' : 'none';
     if(sDonate) sDonate.style.display = hasSel('sub_후원') ? '' : 'none';
+    if(sPkgNik) sPkgNik.style.display = hasSel('pkg_A','pkg_B') ? '' : 'none';
     // chatlen 선택값 기반
     const chatlenOn = wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on');
     const chatlenVal = chatlenOn ? chatlenOn.dataset.val : '0';
@@ -1594,6 +1596,10 @@ function buildThumbSlider(data){
   renderIllPosGroup();
   updateSchedVis();
 
+  const sPkgNik=mkItem('+','닉네임',true); sPkgNik.id='inq-sec-pkgnik'; sPkgNik.style.display='none';
+  sPkgNik.appendChild(mkRG('pkgnik',['1. 닉네임 표시하지 않음','2. 닉네임 있음']));
+  wrap.appendChild(sPkgNik);
+
   const s34=mkItem('+','CSS 채팅 길이',true); s34.id='inq-sec-34'; s34.style.display='none';
   s34.appendChild(mkRG('chatlen',['1. 채팅 사이즈 고정 (OBS 채팅 사이즈로 고정)','2. 채팅 텍스트에 맞춰 늘어남']));
 
@@ -1743,6 +1749,10 @@ function buildThumbSlider(data){
       const sb=wrap.querySelector('.inq-radio-btn[data-rg="schedtype"].on'); if(sb) lines.push('  칸 형식: '+sb.textContent);
       const ib=wrap.querySelector('.inq-radio-btn[data-rg="illpos"].on'); if(ib) lines.push('  일러스트: '+ib.textContent);
       const n=(document.getElementById('inq-sched-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
+    }
+    if(document.getElementById('inq-sec-pkgnik').style.display!=='none'){
+      lines.push('【 닉네임 】');
+      const nb=wrap.querySelector('.inq-radio-btn[data-rg="pkgnik"].on'); if(nb) lines.push('  '+nb.textContent);
     }
     if(document.getElementById('inq-sec-34').style.display!=='none'){
       lines.push('【 CSS 채팅 길이 】');
