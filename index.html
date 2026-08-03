@@ -320,7 +320,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .sched-card::after{bottom:8px;right:8px;border-width:0 1.5px 1.5px 0;}
 .sched-sub{text-align:center;font-size:14px;font-weight:900;letter-spacing:.1em;color:#FF6B1A;margin-bottom:14px;display:flex;align-items:center;gap:8px;justify-content:center;}
 .sched-sub::before,.sched-sub::after{content:'';flex:1;height:1px;background:#FF6B1A;max-width:40px;opacity:.3;}
-.cal-lastclosed{text-align:center;font-size:12px;font-weight:700;color:#FF6B1A;background:#FFF3EC;border:1px solid #FFD4B0;border-radius:6px;padding:6px 10px;margin-bottom:10px;}
+.cal-lastclosed{text-align:center;font-size:12px;font-weight:700;color:#FF6B1A;background:#FFF3EC;border:1px solid #FFD4B0;border-radius:6px;padding:6px 10px;margin-top:12px;}
 .cal-closed-months{text-align:center;font-size:12px;font-weight:700;color:#FF6B1A;margin:-2px 0 12px;min-height:14px;}
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .cal-nav-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid #e0e0e0;background:#fff;color:#888;display:flex;align-items:center;justify-content:center;transition:all .15s;}
@@ -347,19 +347,16 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
   font-size:8.5px;font-weight:700;
   padding:3px 8px;border-radius:12px;
   white-space:nowrap;z-index:10;
-  animation:bubbleJelly 1.6s ease-in-out infinite;
+  animation:calBubbleFloat 2s ease-in-out infinite;
 }
 .cal-bubble::after{
   content:'';position:absolute;top:100%;left:50%;
   transform:translateX(-50%);
   border:4px solid transparent;border-top-color:#FF6B1A;
 }
-@keyframes bubbleJelly{
-  0%,100%{transform:translateX(-50%) scale(1,1) rotate(0deg);}
-  20%{transform:translateX(-50%) scale(1.15,0.85) rotate(-4deg);}
-  40%{transform:translateX(-50%) scale(0.9,1.1) rotate(3deg);}
-  60%{transform:translateX(-50%) scale(1.08,0.92) rotate(-2deg);}
-  80%{transform:translateX(-50%) scale(0.97,1.03) rotate(1deg);}
+@keyframes calBubbleFloat{
+  0%,100%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(-4px);}
 }
 
 .sched-card.css-theme::before,.sched-card.css-theme::after{border-color:#26bdb8;}
@@ -742,7 +739,6 @@ const PROMO = {
     <div class="sched-grid">
       <div class="sched-card">
         <div class="sched-sub">방송디자인</div>
-        <div class="cal-lastclosed" id="cal-lastclosed-broadcast" style="display:none;"></div>
         <div class="cal-closed-months" id="cal-closed-months-broadcast"></div>
         <div class="cal-nav">
           <button class="cal-nav-btn" data-cal="broadcast" data-dir="-1" type="button"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -754,10 +750,10 @@ const PROMO = {
           <div class="cal-weekday">수</div><div class="cal-weekday">목</div><div class="cal-weekday">금</div><div class="cal-weekday">토</div>
         </div>
         <div class="cal-grid" id="cal-grid-broadcast"><div class="cal-loading">불러오는 중…</div></div>
+        <div class="cal-lastclosed" id="cal-lastclosed-broadcast" style="display:none;"></div>
       </div>
       <div class="sched-card css-theme">
         <div class="sched-sub">CSS</div>
-        <div class="cal-lastclosed" id="cal-lastclosed-css" style="display:none;"></div>
         <div class="cal-closed-months" id="cal-closed-months-css"></div>
         <div class="cal-nav">
           <button class="cal-nav-btn" data-cal="css" data-dir="-1" type="button"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -769,6 +765,7 @@ const PROMO = {
           <div class="cal-weekday">수</div><div class="cal-weekday">목</div><div class="cal-weekday">금</div><div class="cal-weekday">토</div>
         </div>
         <div class="cal-grid" id="cal-grid-css"><div class="cal-loading">불러오는 중…</div></div>
+        <div class="cal-lastclosed" id="cal-lastclosed-css" style="display:none;"></div>
       </div>
     </div>
     <div class="sched-note">작업 완료일은 의뢰하신 작업 내용에 따라 다르니 문의 부탁드립니다!</div>
