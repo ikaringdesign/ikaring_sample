@@ -289,7 +289,7 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .pkg-prices{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;}
 .pkg-sale-tag{font-size:11px;font-weight:700;letter-spacing:.06em;color:#FF6B1A;background:#FFF3EC;padding:2px 8px;border-radius:3px;margin-bottom:2px;text-align:right;}
 .pkg-original{font-size:14.5px;color:#bbb;text-decoration:line-through;text-align:right;}
-.pkg-discount-pct{font-size:15px;font-weight:900;color:#FFB74D;margin-right:7px;}
+.pkg-discount-pct{font-size:15px;font-weight:900;color:#FF6B1A;margin-right:7px;}
 .pkg-final{font-size:23px;font-weight:900;color:#FF6B1A;letter-spacing:-.5px;text-align:right;}
 .pkg-event{
   background:#FF6B1A;color:#fff;
@@ -948,7 +948,7 @@ function makeSub(name,price,span,note){
   g.appendChild(makeCard('OVERLAY','채팅화면','220,000','CSS 디자인 및 적용은 포함되지 않습니다.','(CSS 디자인&적용은 별도 구매 필요)'));
   g.appendChild(makeCard('OVERLAY','게임화면','160,000','일반·풀화면 2종 제공됩니다.<br>CSS 디자인 및 적용은 포함되지 않습니다.','(CSS 디자인&적용은 별도 구매 필요)'));
   g.appendChild(makeCard('SCHEDULE','스케줄표','240,000','편집용 PSD 포함됩니다.','(스케줄 편집사이트는 별도 구매 필요)'));
-  g.appendChild(makeSub('CSS 적용','35,000',2,'채팅/게임 화면 단품 구매 시 이 상품으로 구매 부탁드립니다.'));
+  g.appendChild(makeSub('CSS 적용','100,000',2,'채팅/게임 화면 단품 구매 시 이 상품으로 구매 부탁드립니다.<br><span style="font-size:10px;color:#FF6B1A;font-weight:700;">2만원 할인</span>'));
   g.appendChild(makeSub('스케줄 편집 사이트','35,000',1,'사용중인 스케줄 파일 제공 필요<br>제 작업물 스케줄만 사이트 제작 가능합니다.'));
 })();
 (function(){
@@ -1586,6 +1586,27 @@ function buildThumbSlider(data){
   schedPreviewImg.onerror=function(){ schedPreviewWrap.style.display='none'; };
   schedPreviewWrap.appendChild(schedPreviewImg);
   s32.appendChild(schedPreviewWrap);
+
+  s32.appendChild(mkLbl('추가 옵션'));
+  const schedAddonGrid = document.createElement('div');
+  schedAddonGrid.className = 'inq-prod-grid';
+  (function(){
+    const key='sub_스케줄 편집 사이트', name='스케줄 편집 사이트', price='35,000';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'inq-prod-btn';
+    btn.dataset.selKey = key;
+    if(selectedItems.has(key)) btn.classList.add('on');
+    btn.innerHTML = `<span>${name}</span><span class="ipb-price">+${price}</span>`;
+    btn.onclick = ()=>{
+      toggleSelect(btn, key, `${name} (+${price})`);
+      if(typeof updateBadgeStates==='function') updateBadgeStates();
+      if(typeof checkCopyReady==='function') checkCopyReady();
+    };
+    schedAddonGrid.appendChild(btn);
+  })();
+  s32.appendChild(schedAddonGrid);
+
   s32.appendChild(mkTA('inq-sched-note','그 외 스케줄 요청사항을 입력해주세요',2)); wrap.appendChild(s32);
 
   function getRGVal(rg){
