@@ -727,7 +727,6 @@ const CSS_SUB_TABS = [
   {label:'전체',      key:'all'},
   {label:'후원',      key:'후원'},
   {label:'애니메이션', key:'애니메이션'},
-  {label:'닉네임',    key:'닉네임'},
 ];
 
 const PROMO = {
@@ -1967,7 +1966,7 @@ function renderPromo(show){
 }
 
 function getCssTypes(item){
-  return (item['CSS유형']||'').split(',').map(s=>s.trim()).filter(Boolean);
+  return (item['CSS유형']||'').replace(/[\[\]]/g,'').split(',').map(s=>s.trim()).filter(Boolean);
 }
 function getSubImages(item){
   const sub=(item['서브이미지']||'').split('|').map(s=>s.trim()).filter(Boolean);
