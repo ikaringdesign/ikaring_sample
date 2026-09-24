@@ -394,8 +394,8 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-wrap::before{top:8px;left:8px;border-width:1.5px 0 0 1.5px;}
 .inq-wrap::after{bottom:8px;right:8px;border-width:0 1.5px 1.5px 0;}
 .inq-tags-wrap{display:flex;flex-direction:column;gap:10px;}
-.inq-tags{display:flex;flex-wrap:wrap;gap:7px;min-height:36px;padding:10px 12px;background:#fafafa;border:1.5px solid #eee;border-radius:6px;align-items:center;}
-.inq-tag-empty{font-size:14px;font-weight:700;color:#FF6B1A;}
+.inq-tags{display:flex;flex-wrap:wrap;gap:7px;min-height:46px;padding:14px 14px;background:#fafafa;border:1.5px solid #eee;border-radius:6px;align-items:center;}
+.inq-tag-empty{font-size:15px;font-weight:700;color:#FF6B1A;}
 .inq-sel-tag{display:inline-flex;align-items:center;gap:5px;background:#FF6B1A;color:#fff;font-size:13px;font-weight:600;padding:5px 10px 5px 12px;border-radius:4px;line-height:1.3;}
 .inq-sel-del{background:none;border:none;color:rgba(255,255,255,.75);font-size:14px;cursor:pointer;padding:0;line-height:1;display:flex;align-items:center;transition:color .15s;}
 .inq-sel-del:hover{color:#fff;}
@@ -412,8 +412,8 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-prod-section{padding:16px 18px;border-bottom:1px solid #f0f0f0;}
 .inq-block-title{font-size:13px;font-weight:700;color:#1a1a1a;letter-spacing:.05em;margin-bottom:10px;}
 .inq-block-title span{font-size:12px;color:#aaa;font-weight:400;margin-left:4px;}
-.inq-prod-grid{display:flex;flex-wrap:wrap;gap:6px;}
-.inq-prod-btn{padding:7px 11px;border:1.5px solid #e0e0e0;border-radius:4px;background:#fff;font-size:13px;font-weight:600;color:#555;display:flex;flex-direction:column;align-items:center;gap:1px;transition:all .15s;line-height:1.3;cursor:pointer;}
+.inq-prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.inq-prod-btn{width:100%;padding:8px 6px;border:1.5px solid #e0e0e0;border-radius:4px;background:#fff;font-size:12px;font-weight:600;color:#555;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:all .15s;line-height:1.3;cursor:pointer;text-align:center;}
 .inq-prod-btn:hover{border-color:#FF6B1A;color:#FF6B1A;}
 .inq-prod-btn.on{background:#FF6B1A;border-color:#FF6B1A;color:#fff;}
 .inq-prod-btn .ipb-price{font-size:11px;font-weight:400;opacity:.7;}
@@ -422,8 +422,14 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 .inq-item:last-child{border-bottom:none;}
 .inq-item:hover{background:#FFF8F4;}
 .inq-item-top{display:flex;align-items:center;gap:10px;}
-.inq-num{width:22px;height:22px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.inq-num.cond{background:#FF6B1A;font-size:17px;font-weight:900;}
+.inq-num{width:22px;height:22px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+.inq-num.cond{font-size:17px;font-weight:900;}
+.inq-num.done{background:#FF6B1A;}
+@keyframes inqSectionFlash{
+  0%{background:#FFE3CF;}
+  100%{background:transparent;}
+}
+.inq-item.flash{animation:inqSectionFlash .9s ease-out;}
 .inq-key{font-size:14px;font-weight:700;color:#222;}
 .inq-cond-sec{background:#FFF9F5;border-left:3px solid #FF6B1A;}
 .inq-cond-sec:hover{background:#FFF4EC;}
@@ -477,6 +483,10 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 ════════════════════════════════════ */
 .portfolio-section{padding:36px 24px 48px;margin-top:50px;}
 .pf-tabs-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px;justify-content:center;}
+.pf-subtabs-row{display:flex;flex-wrap:wrap;gap:6px;margin:-14px 0 22px;justify-content:center;}
+.pf-subtab{padding:5px 14px;border-radius:16px;border:1.5px solid #E8E8E8;background:#fafafa;font-size:11.5px;font-weight:700;color:#999;letter-spacing:.03em;transition:all .15s;}
+.pf-subtab:hover{border-color:#26bdb8;color:#26bdb8;}
+.pf-subtab.on{background:#26bdb8;border-color:#26bdb8;color:#fff;}
 .pf-tab{padding:7px 18px;border-radius:20px;border:1.5px solid #E8E8E8;background:#fff;font-size:13px;font-weight:700;color:#888;letter-spacing:.05em;transition:all .15s;}
 .pf-tab:hover{border-color:#FF6B1A;color:#FF6B1A;}
 .pf-tab.on{background:#FF6B1A;border-color:#FF6B1A;color:#fff;}
@@ -567,7 +577,8 @@ button{font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
   .inq-key{font-size:13px;}
   .inq-input{font-size:13px;}
   .inq-block-title{font-size:14px;}
-  .inq-prod-btn{font-size:12px;padding:6px 9px;}
+  .inq-prod-grid{grid-template-columns:repeat(2,1fr);}
+  .inq-prod-btn{font-size:11px;padding:7px 6px;}
   .inq-sel-tag{font-size:12px;}
   .inq-total-price{font-size:17px;}
   .inq-discount-btn{font-size:13px;}
@@ -667,12 +678,13 @@ const CREATOR = {
 /* NOTICE */
 const NOTICE_ITEMS = [
   `모든 작업물의 저작권은 <span class="hl-orange">저(징어링)</span>에게 있습니다.<br>허가 없는 2차 수정 및 판매, 제 3자에게 무단 제공할 수 없습니다.`,
-  `모든 작업물은 <span class="hl-blue">방송용 기준</span>입니다.<br>방송 용도의 상업적 사용이 가능합니다. 디자인 자체의 유료 판매는 불가하며 별도 문의 부탁드립니다.`,
+  `모든 작업물은 <span class="hl-blue">방송용 기준</span>입니다.<br>방송 외에 상업적 이용 및 기업 의뢰는 별도 문의 부탁드립니다. 디자인 자체의 유료 판매는 불가하며 별도 문의 부탁드립니다.`,
   `수정 횟수는 총 <span class="hl-orange">2회</span>로, 그 이상 수정 시 추가금이 요구됩니다.`,
   `PSD 파일은 제공하지 않습니다. (스케줄표는 편집용 PSD 제공합니다.)`,
   `캐릭터 일러스트 작업은 해드리지 않습니다. 작업에 쓰일 모든 일러스트는 사용 가능한지<br>미리 확인하시기를 바랍니다. 이에 관한 문제가 발생 시 책임지지 않습니다.`,
   `방송 외에 다른 SNS 등에 업로드 시 출처를 기재해 주시기를 바랍니다.`,
   `X 및 커미션 플랫폼에 작업을 포트폴리오 기재할 수 있는 작업만 받고 있습니다.`,
+  `작업 시간대는 <span class="hl-orange">저녁~새벽</span>이라, 작업물이 새벽 중 또는 다음 날 오전에 전달될 수 있는 점 양해 부탁드립니다.`,
 ];
 
 const SINGLE_ITEMS = [
@@ -705,6 +717,14 @@ const TABS = [
   {label:'Schedule',  key:'Schedule'},
   {label:'Poster',    key:'Poster'},
   {label:'RTPoster',  key:'RTPoster'},
+];
+
+/* CSS 탭 전용 2차탭 — 시트의 'CSS유형' 컬럼 값과 매칭됩니다 */
+const CSS_SUB_TABS = [
+  {label:'전체',      key:'all'},
+  {label:'후원',      key:'후원'},
+  {label:'애니메이션', key:'애니메이션'},
+  {label:'닉네임',    key:'닉네임'},
 ];
 
 const PROMO = {
@@ -807,6 +827,7 @@ const PROMO = {
   <div class="portfolio-section">
     <div class="section-title">PORTFOLIO</div>
     <div class="pf-tabs-row" id="pf-tabs"></div>
+    <div class="pf-subtabs-row" id="pf-subtabs" style="display:none;"></div>
     <div id="promo-area"></div>
     <div id="pf-body">
       <div class="pf-grid"><div class="pf-state"><div class="spin" style="margin:0 auto 10px;"></div>불러오는 중…</div></div>
@@ -875,8 +896,13 @@ function removeSelected(key){
   updateSelectedField();
 }
 function toggleSelect(el,key,name){
-  if(selectedItems.has(key)){ selectedItems.delete(key); el.classList.remove('selected'); }
-  else{ selectedItems.set(key,{name}); el.classList.add('selected'); }
+  if(selectedItems.has(key)){ selectedItems.delete(key); }
+  else{ selectedItems.set(key,{name}); }
+  const isOn = selectedItems.has(key);
+  document.querySelectorAll('[data-sel-key="'+CSS.escape(key)+'"]').forEach(e=>{
+    e.classList.toggle('selected', isOn);
+    e.classList.toggle('on', isOn);
+  });
   updateSelectedField();
 }
 
@@ -887,8 +913,7 @@ const OPT_IMGS = {
   'POSTER_RT포스터':                           'image/opt_rt.png',
   'POSTER_메인포스터':                         'image/opt_mainposter.png',
   'THUMBNAIL_가로 썸네일':                     'image/opt_thumbnail.png',
-  'CSS_CSS디자인&적용\n채팅 디자인':           'image/opt_css_simple.png',
-  'CSS_CSS디자인&적용\n닉네임+채팅 디자인':    'image/opt_css_name.png',
+  'CSS_CSS디자인&적용':                         'image/opt_css_simple.png',
 };
 
 function makeCard(type,name,price,desc,sub){
@@ -917,8 +942,8 @@ function makeSub(name,price,span,note){
 
 (function(){
   const g=document.getElementById('opt-group-1');
-  g.appendChild(makeCard('OVERLAY','채팅화면','220,000','채팅화면용 CSS 디자인 포함됩니다.','(CSS 적용은 별도 구매 필요)'));
-  g.appendChild(makeCard('OVERLAY','게임화면','140,000','일반·풀화면 2종 제공됩니다.<br>게임화면용 CSS 디자인 포함됩니다.','(CSS 적용은 별도 구매 필요)'));
+  g.appendChild(makeCard('OVERLAY','채팅화면','220,000','CSS 디자인 및 적용은 포함되지 않습니다.','(CSS 디자인&적용은 별도 구매 필요)'));
+  g.appendChild(makeCard('OVERLAY','게임화면','140,000','일반·풀화면 2종 제공됩니다.<br>CSS 디자인 및 적용은 포함되지 않습니다.','(CSS 디자인&적용은 별도 구매 필요)'));
   g.appendChild(makeCard('SCHEDULE','스케줄표','240,000','편집용 PSD 포함됩니다.','(스케줄 편집사이트는 별도 구매 필요)'));
   g.appendChild(makeSub('CSS 적용','35,000',2,'채팅/게임 화면 단품 구매 시 이 상품으로 구매 부탁드립니다.'));
   g.appendChild(makeSub('스케줄 편집 사이트','35,000',1,'사용중인 스케줄 파일 제공 필요<br>제 작업물 스케줄만 사이트 제작 가능합니다.'));
@@ -931,52 +956,24 @@ function makeSub(name,price,span,note){
 })();
 (function(){
   const g=document.getElementById('opt-group-3');
-  g.appendChild(makeCard('CSS','CSS디자인&적용\n채팅 디자인','65,000','닉네임 없는 디자인이며,\n시청자 채팅과 스트리머 채팅\n2종으로 구성됩니다.<br><strong style="color:#26bdb8;font-weight:900;">위플랩 기반으로 제작됩니다.</strong>','','image/opt_css_simple.png'));
-  g.appendChild(makeCard('CSS','CSS디자인&적용\n닉네임+채팅 디자인','80,000','닉네임 포함된 디자인이며,\n시청자 채팅과 스트리머 채팅\n2종으로 구성됩니다.<br><strong style="color:#26bdb8;font-weight:900;">위플랩 기반으로 제작됩니다.</strong>','','image/opt_css_name.png'));
+  const cssCard = makeCard('CSS','CSS디자인&적용','120,000','시청자 채팅과 스트리머 채팅 2종으로 구성됩니다.<br><strong style="color:#26bdb8;font-weight:900;">위플랩 기반으로 제작됩니다.</strong>','','image/opt_css_simple.png');
+  cssCard.style.gridColumn = 'span 3';
+  g.appendChild(cssCard);
 
   const cssSubWrap = document.createElement('div');
-  cssSubWrap.style.cssText = 'grid-column:span 2; display:flex; flex-direction:column; gap:6px; margin-top:2px;';
+  cssSubWrap.style.cssText = 'grid-column:span 3; display:flex; flex-direction:column; gap:6px; margin-top:2px;';
 
-  const CSS_NAME_KEY = 'CSS_CSS디자인&적용\n닉네임+채팅 디자인';
-
-  [{key:'sub_심플추가',  name:'닉네임 없는 버전 추가', price:'10,000', requiresName:true},
-   {key:'sub_애니',     name:'애니메이션 추가',                           price:'20,000'},
-   {key:'sub_매니저',   name:'매니저(관리자) 디자인 추가',                  price:'10,000'},
-   {key:'sub_후원',     name:'후원 도네 추가',                            price:'10,000'}].forEach(r=>{
+  [{key:'sub_닉네임추가', name:'닉네임 추가', price:'30,000', note:'닉네임 없는 버전과 있는 버전 2종으로 제공됩니다.'},
+   {key:'sub_애니',     name:'애니메이션 추가',                           price:'40,000'},
+   {key:'sub_매니저',   name:'매니저(관리자) 디자인 추가',                  price:'30,000'},
+   {key:'sub_후원',     name:'후원 도네 추가',                            price:'50,000'}].forEach(r=>{
     const row = document.createElement('div');
     row.className='opt-sub'; row.dataset.selKey=r.key;
     row.innerHTML=`<div>
-        ${r.requiresName ? '<span style="display:inline-block;font-size:11px;font-weight:700;color:#c85000;background:#fff0e6;border:1px solid #ffc89a;border-radius:4px;padding:2px 7px;margin-bottom:5px;letter-spacing:.03em;">닉네임+채팅 디자인 선택 시 구매 가능</span><br>' : ''}
         <div class="opt-sub-name">${r.name}</div>
+        ${r.note?`<div class="opt-sub-note">${r.note}</div>`:''}
       </div><div class="opt-sub-price">+ ${r.price}</div>`;
-
-    if(r.requiresName){
-      row.style.cssText += ';opacity:0.38;pointer-events:none;filter:grayscale(0.4);';
-      row.dataset.condDisabled = 'true';
-
-      const origToggle = window._origToggleForSim || toggleSelect;
-      row._updateState = function(){
-        const active = selectedItems.has(CSS_NAME_KEY);
-        if(active){
-          row.style.opacity='1'; row.style.pointerEvents='auto'; row.style.filter='none';
-        } else {
-          row.style.opacity='0.38'; row.style.pointerEvents='none'; row.style.filter='grayscale(0.4)';
-          if(selectedItems.has(r.key)){
-            selectedItems.delete(r.key);
-            row.classList.remove('selected');
-            updateSelectedField();
-          }
-        }
-      };
-      const _orig = updateSelectedField;
-      updateSelectedField = function(){
-        _orig();
-        row._updateState();
-      };
-    }
-
     row.onclick=()=>{
-      if(row.dataset.condDisabled==='true' && !selectedItems.has(CSS_NAME_KEY)) return;
       toggleSelect(row, r.key, `${r.name} (+${r.price})`);
     };
     cssSubWrap.appendChild(row);
@@ -1350,13 +1347,44 @@ function buildThumbSlider(data){
 
   function hasSel(...keys){ return keys.some(k=>selectedItems.has(k)); }
   function isNikSelected(){
-    if(hasSel('CSS_CSS디자인&적용\n닉네임+채팅 디자인')) return true;
-    if(hasSel('CSS_CSS디자인&적용\n채팅 디자인')) return false;
-    if(hasSel('pkg_A','pkg_B')){
-      const v = getRGVal('pkgnik');
-      return v === '2';
+    return hasSel('sub_닉네임추가');
+  }
+
+  function setSectionVisible(sec, visible){
+    if(!sec) return;
+    const wasHidden = sec.style.display === 'none';
+    sec.style.display = visible ? '' : 'none';
+    if(visible && wasHidden){
+      sec.classList.remove('flash');
+      void sec.offsetWidth; // reflow to allow re-triggering the animation
+      sec.classList.add('flash');
+      setTimeout(()=>sec.classList.remove('flash'), 900);
     }
-    return false;
+  }
+
+  const REQUIRED_SECTIONS = [
+    { secId:'inq-sec-31', rg:'layout' },
+    { secId:'inq-sec-32', rg:'schedsize' },
+    { secId:'inq-sec-34', rg:'chatlen' },
+    { secId:'inq-sec-donate', rg:'donatenik' },
+  ];
+  function updateBadgeStates(){
+    REQUIRED_SECTIONS.forEach(({secId, rg})=>{
+      const sec = document.getElementById(secId);
+      if(!sec) return;
+      const badge = sec.querySelector('.inq-num');
+      const answered = !!wrap.querySelector('.inq-radio-btn[data-rg="'+rg+'"].on');
+      if(badge){
+        if(answered) badge.classList.add('done'); else badge.classList.remove('done');
+      }
+    });
+  }
+  function allRequiredAnswered(){
+    return REQUIRED_SECTIONS.every(({secId, rg})=>{
+      const sec = document.getElementById(secId);
+      if(!sec || sec.style.display==='none') return true;
+      return !!wrap.querySelector('.inq-radio-btn[data-rg="'+rg+'"].on');
+    });
   }
 
   function updateVis(){
@@ -1366,14 +1394,12 @@ function buildThumbSlider(data){
     const sRT=document.getElementById('inq-sec-rt');
     const sTH=document.getElementById('inq-sec-th');
     const sDonate=document.getElementById('inq-sec-donate');
-    const sPkgNik=document.getElementById('inq-sec-pkgnik');
-    if(s31) s31.style.display = hasSel('OVERLAY_채팅화면','pkg_A','pkg_B') ? '' : 'none';
-    if(s32) s32.style.display = hasSel('SCHEDULE_스케줄표','pkg_B') ? '' : 'none';
-    if(s34) s34.style.display = hasSel('pkg_A','pkg_B','CSS_CSS디자인&적용\n채팅 디자인','CSS_CSS디자인&적용\n닉네임+채팅 디자인') ? '' : 'none';
-    if(sRT) sRT.style.display = hasSel('POSTER_RT포스터') ? '' : 'none';
-    if(sTH) sTH.style.display = hasSel('THUMBNAIL_가로 썸네일') ? '' : 'none';
-    if(sDonate) sDonate.style.display = hasSel('sub_후원') ? '' : 'none';
-    if(sPkgNik) sPkgNik.style.display = hasSel('pkg_A','pkg_B') ? '' : 'none';
+    setSectionVisible(s31, hasSel('OVERLAY_채팅화면','pkg_A','pkg_B'));
+    setSectionVisible(s32, hasSel('SCHEDULE_스케줄표','pkg_B'));
+    setSectionVisible(s34, hasSel('pkg_A','pkg_B','CSS_CSS디자인&적용','sub_닉네임추가'));
+    setSectionVisible(sRT, hasSel('POSTER_RT포스터'));
+    setSectionVisible(sTH, hasSel('THUMBNAIL_가로 썸네일'));
+    setSectionVisible(sDonate, hasSel('sub_후원'));
     // chatlen 선택값 기반
     const chatlenOn = wrap.querySelector('.inq-radio-btn[data-rg="chatlen"].on');
     const chatlenVal = chatlenOn ? chatlenOn.dataset.val : '0';
@@ -1383,6 +1409,8 @@ function buildThumbSlider(data){
     if(alignSec)    alignSec.style.display    = chatlenVal==='2' ? '' : 'none';
     // 닉네임 정렬은 닉네임 상품 + 채팅 고정일 때만
     if(nikalignSec) nikalignSec.style.display = (hasNikProduct && chatlenVal==='1') ? '' : 'none';
+    updateBadgeStates();
+    if(typeof checkCopyReady==='function') checkCopyReady();
   }
 
   window.renderInqTags = function(){
@@ -1605,10 +1633,6 @@ function buildThumbSlider(data){
   renderIllPosGroup();
   updateSchedVis();
 
-  const sPkgNik=mkItem('+','닉네임',true); sPkgNik.id='inq-sec-pkgnik'; sPkgNik.style.display='none';
-  sPkgNik.appendChild(mkRG('pkgnik',['1. 닉네임 표시하지 않음','2. 닉네임 있음']));
-  wrap.appendChild(sPkgNik);
-
   const s34=mkItem('+','CSS 채팅 길이',true); s34.id='inq-sec-34'; s34.style.display='none';
   s34.appendChild(mkRG('chatlen',['1. 채팅 사이즈 고정 (OBS 채팅 사이즈로 고정)','2. 채팅 텍스트에 맞춰 늘어남']));
 
@@ -1638,6 +1662,30 @@ function buildThumbSlider(data){
   cssNoticeBox.style.cssText='background:#f9f9f9;border-left:3px solid #FF6B1A;border-radius:4px;padding:12px 14px;margin-bottom:10px;font-size:12px;color:#555;line-height:1.9;';
   cssNoticeBox.innerHTML='• 위플랩 기반으로 제작됩니다.<br>• 디자인 상 뱃지는 표시하지 않습니다.';
   s34.appendChild(cssNoticeBox);
+
+  s34.appendChild(mkLbl('추가 옵션'));
+  const cssAddonGrid = document.createElement('div');
+  cssAddonGrid.className = 'inq-prod-grid';
+  [
+    {key:'sub_닉네임추가', name:'닉네임 추가',                 price:'30,000'},
+    {key:'sub_애니',       name:'애니메이션 추가',             price:'40,000'},
+    {key:'sub_매니저',     name:'매니저(관리자) 디자인 추가',  price:'30,000'},
+    {key:'sub_후원',       name:'후원 도네 추가',              price:'50,000'},
+  ].forEach(r=>{
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'inq-prod-btn';
+    btn.dataset.selKey = r.key;
+    if(selectedItems.has(r.key)) btn.classList.add('on');
+    btn.innerHTML = `<span>${r.name}</span><span class="ipb-price">+${r.price}</span>`;
+    btn.onclick = ()=>{
+      toggleSelect(btn, r.key, `${r.name} (+${r.price})`);
+      if(typeof updateBadgeStates==='function') updateBadgeStates();
+      if(typeof checkCopyReady==='function') checkCopyReady();
+    };
+    cssAddonGrid.appendChild(btn);
+  });
+  s34.appendChild(cssAddonGrid);
 
   s34.appendChild(mkTA('inq-css-note','그 외 CSS 요청사항을 입력해주세요',2)); wrap.appendChild(s34);
 
@@ -1699,12 +1747,13 @@ function buildThumbSlider(data){
     wrap.querySelectorAll('.inq-radio-btn[data-rg="'+rg+'"]').forEach(b=>b.classList.remove('on'));
     btn.classList.add('on');
     if(rg==='chatlen') updateVis();
-    if(rg==='pkgnik') { updateVis(); updateCssPreview(); }
     if(rg==='schedsize'){ renderSchedTypeGroup(); renderIllPosGroup(); updateSchedVis(); }
     if(rg==='schedtype'){ renderIllPosGroup(); }
     if(['schedsize','schedtype','illpos'].includes(rg)) updateSchedPreview();
     // CSS 미리보기 업데이트
     if(['nikalign','chatlen','chatalign'].includes(rg)) updateCssPreview();
+    if(typeof updateBadgeStates==='function') updateBadgeStates();
+    if(typeof checkCopyReady==='function') checkCopyReady();
   });
 
   function updateCssPreview(){
@@ -1759,10 +1808,6 @@ function buildThumbSlider(data){
       const sb=wrap.querySelector('.inq-radio-btn[data-rg="schedtype"].on'); if(sb) lines.push('  칸 형식: '+sb.textContent);
       const ib=wrap.querySelector('.inq-radio-btn[data-rg="illpos"].on'); if(ib) lines.push('  일러스트: '+ib.textContent);
       const n=(document.getElementById('inq-sched-note')||{}).value||''; if(n.trim()) lines.push('  요청: '+n.trim());
-    }
-    if(document.getElementById('inq-sec-pkgnik').style.display!=='none'){
-      lines.push('【 닉네임 】');
-      const nb=wrap.querySelector('.inq-radio-btn[data-rg="pkgnik"].on'); if(nb) lines.push('  '+nb.textContent);
     }
     if(document.getElementById('inq-sec-34').style.display!=='none'){
       lines.push('【 CSS 채팅 길이 】');
@@ -1829,14 +1874,17 @@ function buildThumbSlider(data){
     const dateEl = document.getElementById('inq-reveal-date');
     const quickEl = document.getElementById('inq-reveal-quick');
     const hasDate = (dateEl && dateEl.value.trim() !== '') || (quickEl && quickEl.classList.contains('on'));
-    const ready = hasProduct && hasDate;
+    const allAnswered = allRequiredAnswered();
+    const ready = hasProduct && hasDate && allAnswered;
     if(copyBtnEl) copyBtnEl.disabled = !ready;
     if(copyBubbleEl){
       if(ready){
         copyBubbleEl.textContent = '감사합니다 :D';
         copyBubbleEl.classList.add('ready');
       } else {
-        copyBubbleEl.textContent = '의뢰 양식과 공개 일자를 적어주세요!';
+        copyBubbleEl.textContent = (hasProduct && hasDate && !allAnswered)
+          ? '선택 안 한 질문이 있어요!'
+          : '의뢰 양식과 공개 일자를 적어주세요!';
         copyBubbleEl.classList.remove('ready');
       }
     }
@@ -1845,7 +1893,7 @@ function buildThumbSlider(data){
   if(revealDateEl) revealDateEl.addEventListener('input', checkCopyReady);
   checkCopyReady();
 })();
-let allData=[],filtered=[],lbData=[],lbIdx=0,curTab='all',curPage=0;
+let allData=[],filtered=[],lbData=[],lbIdx=0,curTab='all',curSubTab='all',curPage=0;
 const PER=8;
 
 (function buildTabs(){
@@ -1856,11 +1904,28 @@ const PER=8;
     b.textContent=t.label;
     b.onclick=function(){
       document.querySelectorAll('.pf-tab').forEach(x=>x.classList.remove('on'));
-      this.classList.add('on');curTab=t.key;curPage=0;renderGrid();
+      this.classList.add('on');curTab=t.key;curSubTab='all';curPage=0;renderSubTabs();renderGrid();
     };
     row.appendChild(b);
   });
 })();
+
+function renderSubTabs(){
+  const row=document.getElementById('pf-subtabs');
+  if(curTab!=='CSS'){ row.style.display='none'; row.innerHTML=''; return; }
+  row.style.display='flex';
+  row.innerHTML='';
+  CSS_SUB_TABS.forEach(t=>{
+    const b=document.createElement('button');
+    b.className='pf-subtab'+(t.key===curSubTab?' on':'');
+    b.textContent=t.label;
+    b.onclick=function(){
+      document.querySelectorAll('.pf-subtab').forEach(x=>x.classList.remove('on'));
+      this.classList.add('on');curSubTab=t.key;curPage=0;renderGrid();
+    };
+    row.appendChild(b);
+  });
+}
 
 function renderPromo(show){
   const a=document.getElementById('promo-area');
@@ -1873,14 +1938,27 @@ function renderPromo(show){
   </div>`;
 }
 
+function getCssTypes(item){
+  return (item['CSS유형']||'').split(',').map(s=>s.trim()).filter(Boolean);
+}
 function getSubImages(item){
   const sub=(item['서브이미지']||'').split('|').map(s=>s.trim()).filter(Boolean);
-  return[item['이미지URL'],...sub];
+  const inDonateTab = curTab==='CSS' && curSubTab==='후원';
+  if(inDonateTab && sub.length){
+    return [sub[0], item['이미지URL'], ...sub.slice(1)].filter(Boolean);
+  }
+  return [item['이미지URL'],...sub];
+}
+function getMainImage(item){
+  return getSubImages(item)[0];
 }
 
 function renderGrid(){
   renderPromo(curTab==='Schedule');
   filtered=curTab==='all'?allData:allData.filter(d=>d['카테고리']===curTab);
+  if(curTab==='CSS' && curSubTab!=='all'){
+    filtered = filtered.filter(d=>getCssTypes(d).includes(curSubTab));
+  }
   const body=document.getElementById('pf-body');
   if(!filtered.length){
     body.innerHTML=`<div class="pf-grid"><div class="pf-state">이 카테고리에 작품이 없어요</div></div>`;
@@ -1896,7 +1974,7 @@ function renderGrid(){
     const card=document.createElement('div');card.className='pf-card';
     card.innerHTML=`
       <div class="pf-card-img">
-        <img src="${item['이미지URL']}" alt="${item['설명']||''}" loading="lazy">
+        <img src="${getMainImage(item)}" alt="${item['설명']||''}" loading="lazy">
         ${item['카테고리']?`<div class="pf-cat-badge">${item['카테고리']}</div>`:''}
       </div>`;
     card.onclick=()=>openLB(start+i,filtered);
@@ -2023,7 +2101,7 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
     buildThumbSlider(allData);
     renderGrid();
   }catch(e){
-    document.getElementById('thumb-grid').innerHTML='';
+    const ts=document.getElementById('thumb-slider'); if(ts) ts.innerHTML='';
     document.getElementById('pf-body').innerHTML=
       `<div class="pf-grid"><div class="pf-state">⚠️ 불러오기 실패 (${e.message})</div></div>`;
   }
