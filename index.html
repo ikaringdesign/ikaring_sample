@@ -1980,10 +1980,14 @@ function getCssTypes(item){
 function getSubImages(item){
   const sub=(item['서브이미지']||'').split('|').map(s=>s.trim()).filter(Boolean);
   const inDonateTab = curTab==='CSS' && curSubTab==='후원';
+  let imgs;
   if(inDonateTab && sub.length){
-    return [sub[0], item['이미지URL'], ...sub.slice(1)].filter(Boolean);
+    imgs = [sub[0], item['이미지URL'], ...sub.slice(1)];
+  } else {
+    imgs = [item['이미지URL'], ...sub];
   }
-  return [item['이미지URL'],...sub];
+  imgs = imgs.filter(Boolean);
+  return [...new Set(imgs)]; // 같은 링크가 여러 서브이미지 컬럼에 중복 입력된 경우 한 번만 표시
 }
 function getMainImage(item){
   return getSubImages(item)[0];
