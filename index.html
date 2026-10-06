@@ -1405,6 +1405,17 @@ function buildThumbSlider(data){
     const sDonate=document.getElementById('inq-sec-donate');
     setSectionVisible(s31, hasSel('OVERLAY_채팅화면','pkg_A','pkg_B'));
     setSectionVisible(s32, hasSel('SCHEDULE_스케줄표','pkg_B'));
+    (function(){
+      const w=document.getElementById('inq-sched-addon-wrap');
+      if(!w) return;
+      const show = hasSel('SCHEDULE_스케줄표') && !hasSel('pkg_B');
+      w.style.display = show ? '' : 'none';
+      if(!show && selectedItems.has('sub_스케줄 편집 사이트')){
+        selectedItems.delete('sub_스케줄 편집 사이트');
+        document.querySelectorAll('[data-sel-key="sub_스케줄 편집 사이트"]').forEach(e=>e.classList.remove('on'));
+        if(typeof updateSelectedField==='function') updateSelectedField();
+      }
+    })();
     setSectionVisible(s34, hasSel('pkg_A','pkg_B','CSS_CSS디자인&적용','sub_닉네임추가'));
     setSectionVisible(sRT, hasSel('POSTER_RT포스터'));
     setSectionVisible(sTH, hasSel('THUMBNAIL_가로 썸네일'));
@@ -1589,7 +1600,9 @@ function buildThumbSlider(data){
   schedPreviewWrap.appendChild(schedPreviewImg);
   s32.appendChild(schedPreviewWrap);
 
-  s32.appendChild(mkLbl('추가 옵션'));
+  const schedAddonWrap = document.createElement('div');
+  schedAddonWrap.id='inq-sched-addon-wrap';
+  schedAddonWrap.appendChild(mkLbl('추가 옵션'));
   const schedAddonGrid = document.createElement('div');
   schedAddonGrid.className = 'inq-prod-grid';
   (function(){
@@ -1607,7 +1620,8 @@ function buildThumbSlider(data){
     };
     schedAddonGrid.appendChild(btn);
   })();
-  s32.appendChild(schedAddonGrid);
+  schedAddonWrap.appendChild(schedAddonGrid);
+  s32.appendChild(schedAddonWrap);
 
   s32.appendChild(mkTA('inq-sched-note','그 외 스케줄 요청사항을 입력해주세요',2)); wrap.appendChild(s32);
 
